@@ -147,6 +147,18 @@ export const ERRORS = asErrors({
     status: StatusCodes.INTERNAL_SERVER_ERROR,
     message: 'Invalid OAuth configuration',
   },
+  'invalid-event-id': {
+    status: StatusCodes.INTERNAL_SERVER_ERROR,
+    message: 'Invalid event ID',
+  },
+  'invalid-code': {
+    status: StatusCodes.INTERNAL_SERVER_ERROR,
+    message: 'Invalid code or role',
+  },
+  'invalid-game-permission': {
+    status: StatusCodes.INTERNAL_SERVER_ERROR,
+    message: 'User does not have permission to access this game',
+  },
 });
 
 export const sendError = (

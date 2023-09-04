@@ -23,6 +23,7 @@ import {
   signInWebauthnHandler,
   signInWebauthnSchema,
 } from './webauthn';
+import { signInCodeHandler, signInCodeSchema } from './code';
 
 const router = Router();
 
@@ -163,6 +164,12 @@ router.post(
   '/signin/pat',
   bodyValidator(signInPATSchema),
   aw(signInPATHandler)
+);
+
+router.post(
+  '/signin/code',
+  bodyValidator(signInCodeSchema),
+  aw(signInCodeHandler)
 );
 
 // TODO: Implement:
