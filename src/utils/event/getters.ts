@@ -46,11 +46,25 @@ export const getEventById = async (
 const GetUserByEmailRequestDocument = gql`
   query ($email: String!) {
     userMetadata(where: { email: { _eq: $email } }) {
+      avatarId
+      city
+      country
+      disabled
       email
+      firstName
       gamePermissions {
-        permission
         game
+        id
+        permission
+        userMetadataId
       }
+      id
+      isActiveHost
+      joinDate
+      lastName
+      phoneNumber
+      role
+      token
     }
   }
 `;

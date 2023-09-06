@@ -63,6 +63,7 @@ export const signInCodeHandler: RequestHandler<
   const signInTokens = await getSignInResponse({
     userId: user.id,
     checkMFA: true,
+    eventRole: expectedRole,
   });
 
   return res.send(signInTokens);

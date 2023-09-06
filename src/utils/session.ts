@@ -7,6 +7,7 @@ import { createHasuraAccessToken } from './jwt';
 import { getNewRefreshToken, updateRefreshTokenExpiry } from './refresh-token';
 import { generateTicketExpiresAt } from './ticket';
 import { getUser } from './user';
+import { getUserProfile } from '@/utils/event';
 
 /**
  * Get new or update current user session
@@ -16,9 +17,11 @@ import { getUser } from './user';
  */
 export const getNewOrUpdateCurrentSession = async ({
   user,
+  eventRole,
   currentRefreshToken,
 }: {
   user: UserFieldsFragment;
+  eventRole?: string;
   currentRefreshToken?: string;
 }): Promise<Session> => {
   // update user's last seen
@@ -29,7 +32,7 @@ export const getNewOrUpdateCurrentSession = async ({
     },
   });
   const sessionUser = await getUser({ userId: user.id });
-  const accessToken = await createHasuraAccessToken(user);
+  const accessToken = await createHasuraAccessToken(user, eventRole);
   const { refreshToken, id: refreshTokenId } =
     (currentRefreshToken &&
       (await updateRefreshTokenExpiry(currentRefreshToken))) ||
@@ -46,9 +49,11 @@ export const getNewOrUpdateCurrentSession = async ({
 export const getSignInResponse = async ({
   userId,
   checkMFA,
+  eventRole,
 }: {
   userId: string;
   checkMFA: boolean;
+  eventRole?: string;
 }): Promise<SignInResponse> => {
   const { user } = await gqlSdk.user({
     id: userId,
@@ -74,9 +79,14 @@ export const getSignInResponse = async ({
       },
     };
   }
-  const session = await getNewOrUpdateCurrentSession({ user });
+  const session = await getNewOrUpdateCurrentSession({ user, eventRole });
+  const userMetadata = await getUserProfile(user.email);
   return {
-    session,
+    session: {
+      ...session,
+      eventRole,
+      userMetadata,
+    },
     mfa: null,
   };
 };

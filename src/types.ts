@@ -1,4 +1,5 @@
 import { UserQuery } from './utils/__generated__/graphql-request';
+import { UserMetadata } from '@/utils/event';
 
 export type ClaimValueType =
   | string
@@ -29,6 +30,8 @@ export interface PermissionVariables {
   'user-id': string;
   'default-role': string;
   'allowed-roles': string[];
+  'event-role': string;
+
   [key: string]: ClaimValueType;
 }
 
@@ -82,7 +85,9 @@ export type Session = {
   accessTokenExpiresIn: number;
   refreshToken: string;
   refreshTokenId: string;
+  eventRole?: string;
   user?: User;
+  userMetadata?: UserMetadata;
 };
 
 export type Mfa = {

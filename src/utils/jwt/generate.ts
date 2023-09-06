@@ -53,19 +53,37 @@ const generateHasuraClaims = async (
     [`x-hasura-user-is-anonymous`]: user.isAnonymous.toString(),
   };
 };
+
+interface CustomClaims {
+  [key: string]: ClaimValueType;
+}
+
+const generateUserCustomClaims = (eventRole: string): CustomClaims => {
+  return {
+    [`x-hasura-event-role`]: eventRole,
+  };
+};
+
 /**
  * Create JWT ENV.
  */
 export const createHasuraAccessToken = async (
-  user: UserFieldsFragment
+  user: UserFieldsFragment,
+  eventRole?: string
 ): Promise<string> => {
   const namespace =
     ENV.HASURA_GRAPHQL_JWT_SECRET.claims_namespace ||
     'https://hasura.io/jwt/claims';
 
+  const hasuraClaims = await generateHasuraClaims(user);
+  const customClaims = eventRole ? generateUserCustomClaims(eventRole) : {};
+
   return sign({
     payload: {
-      [namespace]: await generateHasuraClaims(user),
+      [namespace]: {
+        ...hasuraClaims,
+        ...customClaims,
+      },
     },
     user,
   });

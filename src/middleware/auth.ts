@@ -11,6 +11,7 @@ export const authMiddleware: RequestHandler = async (req, _, next) => {
       userId: permissionVariables['user-id'],
       defaultRole: permissionVariables['default-role'],
       isAnonymous: permissionVariables['is-anonymous'] === true,
+      eventRole: permissionVariables['event-role'],
     };
   } catch (e) {
     req.auth = null;
