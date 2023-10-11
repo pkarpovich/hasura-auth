@@ -14,9 +14,9 @@ export const tokenSchema = Joi.object({
 export const tokenHandler: RequestHandler<
   {},
   {},
-  { refreshToken: string }
+  { refreshToken: string; eventRole?: string }
 > = async (req, res) => {
-  const { refreshToken } = req.body;
+  const { refreshToken, eventRole } = req.body;
 
   const user = await getUserByRefreshToken(refreshToken);
 
@@ -37,6 +37,7 @@ export const tokenHandler: RequestHandler<
 
   const session = await getNewOrUpdateCurrentSession({
     user,
+    eventRole,
     currentRefreshToken: refreshToken,
   });
 
