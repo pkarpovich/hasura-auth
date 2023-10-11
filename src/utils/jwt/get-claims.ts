@@ -1,6 +1,6 @@
 import { Claims, PermissionVariables, Token } from '@/types';
 import { createSecretKey } from 'crypto';
-import { jwtVerify } from 'jose';
+import { decodeJwt, jwtVerify } from 'jose';
 import { ENV } from '../env';
 
 const ALLOWED_JWT_TYPES = ['HS256', 'HS384', 'HS512'];
@@ -49,6 +49,26 @@ export const getPermissionVariables = async (
 ): Promise<PermissionVariables> => {
   const claims = await getClaims(authorization);
   // * remove `x-hasura-` from claim props
+  const claimsSanitized: Partial<PermissionVariables> = {};
+  for (const claimKey in claims) {
+    claimsSanitized[claimKey.replace('x-hasura-', '')] = claims[claimKey];
+  }
+
+  return claimsSanitized as PermissionVariables;
+};
+
+export const getPermissionVariablesWithoutVerify = async (
+  authorization: string
+): Promise<PermissionVariables> => {
+  const token = authorization.replace('Bearer ', '');
+  const decodedToken = decodeJwt(token);
+
+  const namespace =
+    ENV.HASURA_GRAPHQL_JWT_SECRET.claims_namespace ||
+    'https://hasura.io/jwt/claims';
+
+  const claims = decodedToken[namespace] as Claims;
+
   const claimsSanitized: Partial<PermissionVariables> = {};
   for (const claimKey in claims) {
     claimsSanitized[claimKey.replace('x-hasura-', '')] = claims[claimKey];

@@ -1,6 +1,7 @@
 import { sendError } from '@/errors';
 import {
   getNewOrUpdateCurrentSession,
+  getPermissionVariablesWithoutVerify,
   getUserByRefreshToken,
   gqlSdk,
 } from '@/utils';
@@ -9,14 +10,21 @@ import { RequestHandler } from 'express';
 
 export const tokenSchema = Joi.object({
   refreshToken,
+  accessToken: Joi.string().optional(),
 }).meta({ className: 'TokenSchema' });
 
 export const tokenHandler: RequestHandler<
   {},
   {},
-  { refreshToken: string; eventRole?: string }
+  { refreshToken: string; accessToken?: string }
 > = async (req, res) => {
-  const { refreshToken, eventRole } = req.body;
+  const { refreshToken, accessToken } = req.body;
+  let eventRole = '';
+
+  if (accessToken) {
+    const vars = await getPermissionVariablesWithoutVerify(accessToken);
+    eventRole = vars['event-role'];
+  }
 
   const user = await getUserByRefreshToken(refreshToken);
 
