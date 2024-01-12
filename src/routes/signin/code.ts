@@ -17,9 +17,9 @@ export const signInCodeHandler: RequestHandler<
   {},
   { email: string; eventId: string; code: string; expectedRole: string }
 > = async (req, res) => {
-  const { email, eventId, code, expectedRole } = req.body;
+  const { email, eventId, expectedRole } = req.body;
   logger.debug(
-    `Sign in with code: ${email} ${eventId} ${code} ${expectedRole}`
+    `Sign in with code: ${email} ${eventId} ${expectedRole}`
   );
 
   const user = await getUserByEmail(email);
@@ -38,17 +38,11 @@ export const signInCodeHandler: RequestHandler<
   }
 
   const event = await getEventById({
-    expectedRole,
     eventId,
-    code,
   });
 
   if (!event) {
     return sendError(res, 'invalid-event-id');
-  }
-
-  if (event.codes.length === 0) {
-    return sendError(res, 'invalid-code');
   }
 
   const isUserGrantedForEvent = userMetadata.gamePermissions.some(
