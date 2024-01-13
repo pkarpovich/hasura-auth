@@ -8,19 +8,16 @@ import { getEventById, getUserProfile } from '@/utils/event';
 export const signInCodeSchema = Joi.object({
   email: email.required(),
   eventId: Joi.string().required(),
-  code: Joi.string().required(),
   expectedRole: Joi.string().required(),
 }).meta({ className: 'SignInCodeSchema' });
 
 export const signInCodeHandler: RequestHandler<
   {},
   {},
-  { email: string; eventId: string; code: string; expectedRole: string }
+  { email: string; eventId: string; expectedRole: string }
 > = async (req, res) => {
   const { email, eventId, expectedRole } = req.body;
-  logger.debug(
-    `Sign in with code: ${email} ${eventId} ${expectedRole}`
-  );
+  logger.debug(`Sign in with code: ${email} ${eventId} ${expectedRole}`);
 
   const user = await getUserByEmail(email);
 
