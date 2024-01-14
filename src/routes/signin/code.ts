@@ -18,9 +18,7 @@ export const signInCodeHandler: RequestHandler<
   { email: string; eventId: string; code?: string; expectedRole: string }
 > = async (req, res) => {
   const { email, eventId, code, expectedRole } = req.body;
-  logger.debug(
-    `Sign in with code: ${email} ${eventId} ${code} ${expectedRole}`
-  );
+  logger.debug(`Sign in with code: ${email} ${eventId} ${expectedRole}`);
 
   const user = await getUserByEmail(email);
 
