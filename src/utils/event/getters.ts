@@ -1,14 +1,20 @@
 import { client } from '@/utils';
 import gql from 'graphql-tag';
 
-export const GetEventByIdRequestDocument = gql`
-  query ($eventId: uuid!, $code: String!, $expectedRole: String!) {
+export const GetEventByIdRequestDocument = (
+  variables: GetEventByIdRequestQueryVariables
+) => gql`
+  query ($eventId: uuid!, $expectedRole: String!${
+    variables.code !== undefined ? ', $code: String!' : ''
+  }) {
     events_by_pk(id: $eventId) {
       id
       gameType
       codes(
         where: {
-          _and: [{ code: { _eq: $code } }, { role: { _eq: $expectedRole } }]
+          _and: [${
+            variables.code !== undefined ? '{ code: { _eq: $code } }, ' : ''
+          }{ role: { _eq: $expectedRole } }]
         }
       ) {
         code
@@ -20,7 +26,7 @@ export const GetEventByIdRequestDocument = gql`
 
 export interface GetEventByIdRequestQueryVariables {
   eventId: string;
-  code: string;
+  code?: string;
   expectedRole: string;
 }
 
@@ -38,7 +44,10 @@ export interface Event {
 export const getEventById = async (
   variables: GetEventByIdRequestQueryVariables
 ): Promise<Event> => {
-  const resp = await client.request(GetEventByIdRequestDocument, variables);
+  const resp = await client.request(
+    GetEventByIdRequestDocument(variables),
+    variables
+  );
 
   return resp['events_by_pk'];
 };
