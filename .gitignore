@@ -6,6 +6,7 @@ node_modules
 data
 yarn-error.log
 package-lock.json
+.DS_Store
 
 docker/data
 .env

@@ -66,9 +66,7 @@ export const getUser = async ({
 export const getUserByEmail = async (email: string) => {
   const { users } = await gqlSdk.users({
     where: {
-      email: {
-        _eq: email,
-      },
+      email: { _ilike: email },
     },
   });
 

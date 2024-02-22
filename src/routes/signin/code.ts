@@ -30,7 +30,8 @@ export const signInCodeHandler: RequestHandler<
     return sendError(res, 'disabled-user');
   }
 
-  const userMetadata = await getUserProfile(email);
+  const userMetadata = await getUserProfile(user.email);
+
   if (!userMetadata) {
     return sendError(res, 'invalid-email-password');
   }
