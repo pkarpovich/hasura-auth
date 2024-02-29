@@ -50,11 +50,8 @@ export const signInCodeHandler: RequestHandler<
     return sendError(res, 'invalid-code');
   }
 
-  const isUserGrantedForEvent = userMetadata.gamePermissions.some(
-    (gamePermission) =>
-      gamePermission.game === event.gameType &&
-      gamePermission.permission === expectedRole
-  );
+  const isUserGrantedForEvent = userMetadata.isActiveHost;
+
   if (!isUserGrantedForEvent) {
     return sendError(res, 'invalid-game-permission');
   }

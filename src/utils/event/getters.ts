@@ -61,12 +61,6 @@ const GetUserByEmailRequestDocument = gql`
       disabled
       email
       firstName
-      gamePermissions {
-        game
-        id
-        permission
-        userMetadataId
-      }
       id
       isActiveHost
       joinDate
@@ -78,14 +72,9 @@ const GetUserByEmailRequestDocument = gql`
   }
 `;
 
-export interface GamePermissions {
-  permission: string;
-  game: string;
-}
-
 export interface UserMetadata {
   email: string;
-  gamePermissions: GamePermissions[];
+  isActiveHost: boolean;
 }
 
 export const getUserProfile = async (email: string): Promise<UserMetadata> => {
