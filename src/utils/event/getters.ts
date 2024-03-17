@@ -20,6 +20,15 @@ export const GetEventByIdRequestDocument = (
         code
         role
       }
+      status
+      teams {
+        id
+        players {
+          id
+          name
+          index
+        }
+      }
     }
   }
 `;
