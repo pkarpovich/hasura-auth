@@ -80,7 +80,11 @@ export const getSignInResponse = async ({
     };
   }
   const session = await getNewOrUpdateCurrentSession({ user, eventRole });
-  const userMetadata = await getUserProfile(user.email);
+
+  // if it's anonymous login, we skip user data fetching because anonym doesnt have and email
+  const userMetadata = user.email
+    ? await getUserProfile(user.email)
+    : undefined;
   return {
     session: {
       ...session,

@@ -24,6 +24,7 @@ import {
   signInWebauthnSchema,
 } from './webauthn';
 import { signInCodeHandler, signInCodeSchema } from './code';
+import { signInSelfHostedHandler, signInSelfHostedSchema } from './self-hosted';
 
 const router = Router();
 
@@ -170,6 +171,12 @@ router.post(
   '/signin/code',
   bodyValidator(signInCodeSchema),
   aw(signInCodeHandler)
+);
+
+router.post(
+  '/signin/self-hosted',
+  bodyValidator(signInSelfHostedSchema),
+  aw(signInSelfHostedHandler)
 );
 
 // TODO: Implement:

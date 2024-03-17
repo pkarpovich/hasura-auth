@@ -4196,13 +4196,14 @@ export type Events = {
   codes: Array<Event_Codes>;
   /** An aggregate relationship */
   codes_aggregate: Event_Codes_Aggregate;
-  company: Scalars['String'];
-  contactPerson: Scalars['String'];
+  company?: Maybe<Scalars['String']>;
+  contactPerson?: Maybe<Scalars['String']>;
   createdAt: Scalars['timestamptz'];
   /** An object relationship */
   createdBy?: Maybe<UserMetadata>;
   createdById?: Maybe<Scalars['uuid']>;
-  date: Scalars['timestamptz'];
+  date?: Maybe<Scalars['timestamptz']>;
+  eventType: Scalars['String'];
   expectedParticipants: Scalars['Int'];
   /** An object relationship */
   gameInformationFeud?: Maybe<GameInformationFeud>;
@@ -4210,6 +4211,9 @@ export type Events = {
   /** An object relationship */
   gameInformationOlympics?: Maybe<GameInformationOlympics>;
   gameInformationOlympicsId?: Maybe<Scalars['uuid']>;
+  /** An object relationship */
+  gameInformationSelfHosted?: Maybe<GameInformationSelfHosted>;
+  gameInformationSelfHostedId?: Maybe<Scalars['uuid']>;
   /** An object relationship */
   gameInformationSketchWars?: Maybe<GameInformationSketchWars>;
   gameInformationSketchWarsId?: Maybe<Scalars['uuid']>;
@@ -4219,7 +4223,9 @@ export type Events = {
   /** An object relationship */
   gameInformationTemplate?: Maybe<GameInformationTemplate>;
   gameInformationTemplateId?: Maybe<Scalars['uuid']>;
-  gameType: Scalars['String'];
+  /** An object relationship */
+  gameOld?: Maybe<Feud_Old_Games_Old>;
+  gameType?: Maybe<Scalars['String']>;
   game_old_id?: Maybe<Scalars['uuid']>;
   /** An array relationship */
   hosts: Array<EventHosts>;
@@ -4227,6 +4233,10 @@ export type Events = {
   hosts_aggregate: EventHosts_Aggregate;
   id: Scalars['uuid'];
   isTestGame: Scalars['Boolean'];
+  /** An array relationship */
+  matchups: Array<Feud_Old_Game_Rooms>;
+  /** An aggregate relationship */
+  matchups_aggregate: Feud_Old_Game_Rooms_Aggregate;
   notes?: Maybe<Scalars['String']>;
   notionId?: Maybe<Scalars['String']>;
   /** An object relationship */
@@ -4242,8 +4252,8 @@ export type Events = {
   teams: Array<Teams>;
   /** An aggregate relationship */
   teams_aggregate: Teams_Aggregate;
-  time: Scalars['String'];
-  timezone: Scalars['String'];
+  time?: Maybe<Scalars['String']>;
+  timezone?: Maybe<Scalars['String']>;
   totalTeams: Scalars['Int'];
   updatedAt: Scalars['timestamptz'];
   /** An object relationship */
@@ -4290,6 +4300,26 @@ export type EventsHosts_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<EventHosts_Order_By>>;
   where?: InputMaybe<EventHosts_Bool_Exp>;
+};
+
+
+/** columns and relationships of "events" */
+export type EventsMatchupsArgs = {
+  distinct_on?: InputMaybe<Array<Feud_Old_Game_Rooms_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Feud_Old_Game_Rooms_Order_By>>;
+  where?: InputMaybe<Feud_Old_Game_Rooms_Bool_Exp>;
+};
+
+
+/** columns and relationships of "events" */
+export type EventsMatchups_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Feud_Old_Game_Rooms_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Feud_Old_Game_Rooms_Order_By>>;
+  where?: InputMaybe<Feud_Old_Game_Rooms_Bool_Exp>;
 };
 
 
@@ -4385,23 +4415,29 @@ export type Events_Bool_Exp = {
   createdBy?: InputMaybe<UserMetadata_Bool_Exp>;
   createdById?: InputMaybe<Uuid_Comparison_Exp>;
   date?: InputMaybe<Timestamptz_Comparison_Exp>;
+  eventType?: InputMaybe<String_Comparison_Exp>;
   expectedParticipants?: InputMaybe<Int_Comparison_Exp>;
   gameInformationFeud?: InputMaybe<GameInformationFeud_Bool_Exp>;
   gameInformationFeudId?: InputMaybe<Uuid_Comparison_Exp>;
   gameInformationOlympics?: InputMaybe<GameInformationOlympics_Bool_Exp>;
   gameInformationOlympicsId?: InputMaybe<Uuid_Comparison_Exp>;
+  gameInformationSelfHosted?: InputMaybe<GameInformationSelfHosted_Bool_Exp>;
+  gameInformationSelfHostedId?: InputMaybe<Uuid_Comparison_Exp>;
   gameInformationSketchWars?: InputMaybe<GameInformationSketchWars_Bool_Exp>;
   gameInformationSketchWarsId?: InputMaybe<Uuid_Comparison_Exp>;
   gameInformationStq?: InputMaybe<GameInformationStq_Bool_Exp>;
   gameInformationStqId?: InputMaybe<Uuid_Comparison_Exp>;
   gameInformationTemplate?: InputMaybe<GameInformationTemplate_Bool_Exp>;
   gameInformationTemplateId?: InputMaybe<Uuid_Comparison_Exp>;
+  gameOld?: InputMaybe<Feud_Old_Games_Old_Bool_Exp>;
   gameType?: InputMaybe<String_Comparison_Exp>;
   game_old_id?: InputMaybe<Uuid_Comparison_Exp>;
   hosts?: InputMaybe<EventHosts_Bool_Exp>;
   hosts_aggregate?: InputMaybe<EventHosts_Aggregate_Bool_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   isTestGame?: InputMaybe<Boolean_Comparison_Exp>;
+  matchups?: InputMaybe<Feud_Old_Game_Rooms_Bool_Exp>;
+  matchups_aggregate?: InputMaybe<Feud_Old_Game_Rooms_Aggregate_Bool_Exp>;
   notes?: InputMaybe<String_Comparison_Exp>;
   notionId?: InputMaybe<String_Comparison_Exp>;
   source?: InputMaybe<Sources_Bool_Exp>;
@@ -4445,22 +4481,27 @@ export type Events_Insert_Input = {
   createdBy?: InputMaybe<UserMetadata_Obj_Rel_Insert_Input>;
   createdById?: InputMaybe<Scalars['uuid']>;
   date?: InputMaybe<Scalars['timestamptz']>;
+  eventType?: InputMaybe<Scalars['String']>;
   expectedParticipants?: InputMaybe<Scalars['Int']>;
   gameInformationFeud?: InputMaybe<GameInformationFeud_Obj_Rel_Insert_Input>;
   gameInformationFeudId?: InputMaybe<Scalars['uuid']>;
   gameInformationOlympics?: InputMaybe<GameInformationOlympics_Obj_Rel_Insert_Input>;
   gameInformationOlympicsId?: InputMaybe<Scalars['uuid']>;
+  gameInformationSelfHosted?: InputMaybe<GameInformationSelfHosted_Obj_Rel_Insert_Input>;
+  gameInformationSelfHostedId?: InputMaybe<Scalars['uuid']>;
   gameInformationSketchWars?: InputMaybe<GameInformationSketchWars_Obj_Rel_Insert_Input>;
   gameInformationSketchWarsId?: InputMaybe<Scalars['uuid']>;
   gameInformationStq?: InputMaybe<GameInformationStq_Obj_Rel_Insert_Input>;
   gameInformationStqId?: InputMaybe<Scalars['uuid']>;
   gameInformationTemplate?: InputMaybe<GameInformationTemplate_Obj_Rel_Insert_Input>;
   gameInformationTemplateId?: InputMaybe<Scalars['uuid']>;
+  gameOld?: InputMaybe<Feud_Old_Games_Old_Obj_Rel_Insert_Input>;
   gameType?: InputMaybe<Scalars['String']>;
   game_old_id?: InputMaybe<Scalars['uuid']>;
   hosts?: InputMaybe<EventHosts_Arr_Rel_Insert_Input>;
   id?: InputMaybe<Scalars['uuid']>;
   isTestGame?: InputMaybe<Scalars['Boolean']>;
+  matchups?: InputMaybe<Feud_Old_Game_Rooms_Arr_Rel_Insert_Input>;
   notes?: InputMaybe<Scalars['String']>;
   notionId?: InputMaybe<Scalars['String']>;
   source?: InputMaybe<Sources_Obj_Rel_Insert_Input>;
@@ -4488,9 +4529,11 @@ export type Events_Max_Fields = {
   createdAt?: Maybe<Scalars['timestamptz']>;
   createdById?: Maybe<Scalars['uuid']>;
   date?: Maybe<Scalars['timestamptz']>;
+  eventType?: Maybe<Scalars['String']>;
   expectedParticipants?: Maybe<Scalars['Int']>;
   gameInformationFeudId?: Maybe<Scalars['uuid']>;
   gameInformationOlympicsId?: Maybe<Scalars['uuid']>;
+  gameInformationSelfHostedId?: Maybe<Scalars['uuid']>;
   gameInformationSketchWarsId?: Maybe<Scalars['uuid']>;
   gameInformationStqId?: Maybe<Scalars['uuid']>;
   gameInformationTemplateId?: Maybe<Scalars['uuid']>;
@@ -4520,9 +4563,11 @@ export type Events_Min_Fields = {
   createdAt?: Maybe<Scalars['timestamptz']>;
   createdById?: Maybe<Scalars['uuid']>;
   date?: Maybe<Scalars['timestamptz']>;
+  eventType?: Maybe<Scalars['String']>;
   expectedParticipants?: Maybe<Scalars['Int']>;
   gameInformationFeudId?: Maybe<Scalars['uuid']>;
   gameInformationOlympicsId?: Maybe<Scalars['uuid']>;
+  gameInformationSelfHostedId?: Maybe<Scalars['uuid']>;
   gameInformationSketchWarsId?: Maybe<Scalars['uuid']>;
   gameInformationStqId?: Maybe<Scalars['uuid']>;
   gameInformationTemplateId?: Maybe<Scalars['uuid']>;
@@ -4576,22 +4621,27 @@ export type Events_Order_By = {
   createdBy?: InputMaybe<UserMetadata_Order_By>;
   createdById?: InputMaybe<Order_By>;
   date?: InputMaybe<Order_By>;
+  eventType?: InputMaybe<Order_By>;
   expectedParticipants?: InputMaybe<Order_By>;
   gameInformationFeud?: InputMaybe<GameInformationFeud_Order_By>;
   gameInformationFeudId?: InputMaybe<Order_By>;
   gameInformationOlympics?: InputMaybe<GameInformationOlympics_Order_By>;
   gameInformationOlympicsId?: InputMaybe<Order_By>;
+  gameInformationSelfHosted?: InputMaybe<GameInformationSelfHosted_Order_By>;
+  gameInformationSelfHostedId?: InputMaybe<Order_By>;
   gameInformationSketchWars?: InputMaybe<GameInformationSketchWars_Order_By>;
   gameInformationSketchWarsId?: InputMaybe<Order_By>;
   gameInformationStq?: InputMaybe<GameInformationStq_Order_By>;
   gameInformationStqId?: InputMaybe<Order_By>;
   gameInformationTemplate?: InputMaybe<GameInformationTemplate_Order_By>;
   gameInformationTemplateId?: InputMaybe<Order_By>;
+  gameOld?: InputMaybe<Feud_Old_Games_Old_Order_By>;
   gameType?: InputMaybe<Order_By>;
   game_old_id?: InputMaybe<Order_By>;
   hosts_aggregate?: InputMaybe<EventHosts_Aggregate_Order_By>;
   id?: InputMaybe<Order_By>;
   isTestGame?: InputMaybe<Order_By>;
+  matchups_aggregate?: InputMaybe<Feud_Old_Game_Rooms_Aggregate_Order_By>;
   notes?: InputMaybe<Order_By>;
   notionId?: InputMaybe<Order_By>;
   source?: InputMaybe<Sources_Order_By>;
@@ -4631,11 +4681,15 @@ export enum Events_Select_Column {
   /** column name */
   Date = 'date',
   /** column name */
+  EventType = 'eventType',
+  /** column name */
   ExpectedParticipants = 'expectedParticipants',
   /** column name */
   GameInformationFeudId = 'gameInformationFeudId',
   /** column name */
   GameInformationOlympicsId = 'gameInformationOlympicsId',
+  /** column name */
+  GameInformationSelfHostedId = 'gameInformationSelfHostedId',
   /** column name */
   GameInformationSketchWarsId = 'gameInformationSketchWarsId',
   /** column name */
@@ -4683,9 +4737,11 @@ export type Events_Set_Input = {
   createdAt?: InputMaybe<Scalars['timestamptz']>;
   createdById?: InputMaybe<Scalars['uuid']>;
   date?: InputMaybe<Scalars['timestamptz']>;
+  eventType?: InputMaybe<Scalars['String']>;
   expectedParticipants?: InputMaybe<Scalars['Int']>;
   gameInformationFeudId?: InputMaybe<Scalars['uuid']>;
   gameInformationOlympicsId?: InputMaybe<Scalars['uuid']>;
+  gameInformationSelfHostedId?: InputMaybe<Scalars['uuid']>;
   gameInformationSketchWarsId?: InputMaybe<Scalars['uuid']>;
   gameInformationStqId?: InputMaybe<Scalars['uuid']>;
   gameInformationTemplateId?: InputMaybe<Scalars['uuid']>;
@@ -4747,9 +4803,11 @@ export type Events_Stream_Cursor_Value_Input = {
   createdAt?: InputMaybe<Scalars['timestamptz']>;
   createdById?: InputMaybe<Scalars['uuid']>;
   date?: InputMaybe<Scalars['timestamptz']>;
+  eventType?: InputMaybe<Scalars['String']>;
   expectedParticipants?: InputMaybe<Scalars['Int']>;
   gameInformationFeudId?: InputMaybe<Scalars['uuid']>;
   gameInformationOlympicsId?: InputMaybe<Scalars['uuid']>;
+  gameInformationSelfHostedId?: InputMaybe<Scalars['uuid']>;
   gameInformationSketchWarsId?: InputMaybe<Scalars['uuid']>;
   gameInformationStqId?: InputMaybe<Scalars['uuid']>;
   gameInformationTemplateId?: InputMaybe<Scalars['uuid']>;
@@ -4795,11 +4853,15 @@ export enum Events_Update_Column {
   /** column name */
   Date = 'date',
   /** column name */
+  EventType = 'eventType',
+  /** column name */
   ExpectedParticipants = 'expectedParticipants',
   /** column name */
   GameInformationFeudId = 'gameInformationFeudId',
   /** column name */
   GameInformationOlympicsId = 'gameInformationOlympicsId',
+  /** column name */
+  GameInformationSelfHostedId = 'gameInformationSelfHostedId',
   /** column name */
   GameInformationSketchWarsId = 'gameInformationSketchWarsId',
   /** column name */
@@ -4869,6 +4931,1166 @@ export type Events_Variance_Fields = {
   actualParticipants?: Maybe<Scalars['Float']>;
   expectedParticipants?: Maybe<Scalars['Float']>;
   totalTeams?: Maybe<Scalars['Float']>;
+};
+
+/** columns and relationships of "feud_old.game_room_rounds" */
+export type Feud_Old_Game_Room_Rounds = {
+  __typename?: 'feud_old_game_room_rounds';
+  answers?: Maybe<Scalars['String']>;
+  created_at: Scalars['timestamptz'];
+  game_room_id?: Maybe<Scalars['Int']>;
+  id: Scalars['Int'];
+  /** An object relationship */
+  question?: Maybe<Questions>;
+  question_id?: Maybe<Scalars['uuid']>;
+  round: Scalars['Int'];
+  stack_point: Scalars['Int'];
+  status: Scalars['Int'];
+  strikes: Scalars['Int'];
+  team_play?: Maybe<Scalars['Int']>;
+  updated_at: Scalars['timestamptz'];
+};
+
+/** aggregated selection of "feud_old.game_room_rounds" */
+export type Feud_Old_Game_Room_Rounds_Aggregate = {
+  __typename?: 'feud_old_game_room_rounds_aggregate';
+  aggregate?: Maybe<Feud_Old_Game_Room_Rounds_Aggregate_Fields>;
+  nodes: Array<Feud_Old_Game_Room_Rounds>;
+};
+
+export type Feud_Old_Game_Room_Rounds_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Feud_Old_Game_Room_Rounds_Aggregate_Bool_Exp_Count>;
+};
+
+export type Feud_Old_Game_Room_Rounds_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Feud_Old_Game_Room_Rounds_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Feud_Old_Game_Room_Rounds_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
+/** aggregate fields of "feud_old.game_room_rounds" */
+export type Feud_Old_Game_Room_Rounds_Aggregate_Fields = {
+  __typename?: 'feud_old_game_room_rounds_aggregate_fields';
+  avg?: Maybe<Feud_Old_Game_Room_Rounds_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Feud_Old_Game_Room_Rounds_Max_Fields>;
+  min?: Maybe<Feud_Old_Game_Room_Rounds_Min_Fields>;
+  stddev?: Maybe<Feud_Old_Game_Room_Rounds_Stddev_Fields>;
+  stddev_pop?: Maybe<Feud_Old_Game_Room_Rounds_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Feud_Old_Game_Room_Rounds_Stddev_Samp_Fields>;
+  sum?: Maybe<Feud_Old_Game_Room_Rounds_Sum_Fields>;
+  var_pop?: Maybe<Feud_Old_Game_Room_Rounds_Var_Pop_Fields>;
+  var_samp?: Maybe<Feud_Old_Game_Room_Rounds_Var_Samp_Fields>;
+  variance?: Maybe<Feud_Old_Game_Room_Rounds_Variance_Fields>;
+};
+
+
+/** aggregate fields of "feud_old.game_room_rounds" */
+export type Feud_Old_Game_Room_Rounds_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Feud_Old_Game_Room_Rounds_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "feud_old.game_room_rounds" */
+export type Feud_Old_Game_Room_Rounds_Aggregate_Order_By = {
+  avg?: InputMaybe<Feud_Old_Game_Room_Rounds_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Feud_Old_Game_Room_Rounds_Max_Order_By>;
+  min?: InputMaybe<Feud_Old_Game_Room_Rounds_Min_Order_By>;
+  stddev?: InputMaybe<Feud_Old_Game_Room_Rounds_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Feud_Old_Game_Room_Rounds_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Feud_Old_Game_Room_Rounds_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Feud_Old_Game_Room_Rounds_Sum_Order_By>;
+  var_pop?: InputMaybe<Feud_Old_Game_Room_Rounds_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Feud_Old_Game_Room_Rounds_Var_Samp_Order_By>;
+  variance?: InputMaybe<Feud_Old_Game_Room_Rounds_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "feud_old.game_room_rounds" */
+export type Feud_Old_Game_Room_Rounds_Arr_Rel_Insert_Input = {
+  data: Array<Feud_Old_Game_Room_Rounds_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Feud_Old_Game_Room_Rounds_On_Conflict>;
+};
+
+/** aggregate avg on columns */
+export type Feud_Old_Game_Room_Rounds_Avg_Fields = {
+  __typename?: 'feud_old_game_room_rounds_avg_fields';
+  game_room_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  round?: Maybe<Scalars['Float']>;
+  stack_point?: Maybe<Scalars['Float']>;
+  status?: Maybe<Scalars['Float']>;
+  strikes?: Maybe<Scalars['Float']>;
+  team_play?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "feud_old.game_room_rounds" */
+export type Feud_Old_Game_Room_Rounds_Avg_Order_By = {
+  game_room_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
+  stack_point?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  strikes?: InputMaybe<Order_By>;
+  team_play?: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "feud_old.game_room_rounds". All fields are combined with a logical 'AND'. */
+export type Feud_Old_Game_Room_Rounds_Bool_Exp = {
+  _and?: InputMaybe<Array<Feud_Old_Game_Room_Rounds_Bool_Exp>>;
+  _not?: InputMaybe<Feud_Old_Game_Room_Rounds_Bool_Exp>;
+  _or?: InputMaybe<Array<Feud_Old_Game_Room_Rounds_Bool_Exp>>;
+  answers?: InputMaybe<String_Comparison_Exp>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  game_room_id?: InputMaybe<Int_Comparison_Exp>;
+  id?: InputMaybe<Int_Comparison_Exp>;
+  question?: InputMaybe<Questions_Bool_Exp>;
+  question_id?: InputMaybe<Uuid_Comparison_Exp>;
+  round?: InputMaybe<Int_Comparison_Exp>;
+  stack_point?: InputMaybe<Int_Comparison_Exp>;
+  status?: InputMaybe<Int_Comparison_Exp>;
+  strikes?: InputMaybe<Int_Comparison_Exp>;
+  team_play?: InputMaybe<Int_Comparison_Exp>;
+  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "feud_old.game_room_rounds" */
+export enum Feud_Old_Game_Room_Rounds_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  Pk_6455167ca60028689a06a4511d4 = 'PK_6455167ca60028689a06a4511d4'
+}
+
+/** input type for incrementing numeric columns in table "feud_old.game_room_rounds" */
+export type Feud_Old_Game_Room_Rounds_Inc_Input = {
+  game_room_id?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
+  round?: InputMaybe<Scalars['Int']>;
+  stack_point?: InputMaybe<Scalars['Int']>;
+  status?: InputMaybe<Scalars['Int']>;
+  strikes?: InputMaybe<Scalars['Int']>;
+  team_play?: InputMaybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "feud_old.game_room_rounds" */
+export type Feud_Old_Game_Room_Rounds_Insert_Input = {
+  answers?: InputMaybe<Scalars['String']>;
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  game_room_id?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
+  question?: InputMaybe<Questions_Obj_Rel_Insert_Input>;
+  question_id?: InputMaybe<Scalars['uuid']>;
+  round?: InputMaybe<Scalars['Int']>;
+  stack_point?: InputMaybe<Scalars['Int']>;
+  status?: InputMaybe<Scalars['Int']>;
+  strikes?: InputMaybe<Scalars['Int']>;
+  team_play?: InputMaybe<Scalars['Int']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** aggregate max on columns */
+export type Feud_Old_Game_Room_Rounds_Max_Fields = {
+  __typename?: 'feud_old_game_room_rounds_max_fields';
+  answers?: Maybe<Scalars['String']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  game_room_id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  question_id?: Maybe<Scalars['uuid']>;
+  round?: Maybe<Scalars['Int']>;
+  stack_point?: Maybe<Scalars['Int']>;
+  status?: Maybe<Scalars['Int']>;
+  strikes?: Maybe<Scalars['Int']>;
+  team_play?: Maybe<Scalars['Int']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** order by max() on columns of table "feud_old.game_room_rounds" */
+export type Feud_Old_Game_Room_Rounds_Max_Order_By = {
+  answers?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  game_room_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  question_id?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
+  stack_point?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  strikes?: InputMaybe<Order_By>;
+  team_play?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Feud_Old_Game_Room_Rounds_Min_Fields = {
+  __typename?: 'feud_old_game_room_rounds_min_fields';
+  answers?: Maybe<Scalars['String']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  game_room_id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  question_id?: Maybe<Scalars['uuid']>;
+  round?: Maybe<Scalars['Int']>;
+  stack_point?: Maybe<Scalars['Int']>;
+  status?: Maybe<Scalars['Int']>;
+  strikes?: Maybe<Scalars['Int']>;
+  team_play?: Maybe<Scalars['Int']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** order by min() on columns of table "feud_old.game_room_rounds" */
+export type Feud_Old_Game_Room_Rounds_Min_Order_By = {
+  answers?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  game_room_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  question_id?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
+  stack_point?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  strikes?: InputMaybe<Order_By>;
+  team_play?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "feud_old.game_room_rounds" */
+export type Feud_Old_Game_Room_Rounds_Mutation_Response = {
+  __typename?: 'feud_old_game_room_rounds_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Feud_Old_Game_Room_Rounds>;
+};
+
+/** on_conflict condition type for table "feud_old.game_room_rounds" */
+export type Feud_Old_Game_Room_Rounds_On_Conflict = {
+  constraint: Feud_Old_Game_Room_Rounds_Constraint;
+  update_columns?: Array<Feud_Old_Game_Room_Rounds_Update_Column>;
+  where?: InputMaybe<Feud_Old_Game_Room_Rounds_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "feud_old.game_room_rounds". */
+export type Feud_Old_Game_Room_Rounds_Order_By = {
+  answers?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  game_room_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  question?: InputMaybe<Questions_Order_By>;
+  question_id?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
+  stack_point?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  strikes?: InputMaybe<Order_By>;
+  team_play?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: feud_old.game_room_rounds */
+export type Feud_Old_Game_Room_Rounds_Pk_Columns_Input = {
+  id: Scalars['Int'];
+};
+
+/** select columns of table "feud_old.game_room_rounds" */
+export enum Feud_Old_Game_Room_Rounds_Select_Column {
+  /** column name */
+  Answers = 'answers',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  GameRoomId = 'game_room_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  QuestionId = 'question_id',
+  /** column name */
+  Round = 'round',
+  /** column name */
+  StackPoint = 'stack_point',
+  /** column name */
+  Status = 'status',
+  /** column name */
+  Strikes = 'strikes',
+  /** column name */
+  TeamPlay = 'team_play',
+  /** column name */
+  UpdatedAt = 'updated_at'
+}
+
+/** input type for updating data in table "feud_old.game_room_rounds" */
+export type Feud_Old_Game_Room_Rounds_Set_Input = {
+  answers?: InputMaybe<Scalars['String']>;
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  game_room_id?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
+  question_id?: InputMaybe<Scalars['uuid']>;
+  round?: InputMaybe<Scalars['Int']>;
+  stack_point?: InputMaybe<Scalars['Int']>;
+  status?: InputMaybe<Scalars['Int']>;
+  strikes?: InputMaybe<Scalars['Int']>;
+  team_play?: InputMaybe<Scalars['Int']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** aggregate stddev on columns */
+export type Feud_Old_Game_Room_Rounds_Stddev_Fields = {
+  __typename?: 'feud_old_game_room_rounds_stddev_fields';
+  game_room_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  round?: Maybe<Scalars['Float']>;
+  stack_point?: Maybe<Scalars['Float']>;
+  status?: Maybe<Scalars['Float']>;
+  strikes?: Maybe<Scalars['Float']>;
+  team_play?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "feud_old.game_room_rounds" */
+export type Feud_Old_Game_Room_Rounds_Stddev_Order_By = {
+  game_room_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
+  stack_point?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  strikes?: InputMaybe<Order_By>;
+  team_play?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Feud_Old_Game_Room_Rounds_Stddev_Pop_Fields = {
+  __typename?: 'feud_old_game_room_rounds_stddev_pop_fields';
+  game_room_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  round?: Maybe<Scalars['Float']>;
+  stack_point?: Maybe<Scalars['Float']>;
+  status?: Maybe<Scalars['Float']>;
+  strikes?: Maybe<Scalars['Float']>;
+  team_play?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "feud_old.game_room_rounds" */
+export type Feud_Old_Game_Room_Rounds_Stddev_Pop_Order_By = {
+  game_room_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
+  stack_point?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  strikes?: InputMaybe<Order_By>;
+  team_play?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Feud_Old_Game_Room_Rounds_Stddev_Samp_Fields = {
+  __typename?: 'feud_old_game_room_rounds_stddev_samp_fields';
+  game_room_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  round?: Maybe<Scalars['Float']>;
+  stack_point?: Maybe<Scalars['Float']>;
+  status?: Maybe<Scalars['Float']>;
+  strikes?: Maybe<Scalars['Float']>;
+  team_play?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "feud_old.game_room_rounds" */
+export type Feud_Old_Game_Room_Rounds_Stddev_Samp_Order_By = {
+  game_room_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
+  stack_point?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  strikes?: InputMaybe<Order_By>;
+  team_play?: InputMaybe<Order_By>;
+};
+
+/** Streaming cursor of the table "feud_old_game_room_rounds" */
+export type Feud_Old_Game_Room_Rounds_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Feud_Old_Game_Room_Rounds_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Feud_Old_Game_Room_Rounds_Stream_Cursor_Value_Input = {
+  answers?: InputMaybe<Scalars['String']>;
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  game_room_id?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
+  question_id?: InputMaybe<Scalars['uuid']>;
+  round?: InputMaybe<Scalars['Int']>;
+  stack_point?: InputMaybe<Scalars['Int']>;
+  status?: InputMaybe<Scalars['Int']>;
+  strikes?: InputMaybe<Scalars['Int']>;
+  team_play?: InputMaybe<Scalars['Int']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** aggregate sum on columns */
+export type Feud_Old_Game_Room_Rounds_Sum_Fields = {
+  __typename?: 'feud_old_game_room_rounds_sum_fields';
+  game_room_id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  round?: Maybe<Scalars['Int']>;
+  stack_point?: Maybe<Scalars['Int']>;
+  status?: Maybe<Scalars['Int']>;
+  strikes?: Maybe<Scalars['Int']>;
+  team_play?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "feud_old.game_room_rounds" */
+export type Feud_Old_Game_Room_Rounds_Sum_Order_By = {
+  game_room_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
+  stack_point?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  strikes?: InputMaybe<Order_By>;
+  team_play?: InputMaybe<Order_By>;
+};
+
+/** update columns of table "feud_old.game_room_rounds" */
+export enum Feud_Old_Game_Room_Rounds_Update_Column {
+  /** column name */
+  Answers = 'answers',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  GameRoomId = 'game_room_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  QuestionId = 'question_id',
+  /** column name */
+  Round = 'round',
+  /** column name */
+  StackPoint = 'stack_point',
+  /** column name */
+  Status = 'status',
+  /** column name */
+  Strikes = 'strikes',
+  /** column name */
+  TeamPlay = 'team_play',
+  /** column name */
+  UpdatedAt = 'updated_at'
+}
+
+export type Feud_Old_Game_Room_Rounds_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Feud_Old_Game_Room_Rounds_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Feud_Old_Game_Room_Rounds_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Feud_Old_Game_Room_Rounds_Bool_Exp;
+};
+
+/** aggregate var_pop on columns */
+export type Feud_Old_Game_Room_Rounds_Var_Pop_Fields = {
+  __typename?: 'feud_old_game_room_rounds_var_pop_fields';
+  game_room_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  round?: Maybe<Scalars['Float']>;
+  stack_point?: Maybe<Scalars['Float']>;
+  status?: Maybe<Scalars['Float']>;
+  strikes?: Maybe<Scalars['Float']>;
+  team_play?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "feud_old.game_room_rounds" */
+export type Feud_Old_Game_Room_Rounds_Var_Pop_Order_By = {
+  game_room_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
+  stack_point?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  strikes?: InputMaybe<Order_By>;
+  team_play?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Feud_Old_Game_Room_Rounds_Var_Samp_Fields = {
+  __typename?: 'feud_old_game_room_rounds_var_samp_fields';
+  game_room_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  round?: Maybe<Scalars['Float']>;
+  stack_point?: Maybe<Scalars['Float']>;
+  status?: Maybe<Scalars['Float']>;
+  strikes?: Maybe<Scalars['Float']>;
+  team_play?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "feud_old.game_room_rounds" */
+export type Feud_Old_Game_Room_Rounds_Var_Samp_Order_By = {
+  game_room_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
+  stack_point?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  strikes?: InputMaybe<Order_By>;
+  team_play?: InputMaybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Feud_Old_Game_Room_Rounds_Variance_Fields = {
+  __typename?: 'feud_old_game_room_rounds_variance_fields';
+  game_room_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  round?: Maybe<Scalars['Float']>;
+  stack_point?: Maybe<Scalars['Float']>;
+  status?: Maybe<Scalars['Float']>;
+  strikes?: Maybe<Scalars['Float']>;
+  team_play?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "feud_old.game_room_rounds" */
+export type Feud_Old_Game_Room_Rounds_Variance_Order_By = {
+  game_room_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
+  stack_point?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  strikes?: InputMaybe<Order_By>;
+  team_play?: InputMaybe<Order_By>;
+};
+
+/** columns and relationships of "feud_old.game_rooms" */
+export type Feud_Old_Game_Rooms = {
+  __typename?: 'feud_old_game_rooms';
+  /** An object relationship */
+  coHost?: Maybe<UserMetadata>;
+  co_host_id?: Maybe<Scalars['uuid']>;
+  created_at: Scalars['timestamptz'];
+  /** An object relationship */
+  game?: Maybe<Events>;
+  game_id?: Maybe<Scalars['uuid']>;
+  /** An object relationship */
+  host?: Maybe<UserMetadata>;
+  host_id?: Maybe<Scalars['uuid']>;
+  id: Scalars['Int'];
+  index: Scalars['Int'];
+  isConsolation: Scalars['Boolean'];
+  isStart: Scalars['Int'];
+  is_revealed: Scalars['Boolean'];
+  pointA: Scalars['Int'];
+  pointB: Scalars['Int'];
+  round: Scalars['Int'];
+  /** An array relationship */
+  rounds: Array<Feud_Old_Game_Room_Rounds>;
+  /** An aggregate relationship */
+  rounds_aggregate: Feud_Old_Game_Room_Rounds_Aggregate;
+  /** An object relationship */
+  teamA?: Maybe<Teams>;
+  /** An object relationship */
+  teamB?: Maybe<Teams>;
+  team_a_id?: Maybe<Scalars['uuid']>;
+  team_b_id?: Maybe<Scalars['uuid']>;
+  updated_at: Scalars['timestamptz'];
+  winner?: Maybe<Scalars['uuid']>;
+  /** An object relationship */
+  winnerInfo?: Maybe<Teams>;
+};
+
+
+/** columns and relationships of "feud_old.game_rooms" */
+export type Feud_Old_Game_RoomsRoundsArgs = {
+  distinct_on?: InputMaybe<Array<Feud_Old_Game_Room_Rounds_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Feud_Old_Game_Room_Rounds_Order_By>>;
+  where?: InputMaybe<Feud_Old_Game_Room_Rounds_Bool_Exp>;
+};
+
+
+/** columns and relationships of "feud_old.game_rooms" */
+export type Feud_Old_Game_RoomsRounds_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Feud_Old_Game_Room_Rounds_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Feud_Old_Game_Room_Rounds_Order_By>>;
+  where?: InputMaybe<Feud_Old_Game_Room_Rounds_Bool_Exp>;
+};
+
+/** aggregated selection of "feud_old.game_rooms" */
+export type Feud_Old_Game_Rooms_Aggregate = {
+  __typename?: 'feud_old_game_rooms_aggregate';
+  aggregate?: Maybe<Feud_Old_Game_Rooms_Aggregate_Fields>;
+  nodes: Array<Feud_Old_Game_Rooms>;
+};
+
+export type Feud_Old_Game_Rooms_Aggregate_Bool_Exp = {
+  bool_and?: InputMaybe<Feud_Old_Game_Rooms_Aggregate_Bool_Exp_Bool_And>;
+  bool_or?: InputMaybe<Feud_Old_Game_Rooms_Aggregate_Bool_Exp_Bool_Or>;
+  count?: InputMaybe<Feud_Old_Game_Rooms_Aggregate_Bool_Exp_Count>;
+};
+
+export type Feud_Old_Game_Rooms_Aggregate_Bool_Exp_Bool_And = {
+  arguments: Feud_Old_Game_Rooms_Select_Column_Feud_Old_Game_Rooms_Aggregate_Bool_Exp_Bool_And_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Feud_Old_Game_Rooms_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Feud_Old_Game_Rooms_Aggregate_Bool_Exp_Bool_Or = {
+  arguments: Feud_Old_Game_Rooms_Select_Column_Feud_Old_Game_Rooms_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Feud_Old_Game_Rooms_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Feud_Old_Game_Rooms_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Feud_Old_Game_Rooms_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Feud_Old_Game_Rooms_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
+/** aggregate fields of "feud_old.game_rooms" */
+export type Feud_Old_Game_Rooms_Aggregate_Fields = {
+  __typename?: 'feud_old_game_rooms_aggregate_fields';
+  avg?: Maybe<Feud_Old_Game_Rooms_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Feud_Old_Game_Rooms_Max_Fields>;
+  min?: Maybe<Feud_Old_Game_Rooms_Min_Fields>;
+  stddev?: Maybe<Feud_Old_Game_Rooms_Stddev_Fields>;
+  stddev_pop?: Maybe<Feud_Old_Game_Rooms_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Feud_Old_Game_Rooms_Stddev_Samp_Fields>;
+  sum?: Maybe<Feud_Old_Game_Rooms_Sum_Fields>;
+  var_pop?: Maybe<Feud_Old_Game_Rooms_Var_Pop_Fields>;
+  var_samp?: Maybe<Feud_Old_Game_Rooms_Var_Samp_Fields>;
+  variance?: Maybe<Feud_Old_Game_Rooms_Variance_Fields>;
+};
+
+
+/** aggregate fields of "feud_old.game_rooms" */
+export type Feud_Old_Game_Rooms_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Feud_Old_Game_Rooms_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "feud_old.game_rooms" */
+export type Feud_Old_Game_Rooms_Aggregate_Order_By = {
+  avg?: InputMaybe<Feud_Old_Game_Rooms_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Feud_Old_Game_Rooms_Max_Order_By>;
+  min?: InputMaybe<Feud_Old_Game_Rooms_Min_Order_By>;
+  stddev?: InputMaybe<Feud_Old_Game_Rooms_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Feud_Old_Game_Rooms_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Feud_Old_Game_Rooms_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Feud_Old_Game_Rooms_Sum_Order_By>;
+  var_pop?: InputMaybe<Feud_Old_Game_Rooms_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Feud_Old_Game_Rooms_Var_Samp_Order_By>;
+  variance?: InputMaybe<Feud_Old_Game_Rooms_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "feud_old.game_rooms" */
+export type Feud_Old_Game_Rooms_Arr_Rel_Insert_Input = {
+  data: Array<Feud_Old_Game_Rooms_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Feud_Old_Game_Rooms_On_Conflict>;
+};
+
+/** aggregate avg on columns */
+export type Feud_Old_Game_Rooms_Avg_Fields = {
+  __typename?: 'feud_old_game_rooms_avg_fields';
+  id?: Maybe<Scalars['Float']>;
+  index?: Maybe<Scalars['Float']>;
+  isStart?: Maybe<Scalars['Float']>;
+  pointA?: Maybe<Scalars['Float']>;
+  pointB?: Maybe<Scalars['Float']>;
+  round?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "feud_old.game_rooms" */
+export type Feud_Old_Game_Rooms_Avg_Order_By = {
+  id?: InputMaybe<Order_By>;
+  index?: InputMaybe<Order_By>;
+  isStart?: InputMaybe<Order_By>;
+  pointA?: InputMaybe<Order_By>;
+  pointB?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "feud_old.game_rooms". All fields are combined with a logical 'AND'. */
+export type Feud_Old_Game_Rooms_Bool_Exp = {
+  _and?: InputMaybe<Array<Feud_Old_Game_Rooms_Bool_Exp>>;
+  _not?: InputMaybe<Feud_Old_Game_Rooms_Bool_Exp>;
+  _or?: InputMaybe<Array<Feud_Old_Game_Rooms_Bool_Exp>>;
+  coHost?: InputMaybe<UserMetadata_Bool_Exp>;
+  co_host_id?: InputMaybe<Uuid_Comparison_Exp>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  game?: InputMaybe<Events_Bool_Exp>;
+  game_id?: InputMaybe<Uuid_Comparison_Exp>;
+  host?: InputMaybe<UserMetadata_Bool_Exp>;
+  host_id?: InputMaybe<Uuid_Comparison_Exp>;
+  id?: InputMaybe<Int_Comparison_Exp>;
+  index?: InputMaybe<Int_Comparison_Exp>;
+  isConsolation?: InputMaybe<Boolean_Comparison_Exp>;
+  isStart?: InputMaybe<Int_Comparison_Exp>;
+  is_revealed?: InputMaybe<Boolean_Comparison_Exp>;
+  pointA?: InputMaybe<Int_Comparison_Exp>;
+  pointB?: InputMaybe<Int_Comparison_Exp>;
+  round?: InputMaybe<Int_Comparison_Exp>;
+  rounds?: InputMaybe<Feud_Old_Game_Room_Rounds_Bool_Exp>;
+  rounds_aggregate?: InputMaybe<Feud_Old_Game_Room_Rounds_Aggregate_Bool_Exp>;
+  teamA?: InputMaybe<Teams_Bool_Exp>;
+  teamB?: InputMaybe<Teams_Bool_Exp>;
+  team_a_id?: InputMaybe<Uuid_Comparison_Exp>;
+  team_b_id?: InputMaybe<Uuid_Comparison_Exp>;
+  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  winner?: InputMaybe<Uuid_Comparison_Exp>;
+  winnerInfo?: InputMaybe<Teams_Bool_Exp>;
+};
+
+/** unique or primary key constraints on table "feud_old.game_rooms" */
+export enum Feud_Old_Game_Rooms_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  Pk_026d3197a67b9676bc09a996d98 = 'PK_026d3197a67b9676bc09a996d98'
+}
+
+/** input type for incrementing numeric columns in table "feud_old.game_rooms" */
+export type Feud_Old_Game_Rooms_Inc_Input = {
+  id?: InputMaybe<Scalars['Int']>;
+  index?: InputMaybe<Scalars['Int']>;
+  isStart?: InputMaybe<Scalars['Int']>;
+  pointA?: InputMaybe<Scalars['Int']>;
+  pointB?: InputMaybe<Scalars['Int']>;
+  round?: InputMaybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "feud_old.game_rooms" */
+export type Feud_Old_Game_Rooms_Insert_Input = {
+  coHost?: InputMaybe<UserMetadata_Obj_Rel_Insert_Input>;
+  co_host_id?: InputMaybe<Scalars['uuid']>;
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  game?: InputMaybe<Events_Obj_Rel_Insert_Input>;
+  game_id?: InputMaybe<Scalars['uuid']>;
+  host?: InputMaybe<UserMetadata_Obj_Rel_Insert_Input>;
+  host_id?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['Int']>;
+  index?: InputMaybe<Scalars['Int']>;
+  isConsolation?: InputMaybe<Scalars['Boolean']>;
+  isStart?: InputMaybe<Scalars['Int']>;
+  is_revealed?: InputMaybe<Scalars['Boolean']>;
+  pointA?: InputMaybe<Scalars['Int']>;
+  pointB?: InputMaybe<Scalars['Int']>;
+  round?: InputMaybe<Scalars['Int']>;
+  rounds?: InputMaybe<Feud_Old_Game_Room_Rounds_Arr_Rel_Insert_Input>;
+  teamA?: InputMaybe<Teams_Obj_Rel_Insert_Input>;
+  teamB?: InputMaybe<Teams_Obj_Rel_Insert_Input>;
+  team_a_id?: InputMaybe<Scalars['uuid']>;
+  team_b_id?: InputMaybe<Scalars['uuid']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
+  winner?: InputMaybe<Scalars['uuid']>;
+  winnerInfo?: InputMaybe<Teams_Obj_Rel_Insert_Input>;
+};
+
+/** aggregate max on columns */
+export type Feud_Old_Game_Rooms_Max_Fields = {
+  __typename?: 'feud_old_game_rooms_max_fields';
+  co_host_id?: Maybe<Scalars['uuid']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  game_id?: Maybe<Scalars['uuid']>;
+  host_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['Int']>;
+  index?: Maybe<Scalars['Int']>;
+  isStart?: Maybe<Scalars['Int']>;
+  pointA?: Maybe<Scalars['Int']>;
+  pointB?: Maybe<Scalars['Int']>;
+  round?: Maybe<Scalars['Int']>;
+  team_a_id?: Maybe<Scalars['uuid']>;
+  team_b_id?: Maybe<Scalars['uuid']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+  winner?: Maybe<Scalars['uuid']>;
+};
+
+/** order by max() on columns of table "feud_old.game_rooms" */
+export type Feud_Old_Game_Rooms_Max_Order_By = {
+  co_host_id?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  game_id?: InputMaybe<Order_By>;
+  host_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  index?: InputMaybe<Order_By>;
+  isStart?: InputMaybe<Order_By>;
+  pointA?: InputMaybe<Order_By>;
+  pointB?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
+  team_a_id?: InputMaybe<Order_By>;
+  team_b_id?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  winner?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Feud_Old_Game_Rooms_Min_Fields = {
+  __typename?: 'feud_old_game_rooms_min_fields';
+  co_host_id?: Maybe<Scalars['uuid']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  game_id?: Maybe<Scalars['uuid']>;
+  host_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['Int']>;
+  index?: Maybe<Scalars['Int']>;
+  isStart?: Maybe<Scalars['Int']>;
+  pointA?: Maybe<Scalars['Int']>;
+  pointB?: Maybe<Scalars['Int']>;
+  round?: Maybe<Scalars['Int']>;
+  team_a_id?: Maybe<Scalars['uuid']>;
+  team_b_id?: Maybe<Scalars['uuid']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+  winner?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "feud_old.game_rooms" */
+export type Feud_Old_Game_Rooms_Min_Order_By = {
+  co_host_id?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  game_id?: InputMaybe<Order_By>;
+  host_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  index?: InputMaybe<Order_By>;
+  isStart?: InputMaybe<Order_By>;
+  pointA?: InputMaybe<Order_By>;
+  pointB?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
+  team_a_id?: InputMaybe<Order_By>;
+  team_b_id?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  winner?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "feud_old.game_rooms" */
+export type Feud_Old_Game_Rooms_Mutation_Response = {
+  __typename?: 'feud_old_game_rooms_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Feud_Old_Game_Rooms>;
+};
+
+/** on_conflict condition type for table "feud_old.game_rooms" */
+export type Feud_Old_Game_Rooms_On_Conflict = {
+  constraint: Feud_Old_Game_Rooms_Constraint;
+  update_columns?: Array<Feud_Old_Game_Rooms_Update_Column>;
+  where?: InputMaybe<Feud_Old_Game_Rooms_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "feud_old.game_rooms". */
+export type Feud_Old_Game_Rooms_Order_By = {
+  coHost?: InputMaybe<UserMetadata_Order_By>;
+  co_host_id?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  game?: InputMaybe<Events_Order_By>;
+  game_id?: InputMaybe<Order_By>;
+  host?: InputMaybe<UserMetadata_Order_By>;
+  host_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  index?: InputMaybe<Order_By>;
+  isConsolation?: InputMaybe<Order_By>;
+  isStart?: InputMaybe<Order_By>;
+  is_revealed?: InputMaybe<Order_By>;
+  pointA?: InputMaybe<Order_By>;
+  pointB?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
+  rounds_aggregate?: InputMaybe<Feud_Old_Game_Room_Rounds_Aggregate_Order_By>;
+  teamA?: InputMaybe<Teams_Order_By>;
+  teamB?: InputMaybe<Teams_Order_By>;
+  team_a_id?: InputMaybe<Order_By>;
+  team_b_id?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  winner?: InputMaybe<Order_By>;
+  winnerInfo?: InputMaybe<Teams_Order_By>;
+};
+
+/** primary key columns input for table: feud_old.game_rooms */
+export type Feud_Old_Game_Rooms_Pk_Columns_Input = {
+  id: Scalars['Int'];
+};
+
+/** select columns of table "feud_old.game_rooms" */
+export enum Feud_Old_Game_Rooms_Select_Column {
+  /** column name */
+  CoHostId = 'co_host_id',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  GameId = 'game_id',
+  /** column name */
+  HostId = 'host_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Index = 'index',
+  /** column name */
+  IsConsolation = 'isConsolation',
+  /** column name */
+  IsStart = 'isStart',
+  /** column name */
+  IsRevealed = 'is_revealed',
+  /** column name */
+  PointA = 'pointA',
+  /** column name */
+  PointB = 'pointB',
+  /** column name */
+  Round = 'round',
+  /** column name */
+  TeamAId = 'team_a_id',
+  /** column name */
+  TeamBId = 'team_b_id',
+  /** column name */
+  UpdatedAt = 'updated_at',
+  /** column name */
+  Winner = 'winner'
+}
+
+/** select "feud_old_game_rooms_aggregate_bool_exp_bool_and_arguments_columns" columns of table "feud_old.game_rooms" */
+export enum Feud_Old_Game_Rooms_Select_Column_Feud_Old_Game_Rooms_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
+  /** column name */
+  IsConsolation = 'isConsolation',
+  /** column name */
+  IsRevealed = 'is_revealed'
+}
+
+/** select "feud_old_game_rooms_aggregate_bool_exp_bool_or_arguments_columns" columns of table "feud_old.game_rooms" */
+export enum Feud_Old_Game_Rooms_Select_Column_Feud_Old_Game_Rooms_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
+  /** column name */
+  IsConsolation = 'isConsolation',
+  /** column name */
+  IsRevealed = 'is_revealed'
+}
+
+/** input type for updating data in table "feud_old.game_rooms" */
+export type Feud_Old_Game_Rooms_Set_Input = {
+  co_host_id?: InputMaybe<Scalars['uuid']>;
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  game_id?: InputMaybe<Scalars['uuid']>;
+  host_id?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['Int']>;
+  index?: InputMaybe<Scalars['Int']>;
+  isConsolation?: InputMaybe<Scalars['Boolean']>;
+  isStart?: InputMaybe<Scalars['Int']>;
+  is_revealed?: InputMaybe<Scalars['Boolean']>;
+  pointA?: InputMaybe<Scalars['Int']>;
+  pointB?: InputMaybe<Scalars['Int']>;
+  round?: InputMaybe<Scalars['Int']>;
+  team_a_id?: InputMaybe<Scalars['uuid']>;
+  team_b_id?: InputMaybe<Scalars['uuid']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
+  winner?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate stddev on columns */
+export type Feud_Old_Game_Rooms_Stddev_Fields = {
+  __typename?: 'feud_old_game_rooms_stddev_fields';
+  id?: Maybe<Scalars['Float']>;
+  index?: Maybe<Scalars['Float']>;
+  isStart?: Maybe<Scalars['Float']>;
+  pointA?: Maybe<Scalars['Float']>;
+  pointB?: Maybe<Scalars['Float']>;
+  round?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "feud_old.game_rooms" */
+export type Feud_Old_Game_Rooms_Stddev_Order_By = {
+  id?: InputMaybe<Order_By>;
+  index?: InputMaybe<Order_By>;
+  isStart?: InputMaybe<Order_By>;
+  pointA?: InputMaybe<Order_By>;
+  pointB?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Feud_Old_Game_Rooms_Stddev_Pop_Fields = {
+  __typename?: 'feud_old_game_rooms_stddev_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+  index?: Maybe<Scalars['Float']>;
+  isStart?: Maybe<Scalars['Float']>;
+  pointA?: Maybe<Scalars['Float']>;
+  pointB?: Maybe<Scalars['Float']>;
+  round?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "feud_old.game_rooms" */
+export type Feud_Old_Game_Rooms_Stddev_Pop_Order_By = {
+  id?: InputMaybe<Order_By>;
+  index?: InputMaybe<Order_By>;
+  isStart?: InputMaybe<Order_By>;
+  pointA?: InputMaybe<Order_By>;
+  pointB?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Feud_Old_Game_Rooms_Stddev_Samp_Fields = {
+  __typename?: 'feud_old_game_rooms_stddev_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+  index?: Maybe<Scalars['Float']>;
+  isStart?: Maybe<Scalars['Float']>;
+  pointA?: Maybe<Scalars['Float']>;
+  pointB?: Maybe<Scalars['Float']>;
+  round?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "feud_old.game_rooms" */
+export type Feud_Old_Game_Rooms_Stddev_Samp_Order_By = {
+  id?: InputMaybe<Order_By>;
+  index?: InputMaybe<Order_By>;
+  isStart?: InputMaybe<Order_By>;
+  pointA?: InputMaybe<Order_By>;
+  pointB?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
+};
+
+/** Streaming cursor of the table "feud_old_game_rooms" */
+export type Feud_Old_Game_Rooms_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Feud_Old_Game_Rooms_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Feud_Old_Game_Rooms_Stream_Cursor_Value_Input = {
+  co_host_id?: InputMaybe<Scalars['uuid']>;
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  game_id?: InputMaybe<Scalars['uuid']>;
+  host_id?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['Int']>;
+  index?: InputMaybe<Scalars['Int']>;
+  isConsolation?: InputMaybe<Scalars['Boolean']>;
+  isStart?: InputMaybe<Scalars['Int']>;
+  is_revealed?: InputMaybe<Scalars['Boolean']>;
+  pointA?: InputMaybe<Scalars['Int']>;
+  pointB?: InputMaybe<Scalars['Int']>;
+  round?: InputMaybe<Scalars['Int']>;
+  team_a_id?: InputMaybe<Scalars['uuid']>;
+  team_b_id?: InputMaybe<Scalars['uuid']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
+  winner?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate sum on columns */
+export type Feud_Old_Game_Rooms_Sum_Fields = {
+  __typename?: 'feud_old_game_rooms_sum_fields';
+  id?: Maybe<Scalars['Int']>;
+  index?: Maybe<Scalars['Int']>;
+  isStart?: Maybe<Scalars['Int']>;
+  pointA?: Maybe<Scalars['Int']>;
+  pointB?: Maybe<Scalars['Int']>;
+  round?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "feud_old.game_rooms" */
+export type Feud_Old_Game_Rooms_Sum_Order_By = {
+  id?: InputMaybe<Order_By>;
+  index?: InputMaybe<Order_By>;
+  isStart?: InputMaybe<Order_By>;
+  pointA?: InputMaybe<Order_By>;
+  pointB?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
+};
+
+/** update columns of table "feud_old.game_rooms" */
+export enum Feud_Old_Game_Rooms_Update_Column {
+  /** column name */
+  CoHostId = 'co_host_id',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  GameId = 'game_id',
+  /** column name */
+  HostId = 'host_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Index = 'index',
+  /** column name */
+  IsConsolation = 'isConsolation',
+  /** column name */
+  IsStart = 'isStart',
+  /** column name */
+  IsRevealed = 'is_revealed',
+  /** column name */
+  PointA = 'pointA',
+  /** column name */
+  PointB = 'pointB',
+  /** column name */
+  Round = 'round',
+  /** column name */
+  TeamAId = 'team_a_id',
+  /** column name */
+  TeamBId = 'team_b_id',
+  /** column name */
+  UpdatedAt = 'updated_at',
+  /** column name */
+  Winner = 'winner'
+}
+
+export type Feud_Old_Game_Rooms_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Feud_Old_Game_Rooms_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Feud_Old_Game_Rooms_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Feud_Old_Game_Rooms_Bool_Exp;
+};
+
+/** aggregate var_pop on columns */
+export type Feud_Old_Game_Rooms_Var_Pop_Fields = {
+  __typename?: 'feud_old_game_rooms_var_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+  index?: Maybe<Scalars['Float']>;
+  isStart?: Maybe<Scalars['Float']>;
+  pointA?: Maybe<Scalars['Float']>;
+  pointB?: Maybe<Scalars['Float']>;
+  round?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "feud_old.game_rooms" */
+export type Feud_Old_Game_Rooms_Var_Pop_Order_By = {
+  id?: InputMaybe<Order_By>;
+  index?: InputMaybe<Order_By>;
+  isStart?: InputMaybe<Order_By>;
+  pointA?: InputMaybe<Order_By>;
+  pointB?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Feud_Old_Game_Rooms_Var_Samp_Fields = {
+  __typename?: 'feud_old_game_rooms_var_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+  index?: Maybe<Scalars['Float']>;
+  isStart?: Maybe<Scalars['Float']>;
+  pointA?: Maybe<Scalars['Float']>;
+  pointB?: Maybe<Scalars['Float']>;
+  round?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "feud_old.game_rooms" */
+export type Feud_Old_Game_Rooms_Var_Samp_Order_By = {
+  id?: InputMaybe<Order_By>;
+  index?: InputMaybe<Order_By>;
+  isStart?: InputMaybe<Order_By>;
+  pointA?: InputMaybe<Order_By>;
+  pointB?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Feud_Old_Game_Rooms_Variance_Fields = {
+  __typename?: 'feud_old_game_rooms_variance_fields';
+  id?: Maybe<Scalars['Float']>;
+  index?: Maybe<Scalars['Float']>;
+  isStart?: Maybe<Scalars['Float']>;
+  pointA?: Maybe<Scalars['Float']>;
+  pointB?: Maybe<Scalars['Float']>;
+  round?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "feud_old.game_rooms" */
+export type Feud_Old_Game_Rooms_Variance_Order_By = {
+  id?: InputMaybe<Order_By>;
+  index?: InputMaybe<Order_By>;
+  isStart?: InputMaybe<Order_By>;
+  pointA?: InputMaybe<Order_By>;
+  pointB?: InputMaybe<Order_By>;
+  round?: InputMaybe<Order_By>;
 };
 
 /** columns and relationships of "feud_old.games_old" */
@@ -5014,6 +6236,13 @@ export type Feud_Old_Games_Old_Mutation_Response = {
   affected_rows: Scalars['Int'];
   /** data from the rows affected by the mutation */
   returning: Array<Feud_Old_Games_Old>;
+};
+
+/** input type for inserting object relation for remote table "feud_old.games_old" */
+export type Feud_Old_Games_Old_Obj_Rel_Insert_Input = {
+  data: Feud_Old_Games_Old_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Feud_Old_Games_Old_On_Conflict>;
 };
 
 /** on_conflict condition type for table "feud_old.games_old" */
@@ -6480,6 +7709,200 @@ export type GameInformationOlympics_Updates = {
   where: GameInformationOlympics_Bool_Exp;
 };
 
+/** columns and relationships of "game_information_self_hosted" */
+export type GameInformationSelfHosted = {
+  __typename?: 'gameInformationSelfHosted';
+  createdAt: Scalars['timestamp'];
+  gameType: Scalars['String'];
+  id: Scalars['uuid'];
+  name: Scalars['String'];
+  state: Scalars['String'];
+  /** An object relationship */
+  systemSettings?: Maybe<GameInformationSelfHosted>;
+  systemSettingsId?: Maybe<Scalars['uuid']>;
+};
+
+/** aggregated selection of "game_information_self_hosted" */
+export type GameInformationSelfHosted_Aggregate = {
+  __typename?: 'gameInformationSelfHosted_aggregate';
+  aggregate?: Maybe<GameInformationSelfHosted_Aggregate_Fields>;
+  nodes: Array<GameInformationSelfHosted>;
+};
+
+/** aggregate fields of "game_information_self_hosted" */
+export type GameInformationSelfHosted_Aggregate_Fields = {
+  __typename?: 'gameInformationSelfHosted_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<GameInformationSelfHosted_Max_Fields>;
+  min?: Maybe<GameInformationSelfHosted_Min_Fields>;
+};
+
+
+/** aggregate fields of "game_information_self_hosted" */
+export type GameInformationSelfHosted_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<GameInformationSelfHosted_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "game_information_self_hosted". All fields are combined with a logical 'AND'. */
+export type GameInformationSelfHosted_Bool_Exp = {
+  _and?: InputMaybe<Array<GameInformationSelfHosted_Bool_Exp>>;
+  _not?: InputMaybe<GameInformationSelfHosted_Bool_Exp>;
+  _or?: InputMaybe<Array<GameInformationSelfHosted_Bool_Exp>>;
+  createdAt?: InputMaybe<Timestamp_Comparison_Exp>;
+  gameType?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+  state?: InputMaybe<String_Comparison_Exp>;
+  systemSettings?: InputMaybe<GameInformationSelfHosted_Bool_Exp>;
+  systemSettingsId?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "game_information_self_hosted" */
+export enum GameInformationSelfHosted_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  GameInformationSelfHostedPkey = 'game_information_self_hosted_pkey'
+}
+
+/** input type for inserting data into table "game_information_self_hosted" */
+export type GameInformationSelfHosted_Insert_Input = {
+  createdAt?: InputMaybe<Scalars['timestamp']>;
+  gameType?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  state?: InputMaybe<Scalars['String']>;
+  systemSettings?: InputMaybe<GameInformationSelfHosted_Obj_Rel_Insert_Input>;
+  systemSettingsId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate max on columns */
+export type GameInformationSelfHosted_Max_Fields = {
+  __typename?: 'gameInformationSelfHosted_max_fields';
+  createdAt?: Maybe<Scalars['timestamp']>;
+  gameType?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
+  systemSettingsId?: Maybe<Scalars['uuid']>;
+};
+
+/** aggregate min on columns */
+export type GameInformationSelfHosted_Min_Fields = {
+  __typename?: 'gameInformationSelfHosted_min_fields';
+  createdAt?: Maybe<Scalars['timestamp']>;
+  gameType?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
+  systemSettingsId?: Maybe<Scalars['uuid']>;
+};
+
+/** response of any mutation on the table "game_information_self_hosted" */
+export type GameInformationSelfHosted_Mutation_Response = {
+  __typename?: 'gameInformationSelfHosted_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<GameInformationSelfHosted>;
+};
+
+/** input type for inserting object relation for remote table "game_information_self_hosted" */
+export type GameInformationSelfHosted_Obj_Rel_Insert_Input = {
+  data: GameInformationSelfHosted_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<GameInformationSelfHosted_On_Conflict>;
+};
+
+/** on_conflict condition type for table "game_information_self_hosted" */
+export type GameInformationSelfHosted_On_Conflict = {
+  constraint: GameInformationSelfHosted_Constraint;
+  update_columns?: Array<GameInformationSelfHosted_Update_Column>;
+  where?: InputMaybe<GameInformationSelfHosted_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "game_information_self_hosted". */
+export type GameInformationSelfHosted_Order_By = {
+  createdAt?: InputMaybe<Order_By>;
+  gameType?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  state?: InputMaybe<Order_By>;
+  systemSettings?: InputMaybe<GameInformationSelfHosted_Order_By>;
+  systemSettingsId?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: game_information_self_hosted */
+export type GameInformationSelfHosted_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "game_information_self_hosted" */
+export enum GameInformationSelfHosted_Select_Column {
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  GameType = 'gameType',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  State = 'state',
+  /** column name */
+  SystemSettingsId = 'systemSettingsId'
+}
+
+/** input type for updating data in table "game_information_self_hosted" */
+export type GameInformationSelfHosted_Set_Input = {
+  createdAt?: InputMaybe<Scalars['timestamp']>;
+  gameType?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  state?: InputMaybe<Scalars['String']>;
+  systemSettingsId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** Streaming cursor of the table "gameInformationSelfHosted" */
+export type GameInformationSelfHosted_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: GameInformationSelfHosted_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type GameInformationSelfHosted_Stream_Cursor_Value_Input = {
+  createdAt?: InputMaybe<Scalars['timestamp']>;
+  gameType?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  state?: InputMaybe<Scalars['String']>;
+  systemSettingsId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** update columns of table "game_information_self_hosted" */
+export enum GameInformationSelfHosted_Update_Column {
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  GameType = 'gameType',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  State = 'state',
+  /** column name */
+  SystemSettingsId = 'systemSettingsId'
+}
+
+export type GameInformationSelfHosted_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<GameInformationSelfHosted_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: GameInformationSelfHosted_Bool_Exp;
+};
+
 /** columns and relationships of "sketchWars.game_information_sketch_wars" */
 export type GameInformationSketchWars = {
   __typename?: 'gameInformationSketchWars';
@@ -6955,6 +8378,7 @@ export type GameInformationTemplate = {
   name: Scalars['String'];
   presentationCoverImage?: Maybe<Scalars['String']>;
   presentationFormat: Scalars['String'];
+  presentationTitlePreText?: Maybe<Scalars['String']>;
   presentationTitleText?: Maybe<Scalars['String']>;
   /** An object relationship */
   resource?: Maybe<Resources>;
@@ -6965,6 +8389,7 @@ export type GameInformationTemplate = {
   /** An object relationship */
   systemSettings?: Maybe<GameInformationTemplate>;
   systemSettingsId?: Maybe<Scalars['uuid']>;
+  templateType?: Maybe<Scalars['String']>;
 };
 
 
@@ -7040,6 +8465,7 @@ export type GameInformationTemplate_Bool_Exp = {
   name?: InputMaybe<String_Comparison_Exp>;
   presentationCoverImage?: InputMaybe<String_Comparison_Exp>;
   presentationFormat?: InputMaybe<String_Comparison_Exp>;
+  presentationTitlePreText?: InputMaybe<String_Comparison_Exp>;
   presentationTitleText?: InputMaybe<String_Comparison_Exp>;
   resource?: InputMaybe<Resources_Bool_Exp>;
   resourceId?: InputMaybe<Uuid_Comparison_Exp>;
@@ -7048,6 +8474,7 @@ export type GameInformationTemplate_Bool_Exp = {
   subdomain?: InputMaybe<String_Comparison_Exp>;
   systemSettings?: InputMaybe<GameInformationTemplate_Bool_Exp>;
   systemSettingsId?: InputMaybe<Uuid_Comparison_Exp>;
+  templateType?: InputMaybe<String_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "game_information_template" */
@@ -7074,6 +8501,7 @@ export type GameInformationTemplate_Insert_Input = {
   name?: InputMaybe<Scalars['String']>;
   presentationCoverImage?: InputMaybe<Scalars['String']>;
   presentationFormat?: InputMaybe<Scalars['String']>;
+  presentationTitlePreText?: InputMaybe<Scalars['String']>;
   presentationTitleText?: InputMaybe<Scalars['String']>;
   resource?: InputMaybe<Resources_Obj_Rel_Insert_Input>;
   resourceId?: InputMaybe<Scalars['uuid']>;
@@ -7082,6 +8510,7 @@ export type GameInformationTemplate_Insert_Input = {
   subdomain?: InputMaybe<Scalars['String']>;
   systemSettings?: InputMaybe<GameInformationTemplate_Obj_Rel_Insert_Input>;
   systemSettingsId?: InputMaybe<Scalars['uuid']>;
+  templateType?: InputMaybe<Scalars['String']>;
 };
 
 /** aggregate max on columns */
@@ -7096,12 +8525,14 @@ export type GameInformationTemplate_Max_Fields = {
   name?: Maybe<Scalars['String']>;
   presentationCoverImage?: Maybe<Scalars['String']>;
   presentationFormat?: Maybe<Scalars['String']>;
+  presentationTitlePreText?: Maybe<Scalars['String']>;
   presentationTitleText?: Maybe<Scalars['String']>;
   resourceId?: Maybe<Scalars['uuid']>;
   scoringFormat?: Maybe<Scalars['String']>;
   state?: Maybe<Scalars['String']>;
   subdomain?: Maybe<Scalars['String']>;
   systemSettingsId?: Maybe<Scalars['uuid']>;
+  templateType?: Maybe<Scalars['String']>;
 };
 
 /** aggregate min on columns */
@@ -7116,12 +8547,14 @@ export type GameInformationTemplate_Min_Fields = {
   name?: Maybe<Scalars['String']>;
   presentationCoverImage?: Maybe<Scalars['String']>;
   presentationFormat?: Maybe<Scalars['String']>;
+  presentationTitlePreText?: Maybe<Scalars['String']>;
   presentationTitleText?: Maybe<Scalars['String']>;
   resourceId?: Maybe<Scalars['uuid']>;
   scoringFormat?: Maybe<Scalars['String']>;
   state?: Maybe<Scalars['String']>;
   subdomain?: Maybe<Scalars['String']>;
   systemSettingsId?: Maybe<Scalars['uuid']>;
+  templateType?: Maybe<Scalars['String']>;
 };
 
 /** response of any mutation on the table "game_information_template" */
@@ -7159,6 +8592,7 @@ export type GameInformationTemplate_Order_By = {
   name?: InputMaybe<Order_By>;
   presentationCoverImage?: InputMaybe<Order_By>;
   presentationFormat?: InputMaybe<Order_By>;
+  presentationTitlePreText?: InputMaybe<Order_By>;
   presentationTitleText?: InputMaybe<Order_By>;
   resource?: InputMaybe<Resources_Order_By>;
   resourceId?: InputMaybe<Order_By>;
@@ -7167,6 +8601,7 @@ export type GameInformationTemplate_Order_By = {
   subdomain?: InputMaybe<Order_By>;
   systemSettings?: InputMaybe<GameInformationTemplate_Order_By>;
   systemSettingsId?: InputMaybe<Order_By>;
+  templateType?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: game_information_template */
@@ -7195,6 +8630,8 @@ export enum GameInformationTemplate_Select_Column {
   /** column name */
   PresentationFormat = 'presentationFormat',
   /** column name */
+  PresentationTitlePreText = 'presentationTitlePreText',
+  /** column name */
   PresentationTitleText = 'presentationTitleText',
   /** column name */
   ResourceId = 'resourceId',
@@ -7205,7 +8642,9 @@ export enum GameInformationTemplate_Select_Column {
   /** column name */
   Subdomain = 'subdomain',
   /** column name */
-  SystemSettingsId = 'systemSettingsId'
+  SystemSettingsId = 'systemSettingsId',
+  /** column name */
+  TemplateType = 'templateType'
 }
 
 /** input type for updating data in table "game_information_template" */
@@ -7219,12 +8658,14 @@ export type GameInformationTemplate_Set_Input = {
   name?: InputMaybe<Scalars['String']>;
   presentationCoverImage?: InputMaybe<Scalars['String']>;
   presentationFormat?: InputMaybe<Scalars['String']>;
+  presentationTitlePreText?: InputMaybe<Scalars['String']>;
   presentationTitleText?: InputMaybe<Scalars['String']>;
   resourceId?: InputMaybe<Scalars['uuid']>;
   scoringFormat?: InputMaybe<Scalars['String']>;
   state?: InputMaybe<Scalars['String']>;
   subdomain?: InputMaybe<Scalars['String']>;
   systemSettingsId?: InputMaybe<Scalars['uuid']>;
+  templateType?: InputMaybe<Scalars['String']>;
 };
 
 /** aggregate stddev on columns */
@@ -7267,12 +8708,14 @@ export type GameInformationTemplate_Stream_Cursor_Value_Input = {
   name?: InputMaybe<Scalars['String']>;
   presentationCoverImage?: InputMaybe<Scalars['String']>;
   presentationFormat?: InputMaybe<Scalars['String']>;
+  presentationTitlePreText?: InputMaybe<Scalars['String']>;
   presentationTitleText?: InputMaybe<Scalars['String']>;
   resourceId?: InputMaybe<Scalars['uuid']>;
   scoringFormat?: InputMaybe<Scalars['String']>;
   state?: InputMaybe<Scalars['String']>;
   subdomain?: InputMaybe<Scalars['String']>;
   systemSettingsId?: InputMaybe<Scalars['uuid']>;
+  templateType?: InputMaybe<Scalars['String']>;
 };
 
 /** aggregate sum on columns */
@@ -7303,6 +8746,8 @@ export enum GameInformationTemplate_Update_Column {
   /** column name */
   PresentationFormat = 'presentationFormat',
   /** column name */
+  PresentationTitlePreText = 'presentationTitlePreText',
+  /** column name */
   PresentationTitleText = 'presentationTitleText',
   /** column name */
   ResourceId = 'resourceId',
@@ -7313,7 +8758,9 @@ export enum GameInformationTemplate_Update_Column {
   /** column name */
   Subdomain = 'subdomain',
   /** column name */
-  SystemSettingsId = 'systemSettingsId'
+  SystemSettingsId = 'systemSettingsId',
+  /** column name */
+  TemplateType = 'templateType'
 }
 
 export type GameInformationTemplate_Updates = {
@@ -7553,8 +9000,10 @@ export type GamePermissions_Updates = {
 /** columns and relationships of "game_templates" */
 export type GameTemplates = {
   __typename?: 'gameTemplates';
+  createdAt: Scalars['timestamptz'];
   id: Scalars['uuid'];
   name: Scalars['String'];
+  type: Scalars['String'];
 };
 
 /** aggregated selection of "game_templates" */
@@ -7584,8 +9033,10 @@ export type GameTemplates_Bool_Exp = {
   _and?: InputMaybe<Array<GameTemplates_Bool_Exp>>;
   _not?: InputMaybe<GameTemplates_Bool_Exp>;
   _or?: InputMaybe<Array<GameTemplates_Bool_Exp>>;
+  createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
+  type?: InputMaybe<String_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "game_templates" */
@@ -7596,22 +9047,28 @@ export enum GameTemplates_Constraint {
 
 /** input type for inserting data into table "game_templates" */
 export type GameTemplates_Insert_Input = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['uuid']>;
   name?: InputMaybe<Scalars['String']>;
+  type?: InputMaybe<Scalars['String']>;
 };
 
 /** aggregate max on columns */
 export type GameTemplates_Max_Fields = {
   __typename?: 'gameTemplates_max_fields';
+  createdAt?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
   name?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
 };
 
 /** aggregate min on columns */
 export type GameTemplates_Min_Fields = {
   __typename?: 'gameTemplates_min_fields';
+  createdAt?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
   name?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
 };
 
 /** response of any mutation on the table "game_templates" */
@@ -7632,8 +9089,10 @@ export type GameTemplates_On_Conflict = {
 
 /** Ordering options when selecting data from "game_templates". */
 export type GameTemplates_Order_By = {
+  createdAt?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
+  type?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: game_templates */
@@ -7644,15 +9103,21 @@ export type GameTemplates_Pk_Columns_Input = {
 /** select columns of table "game_templates" */
 export enum GameTemplates_Select_Column {
   /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
   Id = 'id',
   /** column name */
-  Name = 'name'
+  Name = 'name',
+  /** column name */
+  Type = 'type'
 }
 
 /** input type for updating data in table "game_templates" */
 export type GameTemplates_Set_Input = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['uuid']>;
   name?: InputMaybe<Scalars['String']>;
+  type?: InputMaybe<Scalars['String']>;
 };
 
 /** Streaming cursor of the table "gameTemplates" */
@@ -7665,16 +9130,22 @@ export type GameTemplates_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type GameTemplates_Stream_Cursor_Value_Input = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['uuid']>;
   name?: InputMaybe<Scalars['String']>;
+  type?: InputMaybe<Scalars['String']>;
 };
 
 /** update columns of table "game_templates" */
 export enum GameTemplates_Update_Column {
   /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
   Id = 'id',
   /** column name */
-  Name = 'name'
+  Name = 'name',
+  /** column name */
+  Type = 'type'
 }
 
 export type GameTemplates_Updates = {
@@ -8081,6 +9552,14 @@ export type Mutation_Root = {
   delete_events?: Maybe<Events_Mutation_Response>;
   /** delete single row from the table: "events" */
   delete_events_by_pk?: Maybe<Events>;
+  /** delete data from the table: "feud_old.game_room_rounds" */
+  delete_feud_old_game_room_rounds?: Maybe<Feud_Old_Game_Room_Rounds_Mutation_Response>;
+  /** delete single row from the table: "feud_old.game_room_rounds" */
+  delete_feud_old_game_room_rounds_by_pk?: Maybe<Feud_Old_Game_Room_Rounds>;
+  /** delete data from the table: "feud_old.game_rooms" */
+  delete_feud_old_game_rooms?: Maybe<Feud_Old_Game_Rooms_Mutation_Response>;
+  /** delete single row from the table: "feud_old.game_rooms" */
+  delete_feud_old_game_rooms_by_pk?: Maybe<Feud_Old_Game_Rooms>;
   /** delete data from the table: "feud_old.games_old" */
   delete_feud_old_games_old?: Maybe<Feud_Old_Games_Old_Mutation_Response>;
   /** delete single row from the table: "feud_old.games_old" */
@@ -8097,6 +9576,10 @@ export type Mutation_Root = {
   delete_gameInformationOlympics?: Maybe<GameInformationOlympics_Mutation_Response>;
   /** delete single row from the table: "olympics.game_information" */
   delete_gameInformationOlympics_by_pk?: Maybe<GameInformationOlympics>;
+  /** delete data from the table: "game_information_self_hosted" */
+  delete_gameInformationSelfHosted?: Maybe<GameInformationSelfHosted_Mutation_Response>;
+  /** delete single row from the table: "game_information_self_hosted" */
+  delete_gameInformationSelfHosted_by_pk?: Maybe<GameInformationSelfHosted>;
   /** delete data from the table: "sketchWars.game_information_sketch_wars" */
   delete_gameInformationSketchWars?: Maybe<GameInformationSketchWars_Mutation_Response>;
   /** delete single row from the table: "sketchWars.game_information_sketch_wars" */
@@ -8241,6 +9724,14 @@ export type Mutation_Root = {
   insert_events?: Maybe<Events_Mutation_Response>;
   /** insert a single row into the table: "events" */
   insert_events_one?: Maybe<Events>;
+  /** insert data into the table: "feud_old.game_room_rounds" */
+  insert_feud_old_game_room_rounds?: Maybe<Feud_Old_Game_Room_Rounds_Mutation_Response>;
+  /** insert a single row into the table: "feud_old.game_room_rounds" */
+  insert_feud_old_game_room_rounds_one?: Maybe<Feud_Old_Game_Room_Rounds>;
+  /** insert data into the table: "feud_old.game_rooms" */
+  insert_feud_old_game_rooms?: Maybe<Feud_Old_Game_Rooms_Mutation_Response>;
+  /** insert a single row into the table: "feud_old.game_rooms" */
+  insert_feud_old_game_rooms_one?: Maybe<Feud_Old_Game_Rooms>;
   /** insert data into the table: "feud_old.games_old" */
   insert_feud_old_games_old?: Maybe<Feud_Old_Games_Old_Mutation_Response>;
   /** insert a single row into the table: "feud_old.games_old" */
@@ -8257,6 +9748,10 @@ export type Mutation_Root = {
   insert_gameInformationOlympics?: Maybe<GameInformationOlympics_Mutation_Response>;
   /** insert a single row into the table: "olympics.game_information" */
   insert_gameInformationOlympics_one?: Maybe<GameInformationOlympics>;
+  /** insert data into the table: "game_information_self_hosted" */
+  insert_gameInformationSelfHosted?: Maybe<GameInformationSelfHosted_Mutation_Response>;
+  /** insert a single row into the table: "game_information_self_hosted" */
+  insert_gameInformationSelfHosted_one?: Maybe<GameInformationSelfHosted>;
   /** insert data into the table: "sketchWars.game_information_sketch_wars" */
   insert_gameInformationSketchWars?: Maybe<GameInformationSketchWars_Mutation_Response>;
   /** insert a single row into the table: "sketchWars.game_information_sketch_wars" */
@@ -8438,6 +9933,18 @@ export type Mutation_Root = {
   update_events_by_pk?: Maybe<Events>;
   /** update multiples rows of table: "events" */
   update_events_many?: Maybe<Array<Maybe<Events_Mutation_Response>>>;
+  /** update data of the table: "feud_old.game_room_rounds" */
+  update_feud_old_game_room_rounds?: Maybe<Feud_Old_Game_Room_Rounds_Mutation_Response>;
+  /** update single row of the table: "feud_old.game_room_rounds" */
+  update_feud_old_game_room_rounds_by_pk?: Maybe<Feud_Old_Game_Room_Rounds>;
+  /** update multiples rows of table: "feud_old.game_room_rounds" */
+  update_feud_old_game_room_rounds_many?: Maybe<Array<Maybe<Feud_Old_Game_Room_Rounds_Mutation_Response>>>;
+  /** update data of the table: "feud_old.game_rooms" */
+  update_feud_old_game_rooms?: Maybe<Feud_Old_Game_Rooms_Mutation_Response>;
+  /** update single row of the table: "feud_old.game_rooms" */
+  update_feud_old_game_rooms_by_pk?: Maybe<Feud_Old_Game_Rooms>;
+  /** update multiples rows of table: "feud_old.game_rooms" */
+  update_feud_old_game_rooms_many?: Maybe<Array<Maybe<Feud_Old_Game_Rooms_Mutation_Response>>>;
   /** update data of the table: "feud_old.games_old" */
   update_feud_old_games_old?: Maybe<Feud_Old_Games_Old_Mutation_Response>;
   /** update single row of the table: "feud_old.games_old" */
@@ -8464,6 +9971,12 @@ export type Mutation_Root = {
   update_gameInformationOlympics_by_pk?: Maybe<GameInformationOlympics>;
   /** update multiples rows of table: "olympics.game_information" */
   update_gameInformationOlympics_many?: Maybe<Array<Maybe<GameInformationOlympics_Mutation_Response>>>;
+  /** update data of the table: "game_information_self_hosted" */
+  update_gameInformationSelfHosted?: Maybe<GameInformationSelfHosted_Mutation_Response>;
+  /** update single row of the table: "game_information_self_hosted" */
+  update_gameInformationSelfHosted_by_pk?: Maybe<GameInformationSelfHosted>;
+  /** update multiples rows of table: "game_information_self_hosted" */
+  update_gameInformationSelfHosted_many?: Maybe<Array<Maybe<GameInformationSelfHosted_Mutation_Response>>>;
   /** update data of the table: "sketchWars.game_information_sketch_wars" */
   update_gameInformationSketchWars?: Maybe<GameInformationSketchWars_Mutation_Response>;
   /** update single row of the table: "sketchWars.game_information_sketch_wars" */
@@ -8810,6 +10323,30 @@ export type Mutation_RootDelete_Events_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootDelete_Feud_Old_Game_Room_RoundsArgs = {
+  where: Feud_Old_Game_Room_Rounds_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Feud_Old_Game_Room_Rounds_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Feud_Old_Game_RoomsArgs = {
+  where: Feud_Old_Game_Rooms_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Feud_Old_Game_Rooms_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
+/** mutation root */
 export type Mutation_RootDelete_Feud_Old_Games_OldArgs = {
   where: Feud_Old_Games_Old_Bool_Exp;
 };
@@ -8854,6 +10391,18 @@ export type Mutation_RootDelete_GameInformationOlympicsArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_GameInformationOlympics_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_GameInformationSelfHostedArgs = {
+  where: GameInformationSelfHosted_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_GameInformationSelfHosted_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -9331,6 +10880,34 @@ export type Mutation_RootInsert_Events_OneArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInsert_Feud_Old_Game_Room_RoundsArgs = {
+  objects: Array<Feud_Old_Game_Room_Rounds_Insert_Input>;
+  on_conflict?: InputMaybe<Feud_Old_Game_Room_Rounds_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Feud_Old_Game_Room_Rounds_OneArgs = {
+  object: Feud_Old_Game_Room_Rounds_Insert_Input;
+  on_conflict?: InputMaybe<Feud_Old_Game_Room_Rounds_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Feud_Old_Game_RoomsArgs = {
+  objects: Array<Feud_Old_Game_Rooms_Insert_Input>;
+  on_conflict?: InputMaybe<Feud_Old_Game_Rooms_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Feud_Old_Game_Rooms_OneArgs = {
+  object: Feud_Old_Game_Rooms_Insert_Input;
+  on_conflict?: InputMaybe<Feud_Old_Game_Rooms_On_Conflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootInsert_Feud_Old_Games_OldArgs = {
   objects: Array<Feud_Old_Games_Old_Insert_Input>;
   on_conflict?: InputMaybe<Feud_Old_Games_Old_On_Conflict>;
@@ -9383,6 +10960,20 @@ export type Mutation_RootInsert_GameInformationOlympicsArgs = {
 export type Mutation_RootInsert_GameInformationOlympics_OneArgs = {
   object: GameInformationOlympics_Insert_Input;
   on_conflict?: InputMaybe<GameInformationOlympics_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_GameInformationSelfHostedArgs = {
+  objects: Array<GameInformationSelfHosted_Insert_Input>;
+  on_conflict?: InputMaybe<GameInformationSelfHosted_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_GameInformationSelfHosted_OneArgs = {
+  object: GameInformationSelfHosted_Insert_Input;
+  on_conflict?: InputMaybe<GameInformationSelfHosted_On_Conflict>;
 };
 
 
@@ -10045,6 +11636,50 @@ export type Mutation_RootUpdate_Events_ManyArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Feud_Old_Game_Room_RoundsArgs = {
+  _inc?: InputMaybe<Feud_Old_Game_Room_Rounds_Inc_Input>;
+  _set?: InputMaybe<Feud_Old_Game_Room_Rounds_Set_Input>;
+  where: Feud_Old_Game_Room_Rounds_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Feud_Old_Game_Room_Rounds_By_PkArgs = {
+  _inc?: InputMaybe<Feud_Old_Game_Room_Rounds_Inc_Input>;
+  _set?: InputMaybe<Feud_Old_Game_Room_Rounds_Set_Input>;
+  pk_columns: Feud_Old_Game_Room_Rounds_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Feud_Old_Game_Room_Rounds_ManyArgs = {
+  updates: Array<Feud_Old_Game_Room_Rounds_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Feud_Old_Game_RoomsArgs = {
+  _inc?: InputMaybe<Feud_Old_Game_Rooms_Inc_Input>;
+  _set?: InputMaybe<Feud_Old_Game_Rooms_Set_Input>;
+  where: Feud_Old_Game_Rooms_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Feud_Old_Game_Rooms_By_PkArgs = {
+  _inc?: InputMaybe<Feud_Old_Game_Rooms_Inc_Input>;
+  _set?: InputMaybe<Feud_Old_Game_Rooms_Set_Input>;
+  pk_columns: Feud_Old_Game_Rooms_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Feud_Old_Game_Rooms_ManyArgs = {
+  updates: Array<Feud_Old_Game_Rooms_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Feud_Old_Games_OldArgs = {
   _inc?: InputMaybe<Feud_Old_Games_Old_Inc_Input>;
   _set?: InputMaybe<Feud_Old_Games_Old_Set_Input>;
@@ -10131,6 +11766,26 @@ export type Mutation_RootUpdate_GameInformationOlympics_By_PkArgs = {
 /** mutation root */
 export type Mutation_RootUpdate_GameInformationOlympics_ManyArgs = {
   updates: Array<GameInformationOlympics_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_GameInformationSelfHostedArgs = {
+  _set?: InputMaybe<GameInformationSelfHosted_Set_Input>;
+  where: GameInformationSelfHosted_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_GameInformationSelfHosted_By_PkArgs = {
+  _set?: InputMaybe<GameInformationSelfHosted_Set_Input>;
+  pk_columns: GameInformationSelfHosted_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_GameInformationSelfHosted_ManyArgs = {
+  updates: Array<GameInformationSelfHosted_Updates>;
 };
 
 
@@ -11638,6 +13293,18 @@ export type Query_Root = {
   events_aggregate: Events_Aggregate;
   /** fetch data from the table: "events" using primary key columns */
   events_by_pk?: Maybe<Events>;
+  /** fetch data from the table: "feud_old.game_room_rounds" */
+  feud_old_game_room_rounds: Array<Feud_Old_Game_Room_Rounds>;
+  /** fetch aggregated fields from the table: "feud_old.game_room_rounds" */
+  feud_old_game_room_rounds_aggregate: Feud_Old_Game_Room_Rounds_Aggregate;
+  /** fetch data from the table: "feud_old.game_room_rounds" using primary key columns */
+  feud_old_game_room_rounds_by_pk?: Maybe<Feud_Old_Game_Room_Rounds>;
+  /** fetch data from the table: "feud_old.game_rooms" */
+  feud_old_game_rooms: Array<Feud_Old_Game_Rooms>;
+  /** fetch aggregated fields from the table: "feud_old.game_rooms" */
+  feud_old_game_rooms_aggregate: Feud_Old_Game_Rooms_Aggregate;
+  /** fetch data from the table: "feud_old.game_rooms" using primary key columns */
+  feud_old_game_rooms_by_pk?: Maybe<Feud_Old_Game_Rooms>;
   /** fetch data from the table: "feud_old.games_old" */
   feud_old_games_old: Array<Feud_Old_Games_Old>;
   /** fetch aggregated fields from the table: "feud_old.games_old" */
@@ -11668,6 +13335,12 @@ export type Query_Root = {
   gameInformationOlympics_aggregate: GameInformationOlympics_Aggregate;
   /** fetch data from the table: "olympics.game_information" using primary key columns */
   gameInformationOlympics_by_pk?: Maybe<GameInformationOlympics>;
+  /** fetch data from the table: "game_information_self_hosted" */
+  gameInformationSelfHosted: Array<GameInformationSelfHosted>;
+  /** fetch aggregated fields from the table: "game_information_self_hosted" */
+  gameInformationSelfHosted_aggregate: GameInformationSelfHosted_Aggregate;
+  /** fetch data from the table: "game_information_self_hosted" using primary key columns */
+  gameInformationSelfHosted_by_pk?: Maybe<GameInformationSelfHosted>;
   /** fetch data from the table: "sketchWars.game_information_sketch_wars" */
   gameInformationSketchWars: Array<GameInformationSketchWars>;
   /** fetch aggregated fields from the table: "sketchWars.game_information_sketch_wars" */
@@ -12192,6 +13865,52 @@ export type Query_RootEvents_By_PkArgs = {
 };
 
 
+export type Query_RootFeud_Old_Game_Room_RoundsArgs = {
+  distinct_on?: InputMaybe<Array<Feud_Old_Game_Room_Rounds_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Feud_Old_Game_Room_Rounds_Order_By>>;
+  where?: InputMaybe<Feud_Old_Game_Room_Rounds_Bool_Exp>;
+};
+
+
+export type Query_RootFeud_Old_Game_Room_Rounds_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Feud_Old_Game_Room_Rounds_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Feud_Old_Game_Room_Rounds_Order_By>>;
+  where?: InputMaybe<Feud_Old_Game_Room_Rounds_Bool_Exp>;
+};
+
+
+export type Query_RootFeud_Old_Game_Room_Rounds_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type Query_RootFeud_Old_Game_RoomsArgs = {
+  distinct_on?: InputMaybe<Array<Feud_Old_Game_Rooms_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Feud_Old_Game_Rooms_Order_By>>;
+  where?: InputMaybe<Feud_Old_Game_Rooms_Bool_Exp>;
+};
+
+
+export type Query_RootFeud_Old_Game_Rooms_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Feud_Old_Game_Rooms_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Feud_Old_Game_Rooms_Order_By>>;
+  where?: InputMaybe<Feud_Old_Game_Rooms_Bool_Exp>;
+};
+
+
+export type Query_RootFeud_Old_Game_Rooms_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
 export type Query_RootFeud_Old_Games_OldArgs = {
   distinct_on?: InputMaybe<Array<Feud_Old_Games_Old_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -12304,6 +14023,29 @@ export type Query_RootGameInformationOlympics_AggregateArgs = {
 
 
 export type Query_RootGameInformationOlympics_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootGameInformationSelfHostedArgs = {
+  distinct_on?: InputMaybe<Array<GameInformationSelfHosted_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<GameInformationSelfHosted_Order_By>>;
+  where?: InputMaybe<GameInformationSelfHosted_Bool_Exp>;
+};
+
+
+export type Query_RootGameInformationSelfHosted_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<GameInformationSelfHosted_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<GameInformationSelfHosted_Order_By>>;
+  where?: InputMaybe<GameInformationSelfHosted_Bool_Exp>;
+};
+
+
+export type Query_RootGameInformationSelfHosted_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -13722,6 +15464,22 @@ export type Subscription_Root = {
   events_by_pk?: Maybe<Events>;
   /** fetch data from the table in a streaming manner: "events" */
   events_stream: Array<Events>;
+  /** fetch data from the table: "feud_old.game_room_rounds" */
+  feud_old_game_room_rounds: Array<Feud_Old_Game_Room_Rounds>;
+  /** fetch aggregated fields from the table: "feud_old.game_room_rounds" */
+  feud_old_game_room_rounds_aggregate: Feud_Old_Game_Room_Rounds_Aggregate;
+  /** fetch data from the table: "feud_old.game_room_rounds" using primary key columns */
+  feud_old_game_room_rounds_by_pk?: Maybe<Feud_Old_Game_Room_Rounds>;
+  /** fetch data from the table in a streaming manner: "feud_old.game_room_rounds" */
+  feud_old_game_room_rounds_stream: Array<Feud_Old_Game_Room_Rounds>;
+  /** fetch data from the table: "feud_old.game_rooms" */
+  feud_old_game_rooms: Array<Feud_Old_Game_Rooms>;
+  /** fetch aggregated fields from the table: "feud_old.game_rooms" */
+  feud_old_game_rooms_aggregate: Feud_Old_Game_Rooms_Aggregate;
+  /** fetch data from the table: "feud_old.game_rooms" using primary key columns */
+  feud_old_game_rooms_by_pk?: Maybe<Feud_Old_Game_Rooms>;
+  /** fetch data from the table in a streaming manner: "feud_old.game_rooms" */
+  feud_old_game_rooms_stream: Array<Feud_Old_Game_Rooms>;
   /** fetch data from the table: "feud_old.games_old" */
   feud_old_games_old: Array<Feud_Old_Games_Old>;
   /** fetch aggregated fields from the table: "feud_old.games_old" */
@@ -13762,6 +15520,14 @@ export type Subscription_Root = {
   gameInformationOlympics_by_pk?: Maybe<GameInformationOlympics>;
   /** fetch data from the table in a streaming manner: "olympics.game_information" */
   gameInformationOlympics_stream: Array<GameInformationOlympics>;
+  /** fetch data from the table: "game_information_self_hosted" */
+  gameInformationSelfHosted: Array<GameInformationSelfHosted>;
+  /** fetch aggregated fields from the table: "game_information_self_hosted" */
+  gameInformationSelfHosted_aggregate: GameInformationSelfHosted_Aggregate;
+  /** fetch data from the table: "game_information_self_hosted" using primary key columns */
+  gameInformationSelfHosted_by_pk?: Maybe<GameInformationSelfHosted>;
+  /** fetch data from the table in a streaming manner: "game_information_self_hosted" */
+  gameInformationSelfHosted_stream: Array<GameInformationSelfHosted>;
   /** fetch data from the table: "sketchWars.game_information_sketch_wars" */
   gameInformationSketchWars: Array<GameInformationSketchWars>;
   /** fetch aggregated fields from the table: "sketchWars.game_information_sketch_wars" */
@@ -14445,6 +16211,66 @@ export type Subscription_RootEvents_StreamArgs = {
 };
 
 
+export type Subscription_RootFeud_Old_Game_Room_RoundsArgs = {
+  distinct_on?: InputMaybe<Array<Feud_Old_Game_Room_Rounds_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Feud_Old_Game_Room_Rounds_Order_By>>;
+  where?: InputMaybe<Feud_Old_Game_Room_Rounds_Bool_Exp>;
+};
+
+
+export type Subscription_RootFeud_Old_Game_Room_Rounds_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Feud_Old_Game_Room_Rounds_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Feud_Old_Game_Room_Rounds_Order_By>>;
+  where?: InputMaybe<Feud_Old_Game_Room_Rounds_Bool_Exp>;
+};
+
+
+export type Subscription_RootFeud_Old_Game_Room_Rounds_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type Subscription_RootFeud_Old_Game_Room_Rounds_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Feud_Old_Game_Room_Rounds_Stream_Cursor_Input>>;
+  where?: InputMaybe<Feud_Old_Game_Room_Rounds_Bool_Exp>;
+};
+
+
+export type Subscription_RootFeud_Old_Game_RoomsArgs = {
+  distinct_on?: InputMaybe<Array<Feud_Old_Game_Rooms_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Feud_Old_Game_Rooms_Order_By>>;
+  where?: InputMaybe<Feud_Old_Game_Rooms_Bool_Exp>;
+};
+
+
+export type Subscription_RootFeud_Old_Game_Rooms_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Feud_Old_Game_Rooms_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Feud_Old_Game_Rooms_Order_By>>;
+  where?: InputMaybe<Feud_Old_Game_Rooms_Bool_Exp>;
+};
+
+
+export type Subscription_RootFeud_Old_Game_Rooms_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type Subscription_RootFeud_Old_Game_Rooms_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Feud_Old_Game_Rooms_Stream_Cursor_Input>>;
+  where?: InputMaybe<Feud_Old_Game_Rooms_Bool_Exp>;
+};
+
+
 export type Subscription_RootFeud_Old_Games_OldArgs = {
   distinct_on?: InputMaybe<Array<Feud_Old_Games_Old_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -14593,6 +16419,36 @@ export type Subscription_RootGameInformationOlympics_StreamArgs = {
   batch_size: Scalars['Int'];
   cursor: Array<InputMaybe<GameInformationOlympics_Stream_Cursor_Input>>;
   where?: InputMaybe<GameInformationOlympics_Bool_Exp>;
+};
+
+
+export type Subscription_RootGameInformationSelfHostedArgs = {
+  distinct_on?: InputMaybe<Array<GameInformationSelfHosted_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<GameInformationSelfHosted_Order_By>>;
+  where?: InputMaybe<GameInformationSelfHosted_Bool_Exp>;
+};
+
+
+export type Subscription_RootGameInformationSelfHosted_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<GameInformationSelfHosted_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<GameInformationSelfHosted_Order_By>>;
+  where?: InputMaybe<GameInformationSelfHosted_Bool_Exp>;
+};
+
+
+export type Subscription_RootGameInformationSelfHosted_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootGameInformationSelfHosted_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<GameInformationSelfHosted_Stream_Cursor_Input>>;
+  where?: InputMaybe<GameInformationSelfHosted_Bool_Exp>;
 };
 
 
@@ -15112,6 +16968,8 @@ export type Teams = {
   coHost?: Maybe<UserMetadata>;
   coHostId?: Maybe<Scalars['uuid']>;
   createdAt?: Maybe<Scalars['timestamptz']>;
+  /** An object relationship */
+  event: Events;
   eventId: Scalars['uuid'];
   /** An object relationship */
   host?: Maybe<UserMetadata>;
@@ -15260,6 +17118,7 @@ export type Teams_Bool_Exp = {
   coHost?: InputMaybe<UserMetadata_Bool_Exp>;
   coHostId?: InputMaybe<Uuid_Comparison_Exp>;
   createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+  event?: InputMaybe<Events_Bool_Exp>;
   eventId?: InputMaybe<Uuid_Comparison_Exp>;
   host?: InputMaybe<UserMetadata_Bool_Exp>;
   hostId?: InputMaybe<Uuid_Comparison_Exp>;
@@ -15294,6 +17153,7 @@ export type Teams_Insert_Input = {
   coHost?: InputMaybe<UserMetadata_Obj_Rel_Insert_Input>;
   coHostId?: InputMaybe<Scalars['uuid']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
+  event?: InputMaybe<Events_Obj_Rel_Insert_Input>;
   eventId?: InputMaybe<Scalars['uuid']>;
   host?: InputMaybe<UserMetadata_Obj_Rel_Insert_Input>;
   hostId?: InputMaybe<Scalars['uuid']>;
@@ -15394,6 +17254,7 @@ export type Teams_Order_By = {
   coHost?: InputMaybe<UserMetadata_Order_By>;
   coHostId?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
+  event?: InputMaybe<Events_Order_By>;
   eventId?: InputMaybe<Order_By>;
   host?: InputMaybe<UserMetadata_Order_By>;
   hostId?: InputMaybe<Order_By>;

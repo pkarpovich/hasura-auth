@@ -35,10 +35,23 @@ export interface Code {
   code: string;
 }
 
+export interface PlayerInterface {
+  id: string;
+  name: string;
+  index: number;
+}
+
+export interface SelfHostedTeamInterface {
+  id: string;
+  players: Array<PlayerInterface>;
+}
+
 export interface Event {
   id: string;
   gameType: string;
   codes: Code[];
+  status: string;
+  teams: Array<SelfHostedTeamInterface>;
 }
 
 export const getEventById = async (

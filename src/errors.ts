@@ -151,6 +151,26 @@ export const ERRORS = asErrors({
     status: StatusCodes.INTERNAL_SERVER_ERROR,
     message: 'Invalid event ID',
   },
+  'event-is-already-finished': {
+    status: StatusCodes.INTERNAL_SERVER_ERROR,
+    message: 'Event is already finished',
+  },
+  'lead-player-already-logged-in': {
+    status: StatusCodes.INTERNAL_SERVER_ERROR,
+    message: 'Lead player is already logged in',
+  },
+  'no-lead-player': {
+    status: StatusCodes.INTERNAL_SERVER_ERROR,
+    message: 'Lead Player is not logged in',
+  },
+  'no-slots': {
+    status: StatusCodes.INTERNAL_SERVER_ERROR,
+    message: 'No slots',
+  },
+  'name-already-in-use': {
+    status: StatusCodes.INTERNAL_SERVER_ERROR,
+    message: 'Name already in use',
+  },
   'invalid-code': {
     status: StatusCodes.INTERNAL_SERVER_ERROR,
     message: 'Invalid code or role',
