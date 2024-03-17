@@ -10,7 +10,9 @@ export const userHandler: RequestHandler = async (
   const { userId, eventRole } = req.auth as RequestAuth;
 
   const user = await getUser({ userId });
-  const userMetadata = await getUserProfile(user.email);
+  const userMetadata = user.email
+    ? await getUserProfile(user.email)
+    : undefined;
 
   return res.send({
     ...user,
