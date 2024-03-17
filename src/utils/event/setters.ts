@@ -40,7 +40,7 @@ export const InsertTeamPlayer = async ({
   eventId: string;
   team?: SelfHostedTeamInterface;
   name: string;
-}): Promise<void> => {
+}): Promise<{ id: string }> => {
   console.log(team);
   const teamId: string =
     team?.id ||

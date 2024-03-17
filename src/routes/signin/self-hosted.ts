@@ -71,7 +71,11 @@ export const signInSelfHostedHandler: RequestHandler<
     return sendError(res, 'name-already-in-use');
   }
 
-  await InsertTeamPlayer({ eventId, team: event.teams?.[0], name });
+  const { id: playerId } = await InsertTeamPlayer({
+    eventId,
+    team: event.teams?.[0],
+    name,
+  });
 
   // restructure user roles to be inserted in GraphQL mutation
   const userRoles = [{ role: 'anonymous' }];
@@ -85,7 +89,9 @@ export const signInSelfHostedHandler: RequestHandler<
     },
     defaultRole: 'anonymous',
     isAnonymous: true,
-    metadata: {},
+    metadata: {
+      playerId,
+    },
   });
 
   const signInTokens = await getSignInResponse({
