@@ -151,9 +151,9 @@ export const ERRORS = asErrors({
     status: StatusCodes.INTERNAL_SERVER_ERROR,
     message: 'Invalid event ID',
   },
-  'event-is-already-finished': {
+  'event-is-already-started': {
     status: StatusCodes.INTERNAL_SERVER_ERROR,
-    message: 'Event is already finished',
+    message: 'Event is already started',
   },
   'lead-player-already-logged-in': {
     status: StatusCodes.INTERNAL_SERVER_ERROR,

@@ -10,8 +10,15 @@ export interface InsertTeamRequestQueryVariables {
 }
 
 export const InsertTeamRequestDocument = () => gql`
-  mutation MyMutation($teamData: teams_insert_input!) {
+  mutation MyMutation(
+    $teamData: teams_insert_input!
+    $eventId: uuid!
+    $eventUpdates: events_set_input
+  ) {
     createdTeam: insert_teams_one(object: $teamData) {
+      id
+    }
+    update_events_by_pk(pk_columns: { id: $eventId }, _set: $eventUpdates) {
       id
     }
   }
@@ -41,7 +48,6 @@ export const InsertTeamPlayer = async ({
   team?: SelfHostedTeamInterface;
   name: string;
 }): Promise<{ id: string }> => {
-  console.log(team);
   const teamId: string =
     team?.id ||
     (await client
@@ -51,9 +57,12 @@ export const InsertTeamPlayer = async ({
           index: 0,
           eventId,
         },
+        eventId,
+        eventUpdates: {
+          date: new Date(),
+        },
       })
       .then((res) => res.createdTeam.id as string));
-  console.log(teamId);
   const res = await client.request(InsertPlayerRequestDocument(), {
     playerData: {
       name,

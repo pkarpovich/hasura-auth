@@ -47,8 +47,8 @@ export const signInSelfHostedHandler: RequestHandler<
     return sendError(res, 'invalid-code');
   }
 
-  if (event.status === 'completed') {
-    return sendError(res, 'event-is-already-finished');
+  if (event.status === 'completed' || event.status === 'ongoing') {
+    return sendError(res, 'event-is-already-started');
   }
 
   if (expectedRole === 'leadPlayer' && event.teams?.[0]?.players?.length) {
