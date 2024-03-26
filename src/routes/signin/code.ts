@@ -50,7 +50,7 @@ export const signInCodeHandler: RequestHandler<
     return sendError(res, 'invalid-code');
   }
 
-  if (expectedRole === 'host') {
+  if (expectedRole === 'host' || expectedRole === 'coHost') {
     switch (event.status) {
       case 'upcoming':
         if (!event.hosts.find((host) => host.status !== 'SCHEDULED'))
