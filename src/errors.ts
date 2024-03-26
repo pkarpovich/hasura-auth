@@ -151,6 +151,21 @@ export const ERRORS = asErrors({
     status: StatusCodes.INTERNAL_SERVER_ERROR,
     message: 'Invalid event ID',
   },
+  'event-is-not-started': {
+    status: StatusCodes.INTERNAL_SERVER_ERROR,
+    message:
+      'This event is not active yet. Please check back 15 minutes before the scheduled start time. If you need help, shout to your nearest Runaway admin.',
+  },
+  'event-is-already-finished': {
+    status: StatusCodes.INTERNAL_SERVER_ERROR,
+    message:
+      'This event has ended. If you need help, shout to your nearest Runaway admin.',
+  },
+  'event-is-expired': {
+    status: StatusCodes.INTERNAL_SERVER_ERROR,
+    message:
+      'This event has expired. If you need help, shout to your nearest Runaway admin.',
+  },
   'event-is-already-started': {
     status: StatusCodes.INTERNAL_SERVER_ERROR,
     message: 'Event is already started',
@@ -178,6 +193,10 @@ export const ERRORS = asErrors({
   'invalid-game-permission': {
     status: StatusCodes.INTERNAL_SERVER_ERROR,
     message: 'User does not have permission to access this game',
+  },
+  'test-error': {
+    status: StatusCodes.INTERNAL_SERVER_ERROR,
+    message: 'Test error',
   },
 });
 

@@ -29,6 +29,10 @@ export const GetEventByIdRequestDocument = (
           index
         }
       }
+      hosts {
+        role
+        status
+      }
     }
   }
 `;
@@ -61,6 +65,10 @@ export interface Event {
   codes: Code[];
   status: string;
   teams: Array<SelfHostedTeamInterface>;
+  hosts: Array<{
+    role: string;
+    status: string;
+  }>;
 }
 
 export const getEventById = async (

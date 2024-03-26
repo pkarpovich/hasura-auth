@@ -50,6 +50,21 @@ export const signInCodeHandler: RequestHandler<
     return sendError(res, 'invalid-code');
   }
 
+  if (expectedRole === 'host') {
+    switch (event.status) {
+      case 'upcoming':
+        if (!event.hosts.find((host) => host.status !== 'SCHEDULED'))
+          return sendError(res, 'event-is-not-started');
+        break;
+      case 'completed':
+        return sendError(res, 'event-is-already-finished');
+      case 'expired':
+        return sendError(res, 'event-is-expired');
+      default:
+        break;
+    }
+  }
+
   const isUserGrantedForEvent = userMetadata.isActiveHost;
 
   if (!isUserGrantedForEvent) {

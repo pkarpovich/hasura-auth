@@ -4239,6 +4239,10 @@ export type Events = {
   matchups_aggregate: Feud_Old_Game_Rooms_Aggregate;
   notes?: Maybe<Scalars['String']>;
   notionId?: Maybe<Scalars['String']>;
+  /** An array relationship */
+  reviews: Array<Reviews>;
+  /** An aggregate relationship */
+  reviews_aggregate: Reviews_Aggregate;
   /** An object relationship */
   source?: Maybe<Sources>;
   sourceId?: Maybe<Scalars['uuid']>;
@@ -4320,6 +4324,26 @@ export type EventsMatchups_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Feud_Old_Game_Rooms_Order_By>>;
   where?: InputMaybe<Feud_Old_Game_Rooms_Bool_Exp>;
+};
+
+
+/** columns and relationships of "events" */
+export type EventsReviewsArgs = {
+  distinct_on?: InputMaybe<Array<Reviews_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Reviews_Order_By>>;
+  where?: InputMaybe<Reviews_Bool_Exp>;
+};
+
+
+/** columns and relationships of "events" */
+export type EventsReviews_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Reviews_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Reviews_Order_By>>;
+  where?: InputMaybe<Reviews_Bool_Exp>;
 };
 
 
@@ -4440,6 +4464,8 @@ export type Events_Bool_Exp = {
   matchups_aggregate?: InputMaybe<Feud_Old_Game_Rooms_Aggregate_Bool_Exp>;
   notes?: InputMaybe<String_Comparison_Exp>;
   notionId?: InputMaybe<String_Comparison_Exp>;
+  reviews?: InputMaybe<Reviews_Bool_Exp>;
+  reviews_aggregate?: InputMaybe<Reviews_Aggregate_Bool_Exp>;
   source?: InputMaybe<Sources_Bool_Exp>;
   sourceId?: InputMaybe<Uuid_Comparison_Exp>;
   sourceManualId?: InputMaybe<String_Comparison_Exp>;
@@ -4504,6 +4530,7 @@ export type Events_Insert_Input = {
   matchups?: InputMaybe<Feud_Old_Game_Rooms_Arr_Rel_Insert_Input>;
   notes?: InputMaybe<Scalars['String']>;
   notionId?: InputMaybe<Scalars['String']>;
+  reviews?: InputMaybe<Reviews_Arr_Rel_Insert_Input>;
   source?: InputMaybe<Sources_Obj_Rel_Insert_Input>;
   sourceId?: InputMaybe<Scalars['uuid']>;
   sourceManualId?: InputMaybe<Scalars['String']>;
@@ -4644,6 +4671,7 @@ export type Events_Order_By = {
   matchups_aggregate?: InputMaybe<Feud_Old_Game_Rooms_Aggregate_Order_By>;
   notes?: InputMaybe<Order_By>;
   notionId?: InputMaybe<Order_By>;
+  reviews_aggregate?: InputMaybe<Reviews_Aggregate_Order_By>;
   source?: InputMaybe<Sources_Order_By>;
   sourceId?: InputMaybe<Order_By>;
   sourceManualId?: InputMaybe<Order_By>;
@@ -9628,6 +9656,18 @@ export type Mutation_Root = {
   delete_resources?: Maybe<Resources_Mutation_Response>;
   /** delete single row from the table: "resources" */
   delete_resources_by_pk?: Maybe<Resources>;
+  /** delete data from the table: "reviewHosts" */
+  delete_reviewHosts?: Maybe<ReviewHosts_Mutation_Response>;
+  /** delete single row from the table: "reviewHosts" */
+  delete_reviewHosts_by_pk?: Maybe<ReviewHosts>;
+  /** delete data from the table: "review_sources" */
+  delete_reviewSources?: Maybe<ReviewSources_Mutation_Response>;
+  /** delete single row from the table: "review_sources" */
+  delete_reviewSources_by_pk?: Maybe<ReviewSources>;
+  /** delete data from the table: "reviews" */
+  delete_reviews?: Maybe<Reviews_Mutation_Response>;
+  /** delete single row from the table: "reviews" */
+  delete_reviews_by_pk?: Maybe<Reviews>;
   /** delete data from the table: "sources" */
   delete_sources?: Maybe<Sources_Mutation_Response>;
   /** delete single row from the table: "sources" */
@@ -9800,6 +9840,18 @@ export type Mutation_Root = {
   insert_resources?: Maybe<Resources_Mutation_Response>;
   /** insert a single row into the table: "resources" */
   insert_resources_one?: Maybe<Resources>;
+  /** insert data into the table: "reviewHosts" */
+  insert_reviewHosts?: Maybe<ReviewHosts_Mutation_Response>;
+  /** insert a single row into the table: "reviewHosts" */
+  insert_reviewHosts_one?: Maybe<ReviewHosts>;
+  /** insert data into the table: "review_sources" */
+  insert_reviewSources?: Maybe<ReviewSources_Mutation_Response>;
+  /** insert a single row into the table: "review_sources" */
+  insert_reviewSources_one?: Maybe<ReviewSources>;
+  /** insert data into the table: "reviews" */
+  insert_reviews?: Maybe<Reviews_Mutation_Response>;
+  /** insert a single row into the table: "reviews" */
+  insert_reviews_one?: Maybe<Reviews>;
   /** insert data into the table: "sources" */
   insert_sources?: Maybe<Sources_Mutation_Response>;
   /** insert a single row into the table: "sources" */
@@ -10049,6 +10101,24 @@ export type Mutation_Root = {
   update_resources_by_pk?: Maybe<Resources>;
   /** update multiples rows of table: "resources" */
   update_resources_many?: Maybe<Array<Maybe<Resources_Mutation_Response>>>;
+  /** update data of the table: "reviewHosts" */
+  update_reviewHosts?: Maybe<ReviewHosts_Mutation_Response>;
+  /** update single row of the table: "reviewHosts" */
+  update_reviewHosts_by_pk?: Maybe<ReviewHosts>;
+  /** update multiples rows of table: "reviewHosts" */
+  update_reviewHosts_many?: Maybe<Array<Maybe<ReviewHosts_Mutation_Response>>>;
+  /** update data of the table: "review_sources" */
+  update_reviewSources?: Maybe<ReviewSources_Mutation_Response>;
+  /** update single row of the table: "review_sources" */
+  update_reviewSources_by_pk?: Maybe<ReviewSources>;
+  /** update multiples rows of table: "review_sources" */
+  update_reviewSources_many?: Maybe<Array<Maybe<ReviewSources_Mutation_Response>>>;
+  /** update data of the table: "reviews" */
+  update_reviews?: Maybe<Reviews_Mutation_Response>;
+  /** update single row of the table: "reviews" */
+  update_reviews_by_pk?: Maybe<Reviews>;
+  /** update multiples rows of table: "reviews" */
+  update_reviews_many?: Maybe<Array<Maybe<Reviews_Mutation_Response>>>;
   /** update data of the table: "sources" */
   update_sources?: Maybe<Sources_Mutation_Response>;
   /** update single row of the table: "sources" */
@@ -10547,6 +10617,42 @@ export type Mutation_RootDelete_ResourcesArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Resources_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_ReviewHostsArgs = {
+  where: ReviewHosts_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_ReviewHosts_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_ReviewSourcesArgs = {
+  where: ReviewSources_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_ReviewSources_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_ReviewsArgs = {
+  where: Reviews_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Reviews_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -11142,6 +11248,48 @@ export type Mutation_RootInsert_ResourcesArgs = {
 export type Mutation_RootInsert_Resources_OneArgs = {
   object: Resources_Insert_Input;
   on_conflict?: InputMaybe<Resources_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_ReviewHostsArgs = {
+  objects: Array<ReviewHosts_Insert_Input>;
+  on_conflict?: InputMaybe<ReviewHosts_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_ReviewHosts_OneArgs = {
+  object: ReviewHosts_Insert_Input;
+  on_conflict?: InputMaybe<ReviewHosts_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_ReviewSourcesArgs = {
+  objects: Array<ReviewSources_Insert_Input>;
+  on_conflict?: InputMaybe<ReviewSources_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_ReviewSources_OneArgs = {
+  object: ReviewSources_Insert_Input;
+  on_conflict?: InputMaybe<ReviewSources_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_ReviewsArgs = {
+  objects: Array<Reviews_Insert_Input>;
+  on_conflict?: InputMaybe<Reviews_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Reviews_OneArgs = {
+  object: Reviews_Insert_Input;
+  on_conflict?: InputMaybe<Reviews_On_Conflict>;
 };
 
 
@@ -12042,6 +12190,68 @@ export type Mutation_RootUpdate_Resources_ManyArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_ReviewHostsArgs = {
+  _set?: InputMaybe<ReviewHosts_Set_Input>;
+  where: ReviewHosts_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_ReviewHosts_By_PkArgs = {
+  _set?: InputMaybe<ReviewHosts_Set_Input>;
+  pk_columns: ReviewHosts_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_ReviewHosts_ManyArgs = {
+  updates: Array<ReviewHosts_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_ReviewSourcesArgs = {
+  _set?: InputMaybe<ReviewSources_Set_Input>;
+  where: ReviewSources_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_ReviewSources_By_PkArgs = {
+  _set?: InputMaybe<ReviewSources_Set_Input>;
+  pk_columns: ReviewSources_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_ReviewSources_ManyArgs = {
+  updates: Array<ReviewSources_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_ReviewsArgs = {
+  _inc?: InputMaybe<Reviews_Inc_Input>;
+  _set?: InputMaybe<Reviews_Set_Input>;
+  where: Reviews_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Reviews_By_PkArgs = {
+  _inc?: InputMaybe<Reviews_Inc_Input>;
+  _set?: InputMaybe<Reviews_Set_Input>;
+  pk_columns: Reviews_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Reviews_ManyArgs = {
+  updates: Array<Reviews_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_SourcesArgs = {
   _set?: InputMaybe<Sources_Set_Input>;
   where: Sources_Bool_Exp;
@@ -12866,6 +13076,11 @@ export type Players = {
   id: Scalars['uuid'];
   index?: Maybe<Scalars['Int']>;
   name: Scalars['String'];
+  result?: Maybe<Scalars['Int']>;
+  /** An object relationship */
+  review?: Maybe<Reviews>;
+  /** An object relationship */
+  team: Teams;
   teamId: Scalars['uuid'];
 };
 
@@ -12936,11 +13151,13 @@ export type Players_Arr_Rel_Insert_Input = {
 export type Players_Avg_Fields = {
   __typename?: 'players_avg_fields';
   index?: Maybe<Scalars['Float']>;
+  result?: Maybe<Scalars['Float']>;
 };
 
 /** order by avg() on columns of table "players" */
 export type Players_Avg_Order_By = {
   index?: InputMaybe<Order_By>;
+  result?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "players". All fields are combined with a logical 'AND'. */
@@ -12952,6 +13169,9 @@ export type Players_Bool_Exp = {
   id?: InputMaybe<Uuid_Comparison_Exp>;
   index?: InputMaybe<Int_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
+  result?: InputMaybe<Int_Comparison_Exp>;
+  review?: InputMaybe<Reviews_Bool_Exp>;
+  team?: InputMaybe<Teams_Bool_Exp>;
   teamId?: InputMaybe<Uuid_Comparison_Exp>;
 };
 
@@ -12964,6 +13184,7 @@ export enum Players_Constraint {
 /** input type for incrementing numeric columns in table "players" */
 export type Players_Inc_Input = {
   index?: InputMaybe<Scalars['Int']>;
+  result?: InputMaybe<Scalars['Int']>;
 };
 
 /** input type for inserting data into table "players" */
@@ -12972,6 +13193,9 @@ export type Players_Insert_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   index?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
+  result?: InputMaybe<Scalars['Int']>;
+  review?: InputMaybe<Reviews_Obj_Rel_Insert_Input>;
+  team?: InputMaybe<Teams_Obj_Rel_Insert_Input>;
   teamId?: InputMaybe<Scalars['uuid']>;
 };
 
@@ -12982,6 +13206,7 @@ export type Players_Max_Fields = {
   id?: Maybe<Scalars['uuid']>;
   index?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
+  result?: Maybe<Scalars['Int']>;
   teamId?: Maybe<Scalars['uuid']>;
 };
 
@@ -12991,6 +13216,7 @@ export type Players_Max_Order_By = {
   id?: InputMaybe<Order_By>;
   index?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
+  result?: InputMaybe<Order_By>;
   teamId?: InputMaybe<Order_By>;
 };
 
@@ -13001,6 +13227,7 @@ export type Players_Min_Fields = {
   id?: Maybe<Scalars['uuid']>;
   index?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
+  result?: Maybe<Scalars['Int']>;
   teamId?: Maybe<Scalars['uuid']>;
 };
 
@@ -13010,6 +13237,7 @@ export type Players_Min_Order_By = {
   id?: InputMaybe<Order_By>;
   index?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
+  result?: InputMaybe<Order_By>;
   teamId?: InputMaybe<Order_By>;
 };
 
@@ -13035,6 +13263,9 @@ export type Players_Order_By = {
   id?: InputMaybe<Order_By>;
   index?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
+  result?: InputMaybe<Order_By>;
+  review?: InputMaybe<Reviews_Order_By>;
+  team?: InputMaybe<Teams_Order_By>;
   teamId?: InputMaybe<Order_By>;
 };
 
@@ -13054,6 +13285,8 @@ export enum Players_Select_Column {
   /** column name */
   Name = 'name',
   /** column name */
+  Result = 'result',
+  /** column name */
   TeamId = 'teamId'
 }
 
@@ -13063,6 +13296,7 @@ export type Players_Set_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   index?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
+  result?: InputMaybe<Scalars['Int']>;
   teamId?: InputMaybe<Scalars['uuid']>;
 };
 
@@ -13070,33 +13304,39 @@ export type Players_Set_Input = {
 export type Players_Stddev_Fields = {
   __typename?: 'players_stddev_fields';
   index?: Maybe<Scalars['Float']>;
+  result?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev() on columns of table "players" */
 export type Players_Stddev_Order_By = {
   index?: InputMaybe<Order_By>;
+  result?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Players_Stddev_Pop_Fields = {
   __typename?: 'players_stddev_pop_fields';
   index?: Maybe<Scalars['Float']>;
+  result?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_pop() on columns of table "players" */
 export type Players_Stddev_Pop_Order_By = {
   index?: InputMaybe<Order_By>;
+  result?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Players_Stddev_Samp_Fields = {
   __typename?: 'players_stddev_samp_fields';
   index?: Maybe<Scalars['Float']>;
+  result?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_samp() on columns of table "players" */
 export type Players_Stddev_Samp_Order_By = {
   index?: InputMaybe<Order_By>;
+  result?: InputMaybe<Order_By>;
 };
 
 /** Streaming cursor of the table "players" */
@@ -13113,6 +13353,7 @@ export type Players_Stream_Cursor_Value_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   index?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
+  result?: InputMaybe<Scalars['Int']>;
   teamId?: InputMaybe<Scalars['uuid']>;
 };
 
@@ -13120,11 +13361,13 @@ export type Players_Stream_Cursor_Value_Input = {
 export type Players_Sum_Fields = {
   __typename?: 'players_sum_fields';
   index?: Maybe<Scalars['Int']>;
+  result?: Maybe<Scalars['Int']>;
 };
 
 /** order by sum() on columns of table "players" */
 export type Players_Sum_Order_By = {
   index?: InputMaybe<Order_By>;
+  result?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "players" */
@@ -13137,6 +13380,8 @@ export enum Players_Update_Column {
   Index = 'index',
   /** column name */
   Name = 'name',
+  /** column name */
+  Result = 'result',
   /** column name */
   TeamId = 'teamId'
 }
@@ -13154,33 +13399,39 @@ export type Players_Updates = {
 export type Players_Var_Pop_Fields = {
   __typename?: 'players_var_pop_fields';
   index?: Maybe<Scalars['Float']>;
+  result?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_pop() on columns of table "players" */
 export type Players_Var_Pop_Order_By = {
   index?: InputMaybe<Order_By>;
+  result?: InputMaybe<Order_By>;
 };
 
 /** aggregate var_samp on columns */
 export type Players_Var_Samp_Fields = {
   __typename?: 'players_var_samp_fields';
   index?: Maybe<Scalars['Float']>;
+  result?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_samp() on columns of table "players" */
 export type Players_Var_Samp_Order_By = {
   index?: InputMaybe<Order_By>;
+  result?: InputMaybe<Order_By>;
 };
 
 /** aggregate variance on columns */
 export type Players_Variance_Fields = {
   __typename?: 'players_variance_fields';
   index?: Maybe<Scalars['Float']>;
+  result?: Maybe<Scalars['Float']>;
 };
 
 /** order by variance() on columns of table "players" */
 export type Players_Variance_Order_By = {
   index?: InputMaybe<Order_By>;
+  result?: InputMaybe<Order_By>;
 };
 
 export type Query_Root = {
@@ -13413,6 +13664,24 @@ export type Query_Root = {
   resources_aggregate: Resources_Aggregate;
   /** fetch data from the table: "resources" using primary key columns */
   resources_by_pk?: Maybe<Resources>;
+  /** fetch data from the table: "reviewHosts" */
+  reviewHosts: Array<ReviewHosts>;
+  /** fetch aggregated fields from the table: "reviewHosts" */
+  reviewHosts_aggregate: ReviewHosts_Aggregate;
+  /** fetch data from the table: "reviewHosts" using primary key columns */
+  reviewHosts_by_pk?: Maybe<ReviewHosts>;
+  /** fetch data from the table: "review_sources" */
+  reviewSources: Array<ReviewSources>;
+  /** fetch aggregated fields from the table: "review_sources" */
+  reviewSources_aggregate: ReviewSources_Aggregate;
+  /** fetch data from the table: "review_sources" using primary key columns */
+  reviewSources_by_pk?: Maybe<ReviewSources>;
+  /** An array relationship */
+  reviews: Array<Reviews>;
+  /** An aggregate relationship */
+  reviews_aggregate: Reviews_Aggregate;
+  /** fetch data from the table: "reviews" using primary key columns */
+  reviews_by_pk?: Maybe<Reviews>;
   /** fetch data from the table: "sources" */
   sources: Array<Sources>;
   /** fetch aggregated fields from the table: "sources" */
@@ -14326,6 +14595,75 @@ export type Query_RootResources_By_PkArgs = {
 };
 
 
+export type Query_RootReviewHostsArgs = {
+  distinct_on?: InputMaybe<Array<ReviewHosts_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<ReviewHosts_Order_By>>;
+  where?: InputMaybe<ReviewHosts_Bool_Exp>;
+};
+
+
+export type Query_RootReviewHosts_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<ReviewHosts_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<ReviewHosts_Order_By>>;
+  where?: InputMaybe<ReviewHosts_Bool_Exp>;
+};
+
+
+export type Query_RootReviewHosts_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootReviewSourcesArgs = {
+  distinct_on?: InputMaybe<Array<ReviewSources_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<ReviewSources_Order_By>>;
+  where?: InputMaybe<ReviewSources_Bool_Exp>;
+};
+
+
+export type Query_RootReviewSources_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<ReviewSources_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<ReviewSources_Order_By>>;
+  where?: InputMaybe<ReviewSources_Bool_Exp>;
+};
+
+
+export type Query_RootReviewSources_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootReviewsArgs = {
+  distinct_on?: InputMaybe<Array<Reviews_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Reviews_Order_By>>;
+  where?: InputMaybe<Reviews_Bool_Exp>;
+};
+
+
+export type Query_RootReviews_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Reviews_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Reviews_Order_By>>;
+  where?: InputMaybe<Reviews_Bool_Exp>;
+};
+
+
+export type Query_RootReviews_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
 export type Query_RootSourcesArgs = {
   distinct_on?: InputMaybe<Array<Sources_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -15145,6 +15483,765 @@ export type Resources_Updates = {
   where: Resources_Bool_Exp;
 };
 
+/** columns and relationships of "reviewHosts" */
+export type ReviewHosts = {
+  __typename?: 'reviewHosts';
+  hostId: Scalars['uuid'];
+  id: Scalars['uuid'];
+  /** An object relationship */
+  review?: Maybe<Reviews>;
+  reviewId: Scalars['uuid'];
+  /** An object relationship */
+  user?: Maybe<UserMetadata>;
+};
+
+/** aggregated selection of "reviewHosts" */
+export type ReviewHosts_Aggregate = {
+  __typename?: 'reviewHosts_aggregate';
+  aggregate?: Maybe<ReviewHosts_Aggregate_Fields>;
+  nodes: Array<ReviewHosts>;
+};
+
+export type ReviewHosts_Aggregate_Bool_Exp = {
+  count?: InputMaybe<ReviewHosts_Aggregate_Bool_Exp_Count>;
+};
+
+export type ReviewHosts_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<ReviewHosts_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<ReviewHosts_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
+/** aggregate fields of "reviewHosts" */
+export type ReviewHosts_Aggregate_Fields = {
+  __typename?: 'reviewHosts_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<ReviewHosts_Max_Fields>;
+  min?: Maybe<ReviewHosts_Min_Fields>;
+};
+
+
+/** aggregate fields of "reviewHosts" */
+export type ReviewHosts_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<ReviewHosts_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "reviewHosts" */
+export type ReviewHosts_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<ReviewHosts_Max_Order_By>;
+  min?: InputMaybe<ReviewHosts_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "reviewHosts" */
+export type ReviewHosts_Arr_Rel_Insert_Input = {
+  data: Array<ReviewHosts_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<ReviewHosts_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "reviewHosts". All fields are combined with a logical 'AND'. */
+export type ReviewHosts_Bool_Exp = {
+  _and?: InputMaybe<Array<ReviewHosts_Bool_Exp>>;
+  _not?: InputMaybe<ReviewHosts_Bool_Exp>;
+  _or?: InputMaybe<Array<ReviewHosts_Bool_Exp>>;
+  hostId?: InputMaybe<Uuid_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  review?: InputMaybe<Reviews_Bool_Exp>;
+  reviewId?: InputMaybe<Uuid_Comparison_Exp>;
+  user?: InputMaybe<UserMetadata_Bool_Exp>;
+};
+
+/** unique or primary key constraints on table "reviewHosts" */
+export enum ReviewHosts_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  ReviewHostsPkey = 'reviewHosts_pkey'
+}
+
+/** input type for inserting data into table "reviewHosts" */
+export type ReviewHosts_Insert_Input = {
+  hostId?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  review?: InputMaybe<Reviews_Obj_Rel_Insert_Input>;
+  reviewId?: InputMaybe<Scalars['uuid']>;
+  user?: InputMaybe<UserMetadata_Obj_Rel_Insert_Input>;
+};
+
+/** aggregate max on columns */
+export type ReviewHosts_Max_Fields = {
+  __typename?: 'reviewHosts_max_fields';
+  hostId?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  reviewId?: Maybe<Scalars['uuid']>;
+};
+
+/** order by max() on columns of table "reviewHosts" */
+export type ReviewHosts_Max_Order_By = {
+  hostId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  reviewId?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type ReviewHosts_Min_Fields = {
+  __typename?: 'reviewHosts_min_fields';
+  hostId?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  reviewId?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "reviewHosts" */
+export type ReviewHosts_Min_Order_By = {
+  hostId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  reviewId?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "reviewHosts" */
+export type ReviewHosts_Mutation_Response = {
+  __typename?: 'reviewHosts_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<ReviewHosts>;
+};
+
+/** on_conflict condition type for table "reviewHosts" */
+export type ReviewHosts_On_Conflict = {
+  constraint: ReviewHosts_Constraint;
+  update_columns?: Array<ReviewHosts_Update_Column>;
+  where?: InputMaybe<ReviewHosts_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "reviewHosts". */
+export type ReviewHosts_Order_By = {
+  hostId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  review?: InputMaybe<Reviews_Order_By>;
+  reviewId?: InputMaybe<Order_By>;
+  user?: InputMaybe<UserMetadata_Order_By>;
+};
+
+/** primary key columns input for table: reviewHosts */
+export type ReviewHosts_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "reviewHosts" */
+export enum ReviewHosts_Select_Column {
+  /** column name */
+  HostId = 'hostId',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  ReviewId = 'reviewId'
+}
+
+/** input type for updating data in table "reviewHosts" */
+export type ReviewHosts_Set_Input = {
+  hostId?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  reviewId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** Streaming cursor of the table "reviewHosts" */
+export type ReviewHosts_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: ReviewHosts_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type ReviewHosts_Stream_Cursor_Value_Input = {
+  hostId?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  reviewId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** update columns of table "reviewHosts" */
+export enum ReviewHosts_Update_Column {
+  /** column name */
+  HostId = 'hostId',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  ReviewId = 'reviewId'
+}
+
+export type ReviewHosts_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<ReviewHosts_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: ReviewHosts_Bool_Exp;
+};
+
+/** columns and relationships of "review_sources" */
+export type ReviewSources = {
+  __typename?: 'reviewSources';
+  deleted_at?: Maybe<Scalars['timestamptz']>;
+  id: Scalars['uuid'];
+  name: Scalars['String'];
+};
+
+/** aggregated selection of "review_sources" */
+export type ReviewSources_Aggregate = {
+  __typename?: 'reviewSources_aggregate';
+  aggregate?: Maybe<ReviewSources_Aggregate_Fields>;
+  nodes: Array<ReviewSources>;
+};
+
+/** aggregate fields of "review_sources" */
+export type ReviewSources_Aggregate_Fields = {
+  __typename?: 'reviewSources_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<ReviewSources_Max_Fields>;
+  min?: Maybe<ReviewSources_Min_Fields>;
+};
+
+
+/** aggregate fields of "review_sources" */
+export type ReviewSources_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<ReviewSources_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "review_sources". All fields are combined with a logical 'AND'. */
+export type ReviewSources_Bool_Exp = {
+  _and?: InputMaybe<Array<ReviewSources_Bool_Exp>>;
+  _not?: InputMaybe<ReviewSources_Bool_Exp>;
+  _or?: InputMaybe<Array<ReviewSources_Bool_Exp>>;
+  deleted_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "review_sources" */
+export enum ReviewSources_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  ReviewSourcesPkey = 'review_sources_pkey'
+}
+
+/** input type for inserting data into table "review_sources" */
+export type ReviewSources_Insert_Input = {
+  deleted_at?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type ReviewSources_Max_Fields = {
+  __typename?: 'reviewSources_max_fields';
+  deleted_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type ReviewSources_Min_Fields = {
+  __typename?: 'reviewSources_min_fields';
+  deleted_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "review_sources" */
+export type ReviewSources_Mutation_Response = {
+  __typename?: 'reviewSources_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<ReviewSources>;
+};
+
+/** input type for inserting object relation for remote table "review_sources" */
+export type ReviewSources_Obj_Rel_Insert_Input = {
+  data: ReviewSources_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<ReviewSources_On_Conflict>;
+};
+
+/** on_conflict condition type for table "review_sources" */
+export type ReviewSources_On_Conflict = {
+  constraint: ReviewSources_Constraint;
+  update_columns?: Array<ReviewSources_Update_Column>;
+  where?: InputMaybe<ReviewSources_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "review_sources". */
+export type ReviewSources_Order_By = {
+  deleted_at?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: review_sources */
+export type ReviewSources_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "review_sources" */
+export enum ReviewSources_Select_Column {
+  /** column name */
+  DeletedAt = 'deleted_at',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name'
+}
+
+/** input type for updating data in table "review_sources" */
+export type ReviewSources_Set_Input = {
+  deleted_at?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
+/** Streaming cursor of the table "reviewSources" */
+export type ReviewSources_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: ReviewSources_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type ReviewSources_Stream_Cursor_Value_Input = {
+  deleted_at?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "review_sources" */
+export enum ReviewSources_Update_Column {
+  /** column name */
+  DeletedAt = 'deleted_at',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name'
+}
+
+export type ReviewSources_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<ReviewSources_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: ReviewSources_Bool_Exp;
+};
+
+/** columns and relationships of "reviews" */
+export type Reviews = {
+  __typename?: 'reviews';
+  comment?: Maybe<Scalars['String']>;
+  createdAt: Scalars['timestamptz'];
+  /** An object relationship */
+  event?: Maybe<Events>;
+  eventId: Scalars['uuid'];
+  /** An array relationship */
+  hosts: Array<ReviewHosts>;
+  /** An aggregate relationship */
+  hosts_aggregate: ReviewHosts_Aggregate;
+  id: Scalars['uuid'];
+  person?: Maybe<Scalars['String']>;
+  playerId?: Maybe<Scalars['uuid']>;
+  /** An object relationship */
+  reviewSource?: Maybe<ReviewSources>;
+  reviewSourceId?: Maybe<Scalars['uuid']>;
+  score: Scalars['Int'];
+};
+
+
+/** columns and relationships of "reviews" */
+export type ReviewsHostsArgs = {
+  distinct_on?: InputMaybe<Array<ReviewHosts_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<ReviewHosts_Order_By>>;
+  where?: InputMaybe<ReviewHosts_Bool_Exp>;
+};
+
+
+/** columns and relationships of "reviews" */
+export type ReviewsHosts_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<ReviewHosts_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<ReviewHosts_Order_By>>;
+  where?: InputMaybe<ReviewHosts_Bool_Exp>;
+};
+
+/** aggregated selection of "reviews" */
+export type Reviews_Aggregate = {
+  __typename?: 'reviews_aggregate';
+  aggregate?: Maybe<Reviews_Aggregate_Fields>;
+  nodes: Array<Reviews>;
+};
+
+export type Reviews_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Reviews_Aggregate_Bool_Exp_Count>;
+};
+
+export type Reviews_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Reviews_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Reviews_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
+/** aggregate fields of "reviews" */
+export type Reviews_Aggregate_Fields = {
+  __typename?: 'reviews_aggregate_fields';
+  avg?: Maybe<Reviews_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Reviews_Max_Fields>;
+  min?: Maybe<Reviews_Min_Fields>;
+  stddev?: Maybe<Reviews_Stddev_Fields>;
+  stddev_pop?: Maybe<Reviews_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Reviews_Stddev_Samp_Fields>;
+  sum?: Maybe<Reviews_Sum_Fields>;
+  var_pop?: Maybe<Reviews_Var_Pop_Fields>;
+  var_samp?: Maybe<Reviews_Var_Samp_Fields>;
+  variance?: Maybe<Reviews_Variance_Fields>;
+};
+
+
+/** aggregate fields of "reviews" */
+export type Reviews_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Reviews_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "reviews" */
+export type Reviews_Aggregate_Order_By = {
+  avg?: InputMaybe<Reviews_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Reviews_Max_Order_By>;
+  min?: InputMaybe<Reviews_Min_Order_By>;
+  stddev?: InputMaybe<Reviews_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Reviews_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Reviews_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Reviews_Sum_Order_By>;
+  var_pop?: InputMaybe<Reviews_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Reviews_Var_Samp_Order_By>;
+  variance?: InputMaybe<Reviews_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "reviews" */
+export type Reviews_Arr_Rel_Insert_Input = {
+  data: Array<Reviews_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Reviews_On_Conflict>;
+};
+
+/** aggregate avg on columns */
+export type Reviews_Avg_Fields = {
+  __typename?: 'reviews_avg_fields';
+  score?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "reviews" */
+export type Reviews_Avg_Order_By = {
+  score?: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "reviews". All fields are combined with a logical 'AND'. */
+export type Reviews_Bool_Exp = {
+  _and?: InputMaybe<Array<Reviews_Bool_Exp>>;
+  _not?: InputMaybe<Reviews_Bool_Exp>;
+  _or?: InputMaybe<Array<Reviews_Bool_Exp>>;
+  comment?: InputMaybe<String_Comparison_Exp>;
+  createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+  event?: InputMaybe<Events_Bool_Exp>;
+  eventId?: InputMaybe<Uuid_Comparison_Exp>;
+  hosts?: InputMaybe<ReviewHosts_Bool_Exp>;
+  hosts_aggregate?: InputMaybe<ReviewHosts_Aggregate_Bool_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  person?: InputMaybe<String_Comparison_Exp>;
+  playerId?: InputMaybe<Uuid_Comparison_Exp>;
+  reviewSource?: InputMaybe<ReviewSources_Bool_Exp>;
+  reviewSourceId?: InputMaybe<Uuid_Comparison_Exp>;
+  score?: InputMaybe<Int_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "reviews" */
+export enum Reviews_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  ReviewsPkey = 'reviews_pkey'
+}
+
+/** input type for incrementing numeric columns in table "reviews" */
+export type Reviews_Inc_Input = {
+  score?: InputMaybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "reviews" */
+export type Reviews_Insert_Input = {
+  comment?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  event?: InputMaybe<Events_Obj_Rel_Insert_Input>;
+  eventId?: InputMaybe<Scalars['uuid']>;
+  hosts?: InputMaybe<ReviewHosts_Arr_Rel_Insert_Input>;
+  id?: InputMaybe<Scalars['uuid']>;
+  person?: InputMaybe<Scalars['String']>;
+  playerId?: InputMaybe<Scalars['uuid']>;
+  reviewSource?: InputMaybe<ReviewSources_Obj_Rel_Insert_Input>;
+  reviewSourceId?: InputMaybe<Scalars['uuid']>;
+  score?: InputMaybe<Scalars['Int']>;
+};
+
+/** aggregate max on columns */
+export type Reviews_Max_Fields = {
+  __typename?: 'reviews_max_fields';
+  comment?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  eventId?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  person?: Maybe<Scalars['String']>;
+  playerId?: Maybe<Scalars['uuid']>;
+  reviewSourceId?: Maybe<Scalars['uuid']>;
+  score?: Maybe<Scalars['Int']>;
+};
+
+/** order by max() on columns of table "reviews" */
+export type Reviews_Max_Order_By = {
+  comment?: InputMaybe<Order_By>;
+  createdAt?: InputMaybe<Order_By>;
+  eventId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  person?: InputMaybe<Order_By>;
+  playerId?: InputMaybe<Order_By>;
+  reviewSourceId?: InputMaybe<Order_By>;
+  score?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Reviews_Min_Fields = {
+  __typename?: 'reviews_min_fields';
+  comment?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  eventId?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  person?: Maybe<Scalars['String']>;
+  playerId?: Maybe<Scalars['uuid']>;
+  reviewSourceId?: Maybe<Scalars['uuid']>;
+  score?: Maybe<Scalars['Int']>;
+};
+
+/** order by min() on columns of table "reviews" */
+export type Reviews_Min_Order_By = {
+  comment?: InputMaybe<Order_By>;
+  createdAt?: InputMaybe<Order_By>;
+  eventId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  person?: InputMaybe<Order_By>;
+  playerId?: InputMaybe<Order_By>;
+  reviewSourceId?: InputMaybe<Order_By>;
+  score?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "reviews" */
+export type Reviews_Mutation_Response = {
+  __typename?: 'reviews_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Reviews>;
+};
+
+/** input type for inserting object relation for remote table "reviews" */
+export type Reviews_Obj_Rel_Insert_Input = {
+  data: Reviews_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Reviews_On_Conflict>;
+};
+
+/** on_conflict condition type for table "reviews" */
+export type Reviews_On_Conflict = {
+  constraint: Reviews_Constraint;
+  update_columns?: Array<Reviews_Update_Column>;
+  where?: InputMaybe<Reviews_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "reviews". */
+export type Reviews_Order_By = {
+  comment?: InputMaybe<Order_By>;
+  createdAt?: InputMaybe<Order_By>;
+  event?: InputMaybe<Events_Order_By>;
+  eventId?: InputMaybe<Order_By>;
+  hosts_aggregate?: InputMaybe<ReviewHosts_Aggregate_Order_By>;
+  id?: InputMaybe<Order_By>;
+  person?: InputMaybe<Order_By>;
+  playerId?: InputMaybe<Order_By>;
+  reviewSource?: InputMaybe<ReviewSources_Order_By>;
+  reviewSourceId?: InputMaybe<Order_By>;
+  score?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: reviews */
+export type Reviews_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "reviews" */
+export enum Reviews_Select_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  EventId = 'eventId',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Person = 'person',
+  /** column name */
+  PlayerId = 'playerId',
+  /** column name */
+  ReviewSourceId = 'reviewSourceId',
+  /** column name */
+  Score = 'score'
+}
+
+/** input type for updating data in table "reviews" */
+export type Reviews_Set_Input = {
+  comment?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  eventId?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  person?: InputMaybe<Scalars['String']>;
+  playerId?: InputMaybe<Scalars['uuid']>;
+  reviewSourceId?: InputMaybe<Scalars['uuid']>;
+  score?: InputMaybe<Scalars['Int']>;
+};
+
+/** aggregate stddev on columns */
+export type Reviews_Stddev_Fields = {
+  __typename?: 'reviews_stddev_fields';
+  score?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "reviews" */
+export type Reviews_Stddev_Order_By = {
+  score?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Reviews_Stddev_Pop_Fields = {
+  __typename?: 'reviews_stddev_pop_fields';
+  score?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "reviews" */
+export type Reviews_Stddev_Pop_Order_By = {
+  score?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Reviews_Stddev_Samp_Fields = {
+  __typename?: 'reviews_stddev_samp_fields';
+  score?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "reviews" */
+export type Reviews_Stddev_Samp_Order_By = {
+  score?: InputMaybe<Order_By>;
+};
+
+/** Streaming cursor of the table "reviews" */
+export type Reviews_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Reviews_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Reviews_Stream_Cursor_Value_Input = {
+  comment?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  eventId?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  person?: InputMaybe<Scalars['String']>;
+  playerId?: InputMaybe<Scalars['uuid']>;
+  reviewSourceId?: InputMaybe<Scalars['uuid']>;
+  score?: InputMaybe<Scalars['Int']>;
+};
+
+/** aggregate sum on columns */
+export type Reviews_Sum_Fields = {
+  __typename?: 'reviews_sum_fields';
+  score?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "reviews" */
+export type Reviews_Sum_Order_By = {
+  score?: InputMaybe<Order_By>;
+};
+
+/** update columns of table "reviews" */
+export enum Reviews_Update_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  EventId = 'eventId',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Person = 'person',
+  /** column name */
+  PlayerId = 'playerId',
+  /** column name */
+  ReviewSourceId = 'reviewSourceId',
+  /** column name */
+  Score = 'score'
+}
+
+export type Reviews_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Reviews_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Reviews_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Reviews_Bool_Exp;
+};
+
+/** aggregate var_pop on columns */
+export type Reviews_Var_Pop_Fields = {
+  __typename?: 'reviews_var_pop_fields';
+  score?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "reviews" */
+export type Reviews_Var_Pop_Order_By = {
+  score?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Reviews_Var_Samp_Fields = {
+  __typename?: 'reviews_var_samp_fields';
+  score?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "reviews" */
+export type Reviews_Var_Samp_Order_By = {
+  score?: InputMaybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Reviews_Variance_Fields = {
+  __typename?: 'reviews_variance_fields';
+  score?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "reviews" */
+export type Reviews_Variance_Order_By = {
+  score?: InputMaybe<Order_By>;
+};
+
 /** columns and relationships of "sources" */
 export type Sources = {
   __typename?: 'sources';
@@ -15624,6 +16721,30 @@ export type Subscription_Root = {
   resources_by_pk?: Maybe<Resources>;
   /** fetch data from the table in a streaming manner: "resources" */
   resources_stream: Array<Resources>;
+  /** fetch data from the table: "reviewHosts" */
+  reviewHosts: Array<ReviewHosts>;
+  /** fetch aggregated fields from the table: "reviewHosts" */
+  reviewHosts_aggregate: ReviewHosts_Aggregate;
+  /** fetch data from the table: "reviewHosts" using primary key columns */
+  reviewHosts_by_pk?: Maybe<ReviewHosts>;
+  /** fetch data from the table in a streaming manner: "reviewHosts" */
+  reviewHosts_stream: Array<ReviewHosts>;
+  /** fetch data from the table: "review_sources" */
+  reviewSources: Array<ReviewSources>;
+  /** fetch aggregated fields from the table: "review_sources" */
+  reviewSources_aggregate: ReviewSources_Aggregate;
+  /** fetch data from the table: "review_sources" using primary key columns */
+  reviewSources_by_pk?: Maybe<ReviewSources>;
+  /** fetch data from the table in a streaming manner: "review_sources" */
+  reviewSources_stream: Array<ReviewSources>;
+  /** An array relationship */
+  reviews: Array<Reviews>;
+  /** An aggregate relationship */
+  reviews_aggregate: Reviews_Aggregate;
+  /** fetch data from the table: "reviews" using primary key columns */
+  reviews_by_pk?: Maybe<Reviews>;
+  /** fetch data from the table in a streaming manner: "reviews" */
+  reviews_stream: Array<Reviews>;
   /** fetch data from the table: "sources" */
   sources: Array<Sources>;
   /** fetch aggregated fields from the table: "sources" */
@@ -16812,6 +17933,96 @@ export type Subscription_RootResources_StreamArgs = {
 };
 
 
+export type Subscription_RootReviewHostsArgs = {
+  distinct_on?: InputMaybe<Array<ReviewHosts_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<ReviewHosts_Order_By>>;
+  where?: InputMaybe<ReviewHosts_Bool_Exp>;
+};
+
+
+export type Subscription_RootReviewHosts_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<ReviewHosts_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<ReviewHosts_Order_By>>;
+  where?: InputMaybe<ReviewHosts_Bool_Exp>;
+};
+
+
+export type Subscription_RootReviewHosts_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootReviewHosts_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<ReviewHosts_Stream_Cursor_Input>>;
+  where?: InputMaybe<ReviewHosts_Bool_Exp>;
+};
+
+
+export type Subscription_RootReviewSourcesArgs = {
+  distinct_on?: InputMaybe<Array<ReviewSources_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<ReviewSources_Order_By>>;
+  where?: InputMaybe<ReviewSources_Bool_Exp>;
+};
+
+
+export type Subscription_RootReviewSources_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<ReviewSources_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<ReviewSources_Order_By>>;
+  where?: InputMaybe<ReviewSources_Bool_Exp>;
+};
+
+
+export type Subscription_RootReviewSources_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootReviewSources_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<ReviewSources_Stream_Cursor_Input>>;
+  where?: InputMaybe<ReviewSources_Bool_Exp>;
+};
+
+
+export type Subscription_RootReviewsArgs = {
+  distinct_on?: InputMaybe<Array<Reviews_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Reviews_Order_By>>;
+  where?: InputMaybe<Reviews_Bool_Exp>;
+};
+
+
+export type Subscription_RootReviews_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Reviews_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Reviews_Order_By>>;
+  where?: InputMaybe<Reviews_Bool_Exp>;
+};
+
+
+export type Subscription_RootReviews_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootReviews_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Reviews_Stream_Cursor_Input>>;
+  where?: InputMaybe<Reviews_Bool_Exp>;
+};
+
+
 export type Subscription_RootSourcesArgs = {
   distinct_on?: InputMaybe<Array<Sources_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -17678,6 +18889,7 @@ export type UserMetadata = {
   lastName: Scalars['String'];
   phoneNumber?: Maybe<Scalars['String']>;
   role: Scalars['String'];
+  timezone?: Maybe<Scalars['String']>;
   token: Scalars['String'];
   updatedAt?: Maybe<Scalars['timestamptz']>;
 };
@@ -17768,6 +18980,7 @@ export type UserMetadata_Bool_Exp = {
   lastName?: InputMaybe<String_Comparison_Exp>;
   phoneNumber?: InputMaybe<String_Comparison_Exp>;
   role?: InputMaybe<String_Comparison_Exp>;
+  timezone?: InputMaybe<String_Comparison_Exp>;
   token?: InputMaybe<String_Comparison_Exp>;
   updatedAt?: InputMaybe<Timestamptz_Comparison_Exp>;
 };
@@ -17797,6 +19010,7 @@ export type UserMetadata_Insert_Input = {
   lastName?: InputMaybe<Scalars['String']>;
   phoneNumber?: InputMaybe<Scalars['String']>;
   role?: InputMaybe<Scalars['String']>;
+  timezone?: InputMaybe<Scalars['String']>;
   token?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
@@ -17816,6 +19030,7 @@ export type UserMetadata_Max_Fields = {
   lastName?: Maybe<Scalars['String']>;
   phoneNumber?: Maybe<Scalars['String']>;
   role?: Maybe<Scalars['String']>;
+  timezone?: Maybe<Scalars['String']>;
   token?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['timestamptz']>;
 };
@@ -17835,6 +19050,7 @@ export type UserMetadata_Min_Fields = {
   lastName?: Maybe<Scalars['String']>;
   phoneNumber?: Maybe<Scalars['String']>;
   role?: Maybe<Scalars['String']>;
+  timezone?: Maybe<Scalars['String']>;
   token?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['timestamptz']>;
 };
@@ -17881,6 +19097,7 @@ export type UserMetadata_Order_By = {
   lastName?: InputMaybe<Order_By>;
   phoneNumber?: InputMaybe<Order_By>;
   role?: InputMaybe<Order_By>;
+  timezone?: InputMaybe<Order_By>;
   token?: InputMaybe<Order_By>;
   updatedAt?: InputMaybe<Order_By>;
 };
@@ -17921,6 +19138,8 @@ export enum UserMetadata_Select_Column {
   /** column name */
   Role = 'role',
   /** column name */
+  Timezone = 'timezone',
+  /** column name */
   Token = 'token',
   /** column name */
   UpdatedAt = 'updatedAt'
@@ -17942,6 +19161,7 @@ export type UserMetadata_Set_Input = {
   lastName?: InputMaybe<Scalars['String']>;
   phoneNumber?: InputMaybe<Scalars['String']>;
   role?: InputMaybe<Scalars['String']>;
+  timezone?: InputMaybe<Scalars['String']>;
   token?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
@@ -17970,6 +19190,7 @@ export type UserMetadata_Stream_Cursor_Value_Input = {
   lastName?: InputMaybe<Scalars['String']>;
   phoneNumber?: InputMaybe<Scalars['String']>;
   role?: InputMaybe<Scalars['String']>;
+  timezone?: InputMaybe<Scalars['String']>;
   token?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
@@ -18004,6 +19225,8 @@ export enum UserMetadata_Update_Column {
   PhoneNumber = 'phoneNumber',
   /** column name */
   Role = 'role',
+  /** column name */
+  Timezone = 'timezone',
   /** column name */
   Token = 'token',
   /** column name */
