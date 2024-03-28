@@ -52,12 +52,7 @@ export const signInCodeHandler: RequestHandler<
 
   switch (event.status) {
     case 'upcoming':
-      if (
-        ((expectedRole === 'host' || expectedRole === 'coHost') &&
-          !event.hosts.find((host) => host.status !== 'SCHEDULED')) ||
-        // if more than 15 minutes before event start time
-        new Date(event.date) > new Date(Date.now() + 15 * 60 * 1000)
-      )
+      if (new Date(event.date) > new Date(Date.now() + 15 * 60 * 1000))
         return sendError(res, 'event-is-not-started');
       break;
     case 'completed':
