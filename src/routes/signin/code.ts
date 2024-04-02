@@ -10,14 +10,21 @@ export const signInCodeSchema = Joi.object({
   eventId: Joi.string().required(),
   code: Joi.string(),
   expectedRole: Joi.string().required(),
+  redirectUrl: Joi.string(),
 }).meta({ className: 'SignInCodeSchema' });
 
 export const signInCodeHandler: RequestHandler<
   {},
   {},
-  { email: string; eventId: string; code?: string; expectedRole: string }
+  {
+    email: string;
+    eventId: string;
+    code?: string;
+    expectedRole: string;
+    redirectUrl?: string;
+  }
 > = async (req, res) => {
-  const { email, eventId, code, expectedRole } = req.body;
+  const { email, eventId, code, expectedRole, redirectUrl } = req.body;
   logger.debug(`Sign in with code: ${email} ${eventId} ${expectedRole}`);
 
   const user = await getUserByEmail(email);
@@ -77,6 +84,11 @@ export const signInCodeHandler: RequestHandler<
     checkMFA: true,
     eventRole: expectedRole,
   });
+
+  if (redirectUrl) {
+    const navigateTo = `${redirectUrl}?eventId=${eventId}&roomCode=${code}&accessToken=${signInTokens.session?.accessToken}&refreshToken=${signInTokens.session?.refreshToken}`;
+    return res.status(301).send(navigateTo);
+  }
 
   return res.send(signInTokens);
 };
