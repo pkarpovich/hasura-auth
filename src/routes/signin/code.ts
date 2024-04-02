@@ -52,7 +52,10 @@ export const signInCodeHandler: RequestHandler<
 
   switch (event.status) {
     case 'upcoming':
-      if (new Date(event.date) > new Date(Date.now() + 15 * 60 * 1000))
+      if (
+        new Date(event.date).getTime() >
+        new Date().getTime() + 15 * 60 * 1000
+      )
         return sendError(res, 'event-is-not-started');
       break;
     case 'completed':
