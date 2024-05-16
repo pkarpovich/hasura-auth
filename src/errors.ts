@@ -172,7 +172,7 @@ export const ERRORS = asErrors({
   },
   'lead-player-already-logged-in': {
     status: StatusCodes.INTERNAL_SERVER_ERROR,
-    message: 'Lead player is already logged in',
+    message: 'Lead Player is already logged in',
   },
   'no-lead-player': {
     status: StatusCodes.INTERNAL_SERVER_ERROR,
