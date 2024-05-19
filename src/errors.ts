@@ -166,9 +166,9 @@ export const ERRORS = asErrors({
     message:
       'This event has expired. If you need help, shout to your nearest Runaway admin.',
   },
-  'event-is-already-started': {
+  'sh-event-is-already-finished': {
     status: StatusCodes.INTERNAL_SERVER_ERROR,
-    message: 'Event is already started',
+    message: 'Event is already finished',
   },
   'lead-player-already-logged-in': {
     status: StatusCodes.INTERNAL_SERVER_ERROR,
