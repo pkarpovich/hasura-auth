@@ -13,6 +13,7 @@ export const signInSelfHostedSchema = Joi.object({
   eventId: Joi.string().required(),
   code: Joi.string(),
   expectedRole: Joi.string().required(),
+  teamId: Joi.string().optional(),
 }).meta({ className: 'SignInSelfHostedSchema' });
 
 export const signInSelfHostedHandler: RequestHandler<
@@ -23,9 +24,10 @@ export const signInSelfHostedHandler: RequestHandler<
     eventId: string;
     code: string;
     expectedRole: string;
+    teamId?: string;
   }
 > = async (req, res) => {
-  const { name, eventId, code, expectedRole } = req.body;
+  const { name, eventId, code, expectedRole, teamId } = req.body;
   logger.debug(`Sign in self-hosted: ${name} ${eventId} ${expectedRole}`);
 
   if (expectedRole !== 'leadPlayer' && expectedRole !== 'player') {
@@ -51,7 +53,10 @@ export const signInSelfHostedHandler: RequestHandler<
     return sendError(res, 'sh-event-is-already-finished');
   }
 
-  if (expectedRole === 'leadPlayer' && event.teams?.[0]?.players?.length) {
+  const selectedTeam =
+    event.teams?.find((team) => team.id === teamId) || event.teams?.[0];
+
+  if (expectedRole === 'leadPlayer' && selectedTeam?.players?.length) {
     return sendError(res, 'lead-player-already-logged-in');
   }
 
@@ -59,12 +64,12 @@ export const signInSelfHostedHandler: RequestHandler<
     return sendError(res, 'no-lead-player');
   }
 
-  if (event.teams?.[0]?.players?.length >= MAX_PLAYERS_NUMBER) {
+  if (selectedTeam?.players?.length >= MAX_PLAYERS_NUMBER) {
     return sendError(res, 'no-slots');
   }
 
   if (
-    event.teams?.[0]?.players?.find(
+    selectedTeam?.players?.find(
       (player) => player.name.toLowerCase().trim() === name.toLowerCase().trim()
     )
   ) {
@@ -73,7 +78,7 @@ export const signInSelfHostedHandler: RequestHandler<
 
   const { id: playerId } = await InsertTeamPlayer({
     eventId,
-    team: event.teams?.[0],
+    team: selectedTeam,
     name,
   });
 
