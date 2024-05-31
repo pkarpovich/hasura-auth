@@ -180,7 +180,7 @@ export const ERRORS = asErrors({
   },
   'no-slots': {
     status: StatusCodes.INTERNAL_SERVER_ERROR,
-    message: 'No slots',
+    message: 'The game has reached the 8 player maximum.',
   },
   'name-already-in-use': {
     status: StatusCodes.INTERNAL_SERVER_ERROR,
