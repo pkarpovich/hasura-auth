@@ -60,6 +60,7 @@ export const InsertTeamPlayer = async ({
         eventId,
         eventUpdates: {
           date: new Date(),
+          status: 'ongoing',
         },
       })
       .then((res) => res.createdTeam.id as string));
