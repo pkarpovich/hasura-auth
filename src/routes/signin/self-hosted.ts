@@ -53,6 +53,10 @@ export const signInSelfHostedHandler: RequestHandler<
     return sendError(res, 'sh-event-is-already-finished');
   }
 
+  if (event.gameInformationSketchWars?.isStarted) {
+    return sendError(res, 'sh-event-is-already-started');
+  }
+
   const selectedTeam =
     event.teams?.find((team) => team.id === teamId) || event.teams?.[0];
 

@@ -170,6 +170,10 @@ export const ERRORS = asErrors({
     status: StatusCodes.INTERNAL_SERVER_ERROR,
     message: 'Event is already finished',
   },
+  'sh-event-is-already-started': {
+    status: StatusCodes.INTERNAL_SERVER_ERROR,
+    message: 'The game has already started.',
+  },
   'lead-player-already-logged-in': {
     status: StatusCodes.INTERNAL_SERVER_ERROR,
     message: 'Lead Player is already logged in',

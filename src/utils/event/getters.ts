@@ -34,6 +34,9 @@ export const GetEventByIdRequestDocument = (
         role
         status
       }
+      gameInformationSketchWars {
+        isStarted
+      }
     }
   }
 `;
@@ -71,6 +74,9 @@ export interface Event {
     role: string;
     status: string;
   }>;
+  gameInformationSketchWars: {
+    isStarted: boolean;
+  } | null;
 }
 
 export const getEventById = async (
