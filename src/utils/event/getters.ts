@@ -10,6 +10,7 @@ export const GetEventByIdRequestDocument = (
     events_by_pk(id: $eventId) {
       id
       gameType
+      eventType
       date
       codes(
         where: {
@@ -66,6 +67,7 @@ export interface SelfHostedTeamInterface {
 export interface Event {
   id: string;
   gameType: string;
+  eventType: string;
   date: string;
   codes: Code[];
   status: string;

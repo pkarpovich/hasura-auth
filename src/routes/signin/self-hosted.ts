@@ -6,7 +6,8 @@ import { Joi } from '@/validation';
 import { getEventById } from '@/utils/event';
 import { InsertTeamPlayer } from '@/utils/event/setters';
 
-const MAX_PLAYERS_NUMBER = 8;
+const SH_MAX_PLAYERS_NUMBER = 8;
+const STQ_MAX_PLAYERS_NUMBER = 10000;
 
 export const signInSelfHostedSchema = Joi.object({
   name: Joi.string().required(),
@@ -68,7 +69,12 @@ export const signInSelfHostedHandler: RequestHandler<
     return sendError(res, 'no-lead-player');
   }
 
-  if (selectedTeam?.players?.length >= MAX_PLAYERS_NUMBER) {
+  const slotsLimit =
+    event.eventType === 'SELF_HOSTED'
+      ? SH_MAX_PLAYERS_NUMBER
+      : STQ_MAX_PLAYERS_NUMBER;
+
+  if (selectedTeam?.players?.length >= slotsLimit) {
     return sendError(res, 'no-slots');
   }
 

@@ -18,6 +18,7 @@ export type Scalars = {
   bytea: any;
   citext: any;
   date: any;
+  float8: any;
   jsonb: any;
   numeric: any;
   timestamp: any;
@@ -36,6 +37,12 @@ export type Boolean_Comparison_Exp = {
   _lte?: InputMaybe<Scalars['Boolean']>;
   _neq?: InputMaybe<Scalars['Boolean']>;
   _nin?: InputMaybe<Array<Scalars['Boolean']>>;
+};
+
+export type GraphqlQueryInterface = {
+  dataType: Scalars['String'];
+  query: Scalars['String'];
+  variables: Scalars['String'];
 };
 
 /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
@@ -3173,6 +3180,10 @@ export type Collections = {
   __typename?: 'collections';
   /** An array relationship */
   gameInformation: Array<GameInformationFeud>;
+  /** An array relationship */
+  gameInformationCollections: Array<GameInformationCollections>;
+  /** An aggregate relationship */
+  gameInformationCollections_aggregate: GameInformationCollections_Aggregate;
   /** An aggregate relationship */
   gameInformation_aggregate: GameInformationFeud_Aggregate;
   id: Scalars['uuid'];
@@ -3194,6 +3205,26 @@ export type CollectionsGameInformationArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<GameInformationFeud_Order_By>>;
   where?: InputMaybe<GameInformationFeud_Bool_Exp>;
+};
+
+
+/** columns and relationships of "collections" */
+export type CollectionsGameInformationCollectionsArgs = {
+  distinct_on?: InputMaybe<Array<GameInformationCollections_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<GameInformationCollections_Order_By>>;
+  where?: InputMaybe<GameInformationCollections_Bool_Exp>;
+};
+
+
+/** columns and relationships of "collections" */
+export type CollectionsGameInformationCollections_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<GameInformationCollections_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<GameInformationCollections_Order_By>>;
+  where?: InputMaybe<GameInformationCollections_Bool_Exp>;
 };
 
 
@@ -3254,6 +3285,8 @@ export type Collections_Bool_Exp = {
   _not?: InputMaybe<Collections_Bool_Exp>;
   _or?: InputMaybe<Array<Collections_Bool_Exp>>;
   gameInformation?: InputMaybe<GameInformationFeud_Bool_Exp>;
+  gameInformationCollections?: InputMaybe<GameInformationCollections_Bool_Exp>;
+  gameInformationCollections_aggregate?: InputMaybe<GameInformationCollections_Aggregate_Bool_Exp>;
   gameInformation_aggregate?: InputMaybe<GameInformationFeud_Aggregate_Bool_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
@@ -3273,6 +3306,7 @@ export enum Collections_Constraint {
 /** input type for inserting data into table "collections" */
 export type Collections_Insert_Input = {
   gameInformation?: InputMaybe<GameInformationFeud_Arr_Rel_Insert_Input>;
+  gameInformationCollections?: InputMaybe<GameInformationCollections_Arr_Rel_Insert_Input>;
   id?: InputMaybe<Scalars['uuid']>;
   name?: InputMaybe<Scalars['String']>;
   nextItemId?: InputMaybe<Scalars['uuid']>;
@@ -3326,6 +3360,7 @@ export type Collections_On_Conflict = {
 
 /** Ordering options when selecting data from "collections". */
 export type Collections_Order_By = {
+  gameInformationCollections_aggregate?: InputMaybe<GameInformationCollections_Aggregate_Order_By>;
   gameInformation_aggregate?: InputMaybe<GameInformationFeud_Aggregate_Order_By>;
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
@@ -3651,6 +3686,7 @@ export type EventLeaderBoard = {
   /** An object relationship */
   event: Events;
   event_id: Scalars['uuid'];
+  generatedId?: Maybe<Scalars['String']>;
   id: Scalars['uuid'];
   /** An object relationship */
   stage: Olympics_Event_Stages;
@@ -3742,6 +3778,7 @@ export type EventLeaderBoard_Bool_Exp = {
   _or?: InputMaybe<Array<EventLeaderBoard_Bool_Exp>>;
   event?: InputMaybe<Events_Bool_Exp>;
   event_id?: InputMaybe<Uuid_Comparison_Exp>;
+  generatedId?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   stage?: InputMaybe<Olympics_Event_Stages_Bool_Exp>;
   stage_id?: InputMaybe<Uuid_Comparison_Exp>;
@@ -3752,6 +3789,8 @@ export type EventLeaderBoard_Bool_Exp = {
 
 /** unique or primary key constraints on table "olympics.event_leader_board" */
 export enum EventLeaderBoard_Constraint {
+  /** unique or primary key constraint on columns "generated_id" */
+  EventLeaderBoardGeneratedIdKey = 'event_leader_board_generated_id_key',
   /** unique or primary key constraint on columns "id", "stage_id", "team_id" */
   EventLeaderBoardPkey = 'event_leader_board_pkey'
 }
@@ -3765,6 +3804,7 @@ export type EventLeaderBoard_Inc_Input = {
 export type EventLeaderBoard_Insert_Input = {
   event?: InputMaybe<Events_Obj_Rel_Insert_Input>;
   event_id?: InputMaybe<Scalars['uuid']>;
+  generatedId?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
   stage?: InputMaybe<Olympics_Event_Stages_Obj_Rel_Insert_Input>;
   stage_id?: InputMaybe<Scalars['uuid']>;
@@ -3777,6 +3817,7 @@ export type EventLeaderBoard_Insert_Input = {
 export type EventLeaderBoard_Max_Fields = {
   __typename?: 'eventLeaderBoard_max_fields';
   event_id?: Maybe<Scalars['uuid']>;
+  generatedId?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
   stage_id?: Maybe<Scalars['uuid']>;
   team_id?: Maybe<Scalars['uuid']>;
@@ -3786,6 +3827,7 @@ export type EventLeaderBoard_Max_Fields = {
 /** order by max() on columns of table "olympics.event_leader_board" */
 export type EventLeaderBoard_Max_Order_By = {
   event_id?: InputMaybe<Order_By>;
+  generatedId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   stage_id?: InputMaybe<Order_By>;
   team_id?: InputMaybe<Order_By>;
@@ -3796,6 +3838,7 @@ export type EventLeaderBoard_Max_Order_By = {
 export type EventLeaderBoard_Min_Fields = {
   __typename?: 'eventLeaderBoard_min_fields';
   event_id?: Maybe<Scalars['uuid']>;
+  generatedId?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
   stage_id?: Maybe<Scalars['uuid']>;
   team_id?: Maybe<Scalars['uuid']>;
@@ -3805,6 +3848,7 @@ export type EventLeaderBoard_Min_Fields = {
 /** order by min() on columns of table "olympics.event_leader_board" */
 export type EventLeaderBoard_Min_Order_By = {
   event_id?: InputMaybe<Order_By>;
+  generatedId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   stage_id?: InputMaybe<Order_By>;
   team_id?: InputMaybe<Order_By>;
@@ -3831,6 +3875,7 @@ export type EventLeaderBoard_On_Conflict = {
 export type EventLeaderBoard_Order_By = {
   event?: InputMaybe<Events_Order_By>;
   event_id?: InputMaybe<Order_By>;
+  generatedId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   stage?: InputMaybe<Olympics_Event_Stages_Order_By>;
   stage_id?: InputMaybe<Order_By>;
@@ -3851,6 +3896,8 @@ export enum EventLeaderBoard_Select_Column {
   /** column name */
   EventId = 'event_id',
   /** column name */
+  GeneratedId = 'generatedId',
+  /** column name */
   Id = 'id',
   /** column name */
   StageId = 'stage_id',
@@ -3863,6 +3910,7 @@ export enum EventLeaderBoard_Select_Column {
 /** input type for updating data in table "olympics.event_leader_board" */
 export type EventLeaderBoard_Set_Input = {
   event_id?: InputMaybe<Scalars['uuid']>;
+  generatedId?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
   stage_id?: InputMaybe<Scalars['uuid']>;
   team_id?: InputMaybe<Scalars['uuid']>;
@@ -3913,6 +3961,7 @@ export type EventLeaderBoard_Stream_Cursor_Input = {
 /** Initial value of the column from where the streaming should start */
 export type EventLeaderBoard_Stream_Cursor_Value_Input = {
   event_id?: InputMaybe<Scalars['uuid']>;
+  generatedId?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
   stage_id?: InputMaybe<Scalars['uuid']>;
   team_id?: InputMaybe<Scalars['uuid']>;
@@ -3934,6 +3983,8 @@ export type EventLeaderBoard_Sum_Order_By = {
 export enum EventLeaderBoard_Update_Column {
   /** column name */
   EventId = 'event_id',
+  /** column name */
+  GeneratedId = 'generatedId',
   /** column name */
   Id = 'id',
   /** column name */
@@ -4191,7 +4242,10 @@ export type Event_Codes_Updates = {
 export type Events = {
   __typename?: 'events';
   actualParticipants: Scalars['Int'];
+  /** A computed field, executes function "get_average_review_score" */
+  avgReviewScore?: Maybe<Scalars['float8']>;
   clientName?: Maybe<Scalars['String']>;
+  coHostSlots: Scalars['Int'];
   /** An array relationship */
   codes: Array<Event_Codes>;
   /** An aggregate relationship */
@@ -4203,6 +4257,8 @@ export type Events = {
   createdBy?: Maybe<UserMetadata>;
   createdById?: Maybe<Scalars['uuid']>;
   date?: Maybe<Scalars['timestamptz']>;
+  discord?: Maybe<Scalars['String']>;
+  duration: Scalars['Int'];
   eventType: Scalars['String'];
   expectedParticipants: Scalars['Int'];
   /** An object relationship */
@@ -4227,22 +4283,30 @@ export type Events = {
   gameOld?: Maybe<Feud_Old_Games_Old>;
   gameType?: Maybe<Scalars['String']>;
   game_old_id?: Maybe<Scalars['uuid']>;
+  hostSlots: Scalars['Int'];
   /** An array relationship */
   hosts: Array<EventHosts>;
   /** An aggregate relationship */
   hosts_aggregate: EventHosts_Aggregate;
   id: Scalars['uuid'];
-  isTestGame: Scalars['Boolean'];
+  isPayrollPaidSeparately: Scalars['Boolean'];
+  isPayrollRedFlag: Scalars['Boolean'];
+  /** A computed field, executes function "get_is_test_game" */
+  isTestGame?: Maybe<Scalars['Boolean']>;
   /** An array relationship */
   matchups: Array<Feud_Old_Game_Rooms>;
   /** An aggregate relationship */
   matchups_aggregate: Feud_Old_Game_Rooms_Aggregate;
   notes?: Maybe<Scalars['String']>;
   notionId?: Maybe<Scalars['String']>;
+  payrollComment?: Maybe<Scalars['String']>;
+  payrollPayout: Scalars['Int'];
+  payrollStatus: Scalars['String'];
   /** An array relationship */
   reviews: Array<Reviews>;
   /** An aggregate relationship */
   reviews_aggregate: Reviews_Aggregate;
+  scheduleStatus: Scalars['String'];
   /** An object relationship */
   source?: Maybe<Sources>;
   sourceId?: Maybe<Scalars['uuid']>;
@@ -4420,7 +4484,13 @@ export type Events_Aggregate_FieldsCountArgs = {
 export type Events_Avg_Fields = {
   __typename?: 'events_avg_fields';
   actualParticipants?: Maybe<Scalars['Float']>;
+  /** A computed field, executes function "get_average_review_score" */
+  avgReviewScore?: Maybe<Scalars['float8']>;
+  coHostSlots?: Maybe<Scalars['Float']>;
+  duration?: Maybe<Scalars['Float']>;
   expectedParticipants?: Maybe<Scalars['Float']>;
+  hostSlots?: Maybe<Scalars['Float']>;
+  payrollPayout?: Maybe<Scalars['Float']>;
   totalTeams?: Maybe<Scalars['Float']>;
 };
 
@@ -4430,7 +4500,9 @@ export type Events_Bool_Exp = {
   _not?: InputMaybe<Events_Bool_Exp>;
   _or?: InputMaybe<Array<Events_Bool_Exp>>;
   actualParticipants?: InputMaybe<Int_Comparison_Exp>;
+  avgReviewScore?: InputMaybe<Float8_Comparison_Exp>;
   clientName?: InputMaybe<String_Comparison_Exp>;
+  coHostSlots?: InputMaybe<Int_Comparison_Exp>;
   codes?: InputMaybe<Event_Codes_Bool_Exp>;
   codes_aggregate?: InputMaybe<Event_Codes_Aggregate_Bool_Exp>;
   company?: InputMaybe<String_Comparison_Exp>;
@@ -4439,6 +4511,8 @@ export type Events_Bool_Exp = {
   createdBy?: InputMaybe<UserMetadata_Bool_Exp>;
   createdById?: InputMaybe<Uuid_Comparison_Exp>;
   date?: InputMaybe<Timestamptz_Comparison_Exp>;
+  discord?: InputMaybe<String_Comparison_Exp>;
+  duration?: InputMaybe<Int_Comparison_Exp>;
   eventType?: InputMaybe<String_Comparison_Exp>;
   expectedParticipants?: InputMaybe<Int_Comparison_Exp>;
   gameInformationFeud?: InputMaybe<GameInformationFeud_Bool_Exp>;
@@ -4456,16 +4530,23 @@ export type Events_Bool_Exp = {
   gameOld?: InputMaybe<Feud_Old_Games_Old_Bool_Exp>;
   gameType?: InputMaybe<String_Comparison_Exp>;
   game_old_id?: InputMaybe<Uuid_Comparison_Exp>;
+  hostSlots?: InputMaybe<Int_Comparison_Exp>;
   hosts?: InputMaybe<EventHosts_Bool_Exp>;
   hosts_aggregate?: InputMaybe<EventHosts_Aggregate_Bool_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
+  isPayrollPaidSeparately?: InputMaybe<Boolean_Comparison_Exp>;
+  isPayrollRedFlag?: InputMaybe<Boolean_Comparison_Exp>;
   isTestGame?: InputMaybe<Boolean_Comparison_Exp>;
   matchups?: InputMaybe<Feud_Old_Game_Rooms_Bool_Exp>;
   matchups_aggregate?: InputMaybe<Feud_Old_Game_Rooms_Aggregate_Bool_Exp>;
   notes?: InputMaybe<String_Comparison_Exp>;
   notionId?: InputMaybe<String_Comparison_Exp>;
+  payrollComment?: InputMaybe<String_Comparison_Exp>;
+  payrollPayout?: InputMaybe<Int_Comparison_Exp>;
+  payrollStatus?: InputMaybe<String_Comparison_Exp>;
   reviews?: InputMaybe<Reviews_Bool_Exp>;
   reviews_aggregate?: InputMaybe<Reviews_Aggregate_Bool_Exp>;
+  scheduleStatus?: InputMaybe<String_Comparison_Exp>;
   source?: InputMaybe<Sources_Bool_Exp>;
   sourceId?: InputMaybe<Uuid_Comparison_Exp>;
   sourceManualId?: InputMaybe<String_Comparison_Exp>;
@@ -4492,7 +4573,11 @@ export enum Events_Constraint {
 /** input type for incrementing numeric columns in table "events" */
 export type Events_Inc_Input = {
   actualParticipants?: InputMaybe<Scalars['Int']>;
+  coHostSlots?: InputMaybe<Scalars['Int']>;
+  duration?: InputMaybe<Scalars['Int']>;
   expectedParticipants?: InputMaybe<Scalars['Int']>;
+  hostSlots?: InputMaybe<Scalars['Int']>;
+  payrollPayout?: InputMaybe<Scalars['Int']>;
   totalTeams?: InputMaybe<Scalars['Int']>;
 };
 
@@ -4500,6 +4585,7 @@ export type Events_Inc_Input = {
 export type Events_Insert_Input = {
   actualParticipants?: InputMaybe<Scalars['Int']>;
   clientName?: InputMaybe<Scalars['String']>;
+  coHostSlots?: InputMaybe<Scalars['Int']>;
   codes?: InputMaybe<Event_Codes_Arr_Rel_Insert_Input>;
   company?: InputMaybe<Scalars['String']>;
   contactPerson?: InputMaybe<Scalars['String']>;
@@ -4507,6 +4593,8 @@ export type Events_Insert_Input = {
   createdBy?: InputMaybe<UserMetadata_Obj_Rel_Insert_Input>;
   createdById?: InputMaybe<Scalars['uuid']>;
   date?: InputMaybe<Scalars['timestamptz']>;
+  discord?: InputMaybe<Scalars['String']>;
+  duration?: InputMaybe<Scalars['Int']>;
   eventType?: InputMaybe<Scalars['String']>;
   expectedParticipants?: InputMaybe<Scalars['Int']>;
   gameInformationFeud?: InputMaybe<GameInformationFeud_Obj_Rel_Insert_Input>;
@@ -4524,13 +4612,19 @@ export type Events_Insert_Input = {
   gameOld?: InputMaybe<Feud_Old_Games_Old_Obj_Rel_Insert_Input>;
   gameType?: InputMaybe<Scalars['String']>;
   game_old_id?: InputMaybe<Scalars['uuid']>;
+  hostSlots?: InputMaybe<Scalars['Int']>;
   hosts?: InputMaybe<EventHosts_Arr_Rel_Insert_Input>;
   id?: InputMaybe<Scalars['uuid']>;
-  isTestGame?: InputMaybe<Scalars['Boolean']>;
+  isPayrollPaidSeparately?: InputMaybe<Scalars['Boolean']>;
+  isPayrollRedFlag?: InputMaybe<Scalars['Boolean']>;
   matchups?: InputMaybe<Feud_Old_Game_Rooms_Arr_Rel_Insert_Input>;
   notes?: InputMaybe<Scalars['String']>;
   notionId?: InputMaybe<Scalars['String']>;
+  payrollComment?: InputMaybe<Scalars['String']>;
+  payrollPayout?: InputMaybe<Scalars['Int']>;
+  payrollStatus?: InputMaybe<Scalars['String']>;
   reviews?: InputMaybe<Reviews_Arr_Rel_Insert_Input>;
+  scheduleStatus?: InputMaybe<Scalars['String']>;
   source?: InputMaybe<Sources_Obj_Rel_Insert_Input>;
   sourceId?: InputMaybe<Scalars['uuid']>;
   sourceManualId?: InputMaybe<Scalars['String']>;
@@ -4550,12 +4644,17 @@ export type Events_Insert_Input = {
 export type Events_Max_Fields = {
   __typename?: 'events_max_fields';
   actualParticipants?: Maybe<Scalars['Int']>;
+  /** A computed field, executes function "get_average_review_score" */
+  avgReviewScore?: Maybe<Scalars['float8']>;
   clientName?: Maybe<Scalars['String']>;
+  coHostSlots?: Maybe<Scalars['Int']>;
   company?: Maybe<Scalars['String']>;
   contactPerson?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['timestamptz']>;
   createdById?: Maybe<Scalars['uuid']>;
   date?: Maybe<Scalars['timestamptz']>;
+  discord?: Maybe<Scalars['String']>;
+  duration?: Maybe<Scalars['Int']>;
   eventType?: Maybe<Scalars['String']>;
   expectedParticipants?: Maybe<Scalars['Int']>;
   gameInformationFeudId?: Maybe<Scalars['uuid']>;
@@ -4566,9 +4665,14 @@ export type Events_Max_Fields = {
   gameInformationTemplateId?: Maybe<Scalars['uuid']>;
   gameType?: Maybe<Scalars['String']>;
   game_old_id?: Maybe<Scalars['uuid']>;
+  hostSlots?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['uuid']>;
   notes?: Maybe<Scalars['String']>;
   notionId?: Maybe<Scalars['String']>;
+  payrollComment?: Maybe<Scalars['String']>;
+  payrollPayout?: Maybe<Scalars['Int']>;
+  payrollStatus?: Maybe<Scalars['String']>;
+  scheduleStatus?: Maybe<Scalars['String']>;
   sourceId?: Maybe<Scalars['uuid']>;
   sourceManualId?: Maybe<Scalars['String']>;
   status?: Maybe<Scalars['String']>;
@@ -4584,12 +4688,17 @@ export type Events_Max_Fields = {
 export type Events_Min_Fields = {
   __typename?: 'events_min_fields';
   actualParticipants?: Maybe<Scalars['Int']>;
+  /** A computed field, executes function "get_average_review_score" */
+  avgReviewScore?: Maybe<Scalars['float8']>;
   clientName?: Maybe<Scalars['String']>;
+  coHostSlots?: Maybe<Scalars['Int']>;
   company?: Maybe<Scalars['String']>;
   contactPerson?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['timestamptz']>;
   createdById?: Maybe<Scalars['uuid']>;
   date?: Maybe<Scalars['timestamptz']>;
+  discord?: Maybe<Scalars['String']>;
+  duration?: Maybe<Scalars['Int']>;
   eventType?: Maybe<Scalars['String']>;
   expectedParticipants?: Maybe<Scalars['Int']>;
   gameInformationFeudId?: Maybe<Scalars['uuid']>;
@@ -4600,9 +4709,14 @@ export type Events_Min_Fields = {
   gameInformationTemplateId?: Maybe<Scalars['uuid']>;
   gameType?: Maybe<Scalars['String']>;
   game_old_id?: Maybe<Scalars['uuid']>;
+  hostSlots?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['uuid']>;
   notes?: Maybe<Scalars['String']>;
   notionId?: Maybe<Scalars['String']>;
+  payrollComment?: Maybe<Scalars['String']>;
+  payrollPayout?: Maybe<Scalars['Int']>;
+  payrollStatus?: Maybe<Scalars['String']>;
+  scheduleStatus?: Maybe<Scalars['String']>;
   sourceId?: Maybe<Scalars['uuid']>;
   sourceManualId?: Maybe<Scalars['String']>;
   status?: Maybe<Scalars['String']>;
@@ -4640,7 +4754,9 @@ export type Events_On_Conflict = {
 /** Ordering options when selecting data from "events". */
 export type Events_Order_By = {
   actualParticipants?: InputMaybe<Order_By>;
+  avgReviewScore?: InputMaybe<Order_By>;
   clientName?: InputMaybe<Order_By>;
+  coHostSlots?: InputMaybe<Order_By>;
   codes_aggregate?: InputMaybe<Event_Codes_Aggregate_Order_By>;
   company?: InputMaybe<Order_By>;
   contactPerson?: InputMaybe<Order_By>;
@@ -4648,6 +4764,8 @@ export type Events_Order_By = {
   createdBy?: InputMaybe<UserMetadata_Order_By>;
   createdById?: InputMaybe<Order_By>;
   date?: InputMaybe<Order_By>;
+  discord?: InputMaybe<Order_By>;
+  duration?: InputMaybe<Order_By>;
   eventType?: InputMaybe<Order_By>;
   expectedParticipants?: InputMaybe<Order_By>;
   gameInformationFeud?: InputMaybe<GameInformationFeud_Order_By>;
@@ -4665,13 +4783,20 @@ export type Events_Order_By = {
   gameOld?: InputMaybe<Feud_Old_Games_Old_Order_By>;
   gameType?: InputMaybe<Order_By>;
   game_old_id?: InputMaybe<Order_By>;
+  hostSlots?: InputMaybe<Order_By>;
   hosts_aggregate?: InputMaybe<EventHosts_Aggregate_Order_By>;
   id?: InputMaybe<Order_By>;
+  isPayrollPaidSeparately?: InputMaybe<Order_By>;
+  isPayrollRedFlag?: InputMaybe<Order_By>;
   isTestGame?: InputMaybe<Order_By>;
   matchups_aggregate?: InputMaybe<Feud_Old_Game_Rooms_Aggregate_Order_By>;
   notes?: InputMaybe<Order_By>;
   notionId?: InputMaybe<Order_By>;
+  payrollComment?: InputMaybe<Order_By>;
+  payrollPayout?: InputMaybe<Order_By>;
+  payrollStatus?: InputMaybe<Order_By>;
   reviews_aggregate?: InputMaybe<Reviews_Aggregate_Order_By>;
+  scheduleStatus?: InputMaybe<Order_By>;
   source?: InputMaybe<Sources_Order_By>;
   sourceId?: InputMaybe<Order_By>;
   sourceManualId?: InputMaybe<Order_By>;
@@ -4699,6 +4824,8 @@ export enum Events_Select_Column {
   /** column name */
   ClientName = 'clientName',
   /** column name */
+  CoHostSlots = 'coHostSlots',
+  /** column name */
   Company = 'company',
   /** column name */
   ContactPerson = 'contactPerson',
@@ -4708,6 +4835,10 @@ export enum Events_Select_Column {
   CreatedById = 'createdById',
   /** column name */
   Date = 'date',
+  /** column name */
+  Discord = 'discord',
+  /** column name */
+  Duration = 'duration',
   /** column name */
   EventType = 'eventType',
   /** column name */
@@ -4729,13 +4860,25 @@ export enum Events_Select_Column {
   /** column name */
   GameOldId = 'game_old_id',
   /** column name */
+  HostSlots = 'hostSlots',
+  /** column name */
   Id = 'id',
   /** column name */
-  IsTestGame = 'isTestGame',
+  IsPayrollPaidSeparately = 'isPayrollPaidSeparately',
+  /** column name */
+  IsPayrollRedFlag = 'isPayrollRedFlag',
   /** column name */
   Notes = 'notes',
   /** column name */
   NotionId = 'notionId',
+  /** column name */
+  PayrollComment = 'payrollComment',
+  /** column name */
+  PayrollPayout = 'payrollPayout',
+  /** column name */
+  PayrollStatus = 'payrollStatus',
+  /** column name */
+  ScheduleStatus = 'scheduleStatus',
   /** column name */
   SourceId = 'sourceId',
   /** column name */
@@ -4760,11 +4903,14 @@ export enum Events_Select_Column {
 export type Events_Set_Input = {
   actualParticipants?: InputMaybe<Scalars['Int']>;
   clientName?: InputMaybe<Scalars['String']>;
+  coHostSlots?: InputMaybe<Scalars['Int']>;
   company?: InputMaybe<Scalars['String']>;
   contactPerson?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
   createdById?: InputMaybe<Scalars['uuid']>;
   date?: InputMaybe<Scalars['timestamptz']>;
+  discord?: InputMaybe<Scalars['String']>;
+  duration?: InputMaybe<Scalars['Int']>;
   eventType?: InputMaybe<Scalars['String']>;
   expectedParticipants?: InputMaybe<Scalars['Int']>;
   gameInformationFeudId?: InputMaybe<Scalars['uuid']>;
@@ -4775,10 +4921,16 @@ export type Events_Set_Input = {
   gameInformationTemplateId?: InputMaybe<Scalars['uuid']>;
   gameType?: InputMaybe<Scalars['String']>;
   game_old_id?: InputMaybe<Scalars['uuid']>;
+  hostSlots?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['uuid']>;
-  isTestGame?: InputMaybe<Scalars['Boolean']>;
+  isPayrollPaidSeparately?: InputMaybe<Scalars['Boolean']>;
+  isPayrollRedFlag?: InputMaybe<Scalars['Boolean']>;
   notes?: InputMaybe<Scalars['String']>;
   notionId?: InputMaybe<Scalars['String']>;
+  payrollComment?: InputMaybe<Scalars['String']>;
+  payrollPayout?: InputMaybe<Scalars['Int']>;
+  payrollStatus?: InputMaybe<Scalars['String']>;
+  scheduleStatus?: InputMaybe<Scalars['String']>;
   sourceId?: InputMaybe<Scalars['uuid']>;
   sourceManualId?: InputMaybe<Scalars['String']>;
   status?: InputMaybe<Scalars['String']>;
@@ -4794,7 +4946,13 @@ export type Events_Set_Input = {
 export type Events_Stddev_Fields = {
   __typename?: 'events_stddev_fields';
   actualParticipants?: Maybe<Scalars['Float']>;
+  /** A computed field, executes function "get_average_review_score" */
+  avgReviewScore?: Maybe<Scalars['float8']>;
+  coHostSlots?: Maybe<Scalars['Float']>;
+  duration?: Maybe<Scalars['Float']>;
   expectedParticipants?: Maybe<Scalars['Float']>;
+  hostSlots?: Maybe<Scalars['Float']>;
+  payrollPayout?: Maybe<Scalars['Float']>;
   totalTeams?: Maybe<Scalars['Float']>;
 };
 
@@ -4802,7 +4960,13 @@ export type Events_Stddev_Fields = {
 export type Events_Stddev_Pop_Fields = {
   __typename?: 'events_stddev_pop_fields';
   actualParticipants?: Maybe<Scalars['Float']>;
+  /** A computed field, executes function "get_average_review_score" */
+  avgReviewScore?: Maybe<Scalars['float8']>;
+  coHostSlots?: Maybe<Scalars['Float']>;
+  duration?: Maybe<Scalars['Float']>;
   expectedParticipants?: Maybe<Scalars['Float']>;
+  hostSlots?: Maybe<Scalars['Float']>;
+  payrollPayout?: Maybe<Scalars['Float']>;
   totalTeams?: Maybe<Scalars['Float']>;
 };
 
@@ -4810,7 +4974,13 @@ export type Events_Stddev_Pop_Fields = {
 export type Events_Stddev_Samp_Fields = {
   __typename?: 'events_stddev_samp_fields';
   actualParticipants?: Maybe<Scalars['Float']>;
+  /** A computed field, executes function "get_average_review_score" */
+  avgReviewScore?: Maybe<Scalars['float8']>;
+  coHostSlots?: Maybe<Scalars['Float']>;
+  duration?: Maybe<Scalars['Float']>;
   expectedParticipants?: Maybe<Scalars['Float']>;
+  hostSlots?: Maybe<Scalars['Float']>;
+  payrollPayout?: Maybe<Scalars['Float']>;
   totalTeams?: Maybe<Scalars['Float']>;
 };
 
@@ -4826,11 +4996,14 @@ export type Events_Stream_Cursor_Input = {
 export type Events_Stream_Cursor_Value_Input = {
   actualParticipants?: InputMaybe<Scalars['Int']>;
   clientName?: InputMaybe<Scalars['String']>;
+  coHostSlots?: InputMaybe<Scalars['Int']>;
   company?: InputMaybe<Scalars['String']>;
   contactPerson?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
   createdById?: InputMaybe<Scalars['uuid']>;
   date?: InputMaybe<Scalars['timestamptz']>;
+  discord?: InputMaybe<Scalars['String']>;
+  duration?: InputMaybe<Scalars['Int']>;
   eventType?: InputMaybe<Scalars['String']>;
   expectedParticipants?: InputMaybe<Scalars['Int']>;
   gameInformationFeudId?: InputMaybe<Scalars['uuid']>;
@@ -4841,10 +5014,16 @@ export type Events_Stream_Cursor_Value_Input = {
   gameInformationTemplateId?: InputMaybe<Scalars['uuid']>;
   gameType?: InputMaybe<Scalars['String']>;
   game_old_id?: InputMaybe<Scalars['uuid']>;
+  hostSlots?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['uuid']>;
-  isTestGame?: InputMaybe<Scalars['Boolean']>;
+  isPayrollPaidSeparately?: InputMaybe<Scalars['Boolean']>;
+  isPayrollRedFlag?: InputMaybe<Scalars['Boolean']>;
   notes?: InputMaybe<Scalars['String']>;
   notionId?: InputMaybe<Scalars['String']>;
+  payrollComment?: InputMaybe<Scalars['String']>;
+  payrollPayout?: InputMaybe<Scalars['Int']>;
+  payrollStatus?: InputMaybe<Scalars['String']>;
+  scheduleStatus?: InputMaybe<Scalars['String']>;
   sourceId?: InputMaybe<Scalars['uuid']>;
   sourceManualId?: InputMaybe<Scalars['String']>;
   status?: InputMaybe<Scalars['String']>;
@@ -4860,7 +5039,13 @@ export type Events_Stream_Cursor_Value_Input = {
 export type Events_Sum_Fields = {
   __typename?: 'events_sum_fields';
   actualParticipants?: Maybe<Scalars['Int']>;
+  /** A computed field, executes function "get_average_review_score" */
+  avgReviewScore?: Maybe<Scalars['float8']>;
+  coHostSlots?: Maybe<Scalars['Int']>;
+  duration?: Maybe<Scalars['Int']>;
   expectedParticipants?: Maybe<Scalars['Int']>;
+  hostSlots?: Maybe<Scalars['Int']>;
+  payrollPayout?: Maybe<Scalars['Int']>;
   totalTeams?: Maybe<Scalars['Int']>;
 };
 
@@ -4871,6 +5056,8 @@ export enum Events_Update_Column {
   /** column name */
   ClientName = 'clientName',
   /** column name */
+  CoHostSlots = 'coHostSlots',
+  /** column name */
   Company = 'company',
   /** column name */
   ContactPerson = 'contactPerson',
@@ -4880,6 +5067,10 @@ export enum Events_Update_Column {
   CreatedById = 'createdById',
   /** column name */
   Date = 'date',
+  /** column name */
+  Discord = 'discord',
+  /** column name */
+  Duration = 'duration',
   /** column name */
   EventType = 'eventType',
   /** column name */
@@ -4901,13 +5092,25 @@ export enum Events_Update_Column {
   /** column name */
   GameOldId = 'game_old_id',
   /** column name */
+  HostSlots = 'hostSlots',
+  /** column name */
   Id = 'id',
   /** column name */
-  IsTestGame = 'isTestGame',
+  IsPayrollPaidSeparately = 'isPayrollPaidSeparately',
+  /** column name */
+  IsPayrollRedFlag = 'isPayrollRedFlag',
   /** column name */
   Notes = 'notes',
   /** column name */
   NotionId = 'notionId',
+  /** column name */
+  PayrollComment = 'payrollComment',
+  /** column name */
+  PayrollPayout = 'payrollPayout',
+  /** column name */
+  PayrollStatus = 'payrollStatus',
+  /** column name */
+  ScheduleStatus = 'scheduleStatus',
   /** column name */
   SourceId = 'sourceId',
   /** column name */
@@ -4941,7 +5144,13 @@ export type Events_Updates = {
 export type Events_Var_Pop_Fields = {
   __typename?: 'events_var_pop_fields';
   actualParticipants?: Maybe<Scalars['Float']>;
+  /** A computed field, executes function "get_average_review_score" */
+  avgReviewScore?: Maybe<Scalars['float8']>;
+  coHostSlots?: Maybe<Scalars['Float']>;
+  duration?: Maybe<Scalars['Float']>;
   expectedParticipants?: Maybe<Scalars['Float']>;
+  hostSlots?: Maybe<Scalars['Float']>;
+  payrollPayout?: Maybe<Scalars['Float']>;
   totalTeams?: Maybe<Scalars['Float']>;
 };
 
@@ -4949,7 +5158,13 @@ export type Events_Var_Pop_Fields = {
 export type Events_Var_Samp_Fields = {
   __typename?: 'events_var_samp_fields';
   actualParticipants?: Maybe<Scalars['Float']>;
+  /** A computed field, executes function "get_average_review_score" */
+  avgReviewScore?: Maybe<Scalars['float8']>;
+  coHostSlots?: Maybe<Scalars['Float']>;
+  duration?: Maybe<Scalars['Float']>;
   expectedParticipants?: Maybe<Scalars['Float']>;
+  hostSlots?: Maybe<Scalars['Float']>;
+  payrollPayout?: Maybe<Scalars['Float']>;
   totalTeams?: Maybe<Scalars['Float']>;
 };
 
@@ -4957,8 +5172,256 @@ export type Events_Var_Samp_Fields = {
 export type Events_Variance_Fields = {
   __typename?: 'events_variance_fields';
   actualParticipants?: Maybe<Scalars['Float']>;
+  /** A computed field, executes function "get_average_review_score" */
+  avgReviewScore?: Maybe<Scalars['float8']>;
+  coHostSlots?: Maybe<Scalars['Float']>;
+  duration?: Maybe<Scalars['Float']>;
   expectedParticipants?: Maybe<Scalars['Float']>;
+  hostSlots?: Maybe<Scalars['Float']>;
+  payrollPayout?: Maybe<Scalars['Float']>;
   totalTeams?: Maybe<Scalars['Float']>;
+};
+
+/** columns and relationships of "feud_old.game_out_questions" */
+export type Feud_Old_Game_Out_Questions = {
+  __typename?: 'feud_old_game_out_questions';
+  created_at: Scalars['timestamptz'];
+  game_room_id?: Maybe<Scalars['Int']>;
+  id: Scalars['Int'];
+  question_id?: Maybe<Scalars['uuid']>;
+  updated_at: Scalars['timestamptz'];
+};
+
+/** aggregated selection of "feud_old.game_out_questions" */
+export type Feud_Old_Game_Out_Questions_Aggregate = {
+  __typename?: 'feud_old_game_out_questions_aggregate';
+  aggregate?: Maybe<Feud_Old_Game_Out_Questions_Aggregate_Fields>;
+  nodes: Array<Feud_Old_Game_Out_Questions>;
+};
+
+/** aggregate fields of "feud_old.game_out_questions" */
+export type Feud_Old_Game_Out_Questions_Aggregate_Fields = {
+  __typename?: 'feud_old_game_out_questions_aggregate_fields';
+  avg?: Maybe<Feud_Old_Game_Out_Questions_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Feud_Old_Game_Out_Questions_Max_Fields>;
+  min?: Maybe<Feud_Old_Game_Out_Questions_Min_Fields>;
+  stddev?: Maybe<Feud_Old_Game_Out_Questions_Stddev_Fields>;
+  stddev_pop?: Maybe<Feud_Old_Game_Out_Questions_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Feud_Old_Game_Out_Questions_Stddev_Samp_Fields>;
+  sum?: Maybe<Feud_Old_Game_Out_Questions_Sum_Fields>;
+  var_pop?: Maybe<Feud_Old_Game_Out_Questions_Var_Pop_Fields>;
+  var_samp?: Maybe<Feud_Old_Game_Out_Questions_Var_Samp_Fields>;
+  variance?: Maybe<Feud_Old_Game_Out_Questions_Variance_Fields>;
+};
+
+
+/** aggregate fields of "feud_old.game_out_questions" */
+export type Feud_Old_Game_Out_Questions_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Feud_Old_Game_Out_Questions_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** aggregate avg on columns */
+export type Feud_Old_Game_Out_Questions_Avg_Fields = {
+  __typename?: 'feud_old_game_out_questions_avg_fields';
+  game_room_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** Boolean expression to filter rows from the table "feud_old.game_out_questions". All fields are combined with a logical 'AND'. */
+export type Feud_Old_Game_Out_Questions_Bool_Exp = {
+  _and?: InputMaybe<Array<Feud_Old_Game_Out_Questions_Bool_Exp>>;
+  _not?: InputMaybe<Feud_Old_Game_Out_Questions_Bool_Exp>;
+  _or?: InputMaybe<Array<Feud_Old_Game_Out_Questions_Bool_Exp>>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  game_room_id?: InputMaybe<Int_Comparison_Exp>;
+  id?: InputMaybe<Int_Comparison_Exp>;
+  question_id?: InputMaybe<Uuid_Comparison_Exp>;
+  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "feud_old.game_out_questions" */
+export enum Feud_Old_Game_Out_Questions_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  PkF0ab7520b13d55aa238e342165d = 'PK_f0ab7520b13d55aa238e342165d'
+}
+
+/** input type for incrementing numeric columns in table "feud_old.game_out_questions" */
+export type Feud_Old_Game_Out_Questions_Inc_Input = {
+  game_room_id?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "feud_old.game_out_questions" */
+export type Feud_Old_Game_Out_Questions_Insert_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  game_room_id?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
+  question_id?: InputMaybe<Scalars['uuid']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** aggregate max on columns */
+export type Feud_Old_Game_Out_Questions_Max_Fields = {
+  __typename?: 'feud_old_game_out_questions_max_fields';
+  created_at?: Maybe<Scalars['timestamptz']>;
+  game_room_id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  question_id?: Maybe<Scalars['uuid']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** aggregate min on columns */
+export type Feud_Old_Game_Out_Questions_Min_Fields = {
+  __typename?: 'feud_old_game_out_questions_min_fields';
+  created_at?: Maybe<Scalars['timestamptz']>;
+  game_room_id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  question_id?: Maybe<Scalars['uuid']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** response of any mutation on the table "feud_old.game_out_questions" */
+export type Feud_Old_Game_Out_Questions_Mutation_Response = {
+  __typename?: 'feud_old_game_out_questions_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Feud_Old_Game_Out_Questions>;
+};
+
+/** on_conflict condition type for table "feud_old.game_out_questions" */
+export type Feud_Old_Game_Out_Questions_On_Conflict = {
+  constraint: Feud_Old_Game_Out_Questions_Constraint;
+  update_columns?: Array<Feud_Old_Game_Out_Questions_Update_Column>;
+  where?: InputMaybe<Feud_Old_Game_Out_Questions_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "feud_old.game_out_questions". */
+export type Feud_Old_Game_Out_Questions_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  game_room_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  question_id?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: feud_old.game_out_questions */
+export type Feud_Old_Game_Out_Questions_Pk_Columns_Input = {
+  id: Scalars['Int'];
+};
+
+/** select columns of table "feud_old.game_out_questions" */
+export enum Feud_Old_Game_Out_Questions_Select_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  GameRoomId = 'game_room_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  QuestionId = 'question_id',
+  /** column name */
+  UpdatedAt = 'updated_at'
+}
+
+/** input type for updating data in table "feud_old.game_out_questions" */
+export type Feud_Old_Game_Out_Questions_Set_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  game_room_id?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
+  question_id?: InputMaybe<Scalars['uuid']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** aggregate stddev on columns */
+export type Feud_Old_Game_Out_Questions_Stddev_Fields = {
+  __typename?: 'feud_old_game_out_questions_stddev_fields';
+  game_room_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Feud_Old_Game_Out_Questions_Stddev_Pop_Fields = {
+  __typename?: 'feud_old_game_out_questions_stddev_pop_fields';
+  game_room_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Feud_Old_Game_Out_Questions_Stddev_Samp_Fields = {
+  __typename?: 'feud_old_game_out_questions_stddev_samp_fields';
+  game_room_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** Streaming cursor of the table "feud_old_game_out_questions" */
+export type Feud_Old_Game_Out_Questions_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Feud_Old_Game_Out_Questions_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Feud_Old_Game_Out_Questions_Stream_Cursor_Value_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  game_room_id?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
+  question_id?: InputMaybe<Scalars['uuid']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** aggregate sum on columns */
+export type Feud_Old_Game_Out_Questions_Sum_Fields = {
+  __typename?: 'feud_old_game_out_questions_sum_fields';
+  game_room_id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+};
+
+/** update columns of table "feud_old.game_out_questions" */
+export enum Feud_Old_Game_Out_Questions_Update_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  GameRoomId = 'game_room_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  QuestionId = 'question_id',
+  /** column name */
+  UpdatedAt = 'updated_at'
+}
+
+export type Feud_Old_Game_Out_Questions_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Feud_Old_Game_Out_Questions_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Feud_Old_Game_Out_Questions_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Feud_Old_Game_Out_Questions_Bool_Exp;
+};
+
+/** aggregate var_pop on columns */
+export type Feud_Old_Game_Out_Questions_Var_Pop_Fields = {
+  __typename?: 'feud_old_game_out_questions_var_pop_fields';
+  game_room_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate var_samp on columns */
+export type Feud_Old_Game_Out_Questions_Var_Samp_Fields = {
+  __typename?: 'feud_old_game_out_questions_var_samp_fields';
+  game_room_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate variance on columns */
+export type Feud_Old_Game_Out_Questions_Variance_Fields = {
+  __typename?: 'feud_old_game_out_questions_variance_fields';
+  game_room_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
 };
 
 /** columns and relationships of "feud_old.game_room_rounds" */
@@ -6121,6 +6584,176 @@ export type Feud_Old_Game_Rooms_Variance_Order_By = {
   round?: InputMaybe<Order_By>;
 };
 
+/** columns and relationships of "feud_old.game_times" */
+export type Feud_Old_Game_Times = {
+  __typename?: 'feud_old_game_times';
+  created_at: Scalars['timestamptz'];
+  game_id?: Maybe<Scalars['uuid']>;
+  id: Scalars['uuid'];
+  type: Scalars['String'];
+  updated_at: Scalars['timestamptz'];
+};
+
+/** aggregated selection of "feud_old.game_times" */
+export type Feud_Old_Game_Times_Aggregate = {
+  __typename?: 'feud_old_game_times_aggregate';
+  aggregate?: Maybe<Feud_Old_Game_Times_Aggregate_Fields>;
+  nodes: Array<Feud_Old_Game_Times>;
+};
+
+/** aggregate fields of "feud_old.game_times" */
+export type Feud_Old_Game_Times_Aggregate_Fields = {
+  __typename?: 'feud_old_game_times_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Feud_Old_Game_Times_Max_Fields>;
+  min?: Maybe<Feud_Old_Game_Times_Min_Fields>;
+};
+
+
+/** aggregate fields of "feud_old.game_times" */
+export type Feud_Old_Game_Times_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Feud_Old_Game_Times_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "feud_old.game_times". All fields are combined with a logical 'AND'. */
+export type Feud_Old_Game_Times_Bool_Exp = {
+  _and?: InputMaybe<Array<Feud_Old_Game_Times_Bool_Exp>>;
+  _not?: InputMaybe<Feud_Old_Game_Times_Bool_Exp>;
+  _or?: InputMaybe<Array<Feud_Old_Game_Times_Bool_Exp>>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  game_id?: InputMaybe<Uuid_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  type?: InputMaybe<String_Comparison_Exp>;
+  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "feud_old.game_times" */
+export enum Feud_Old_Game_Times_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  Pk_18c100a7c353e8f6b251d6db05c = 'PK_18c100a7c353e8f6b251d6db05c'
+}
+
+/** input type for inserting data into table "feud_old.game_times" */
+export type Feud_Old_Game_Times_Insert_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  game_id?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  type?: InputMaybe<Scalars['String']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** aggregate max on columns */
+export type Feud_Old_Game_Times_Max_Fields = {
+  __typename?: 'feud_old_game_times_max_fields';
+  created_at?: Maybe<Scalars['timestamptz']>;
+  game_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  type?: Maybe<Scalars['String']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** aggregate min on columns */
+export type Feud_Old_Game_Times_Min_Fields = {
+  __typename?: 'feud_old_game_times_min_fields';
+  created_at?: Maybe<Scalars['timestamptz']>;
+  game_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  type?: Maybe<Scalars['String']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** response of any mutation on the table "feud_old.game_times" */
+export type Feud_Old_Game_Times_Mutation_Response = {
+  __typename?: 'feud_old_game_times_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Feud_Old_Game_Times>;
+};
+
+/** on_conflict condition type for table "feud_old.game_times" */
+export type Feud_Old_Game_Times_On_Conflict = {
+  constraint: Feud_Old_Game_Times_Constraint;
+  update_columns?: Array<Feud_Old_Game_Times_Update_Column>;
+  where?: InputMaybe<Feud_Old_Game_Times_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "feud_old.game_times". */
+export type Feud_Old_Game_Times_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  game_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  type?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: feud_old.game_times */
+export type Feud_Old_Game_Times_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "feud_old.game_times" */
+export enum Feud_Old_Game_Times_Select_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  GameId = 'game_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Type = 'type',
+  /** column name */
+  UpdatedAt = 'updated_at'
+}
+
+/** input type for updating data in table "feud_old.game_times" */
+export type Feud_Old_Game_Times_Set_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  game_id?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  type?: InputMaybe<Scalars['String']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** Streaming cursor of the table "feud_old_game_times" */
+export type Feud_Old_Game_Times_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Feud_Old_Game_Times_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Feud_Old_Game_Times_Stream_Cursor_Value_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  game_id?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  type?: InputMaybe<Scalars['String']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** update columns of table "feud_old.game_times" */
+export enum Feud_Old_Game_Times_Update_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  GameId = 'game_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Type = 'type',
+  /** column name */
+  UpdatedAt = 'updated_at'
+}
+
+export type Feud_Old_Game_Times_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Feud_Old_Game_Times_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Feud_Old_Game_Times_Bool_Exp;
+};
+
 /** columns and relationships of "feud_old.games_old" */
 export type Feud_Old_Games_Old = {
   __typename?: 'feud_old_games_old';
@@ -6906,6 +7539,19 @@ export type Files_Variance_Order_By = {
   size?: InputMaybe<Order_By>;
 };
 
+/** Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'. */
+export type Float8_Comparison_Exp = {
+  _eq?: InputMaybe<Scalars['float8']>;
+  _gt?: InputMaybe<Scalars['float8']>;
+  _gte?: InputMaybe<Scalars['float8']>;
+  _in?: InputMaybe<Array<Scalars['float8']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _lt?: InputMaybe<Scalars['float8']>;
+  _lte?: InputMaybe<Scalars['float8']>;
+  _neq?: InputMaybe<Scalars['float8']>;
+  _nin?: InputMaybe<Array<Scalars['float8']>>;
+};
+
 /** columns and relationships of "sketchWars.game_information_collections" */
 export type GameInformationCollections = {
   __typename?: 'gameInformationCollections';
@@ -7096,6 +7742,8 @@ export type GameInformationFeud = {
   /** An object relationship */
   collection?: Maybe<Collections>;
   collectionId?: Maybe<Scalars['uuid']>;
+  /** An object relationship */
+  event?: Maybe<Events>;
   id: Scalars['uuid'];
   /** An object relationship */
   matchupSettings?: Maybe<MatchupSettings>;
@@ -7203,6 +7851,7 @@ export type GameInformationFeud_Bool_Exp = {
   breakoutRoomTimer?: InputMaybe<Int_Comparison_Exp>;
   collection?: InputMaybe<Collections_Bool_Exp>;
   collectionId?: InputMaybe<Uuid_Comparison_Exp>;
+  event?: InputMaybe<Events_Bool_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   matchupSettings?: InputMaybe<MatchupSettings_Bool_Exp>;
   matchupSettingsId?: InputMaybe<Uuid_Comparison_Exp>;
@@ -7237,6 +7886,7 @@ export type GameInformationFeud_Insert_Input = {
   breakoutRoomTimer?: InputMaybe<Scalars['Int']>;
   collection?: InputMaybe<Collections_Obj_Rel_Insert_Input>;
   collectionId?: InputMaybe<Scalars['uuid']>;
+  event?: InputMaybe<Events_Obj_Rel_Insert_Input>;
   id?: InputMaybe<Scalars['uuid']>;
   matchupSettings?: InputMaybe<MatchupSettings_Obj_Rel_Insert_Input>;
   matchupSettingsId?: InputMaybe<Scalars['uuid']>;
@@ -7341,6 +7991,7 @@ export type GameInformationFeud_Order_By = {
   breakoutRoomTimer?: InputMaybe<Order_By>;
   collection?: InputMaybe<Collections_Order_By>;
   collectionId?: InputMaybe<Order_By>;
+  event?: InputMaybe<Events_Order_By>;
   id?: InputMaybe<Order_By>;
   matchupSettings?: InputMaybe<MatchupSettings_Order_By>;
   matchupSettingsId?: InputMaybe<Order_By>;
@@ -7741,9 +8392,12 @@ export type GameInformationOlympics_Updates = {
 export type GameInformationSelfHosted = {
   __typename?: 'gameInformationSelfHosted';
   createdAt: Scalars['timestamp'];
+  difficulty?: Maybe<Scalars['String']>;
   gameType: Scalars['String'];
   id: Scalars['uuid'];
+  isStarted: Scalars['Boolean'];
   name: Scalars['String'];
+  rounds?: Maybe<Scalars['Int']>;
   state: Scalars['String'];
   /** An object relationship */
   systemSettings?: Maybe<GameInformationSelfHosted>;
@@ -7760,9 +8414,17 @@ export type GameInformationSelfHosted_Aggregate = {
 /** aggregate fields of "game_information_self_hosted" */
 export type GameInformationSelfHosted_Aggregate_Fields = {
   __typename?: 'gameInformationSelfHosted_aggregate_fields';
+  avg?: Maybe<GameInformationSelfHosted_Avg_Fields>;
   count: Scalars['Int'];
   max?: Maybe<GameInformationSelfHosted_Max_Fields>;
   min?: Maybe<GameInformationSelfHosted_Min_Fields>;
+  stddev?: Maybe<GameInformationSelfHosted_Stddev_Fields>;
+  stddev_pop?: Maybe<GameInformationSelfHosted_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<GameInformationSelfHosted_Stddev_Samp_Fields>;
+  sum?: Maybe<GameInformationSelfHosted_Sum_Fields>;
+  var_pop?: Maybe<GameInformationSelfHosted_Var_Pop_Fields>;
+  var_samp?: Maybe<GameInformationSelfHosted_Var_Samp_Fields>;
+  variance?: Maybe<GameInformationSelfHosted_Variance_Fields>;
 };
 
 
@@ -7772,15 +8434,24 @@ export type GameInformationSelfHosted_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
+/** aggregate avg on columns */
+export type GameInformationSelfHosted_Avg_Fields = {
+  __typename?: 'gameInformationSelfHosted_avg_fields';
+  rounds?: Maybe<Scalars['Float']>;
+};
+
 /** Boolean expression to filter rows from the table "game_information_self_hosted". All fields are combined with a logical 'AND'. */
 export type GameInformationSelfHosted_Bool_Exp = {
   _and?: InputMaybe<Array<GameInformationSelfHosted_Bool_Exp>>;
   _not?: InputMaybe<GameInformationSelfHosted_Bool_Exp>;
   _or?: InputMaybe<Array<GameInformationSelfHosted_Bool_Exp>>;
   createdAt?: InputMaybe<Timestamp_Comparison_Exp>;
+  difficulty?: InputMaybe<String_Comparison_Exp>;
   gameType?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
+  isStarted?: InputMaybe<Boolean_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
+  rounds?: InputMaybe<Int_Comparison_Exp>;
   state?: InputMaybe<String_Comparison_Exp>;
   systemSettings?: InputMaybe<GameInformationSelfHosted_Bool_Exp>;
   systemSettingsId?: InputMaybe<Uuid_Comparison_Exp>;
@@ -7792,12 +8463,20 @@ export enum GameInformationSelfHosted_Constraint {
   GameInformationSelfHostedPkey = 'game_information_self_hosted_pkey'
 }
 
+/** input type for incrementing numeric columns in table "game_information_self_hosted" */
+export type GameInformationSelfHosted_Inc_Input = {
+  rounds?: InputMaybe<Scalars['Int']>;
+};
+
 /** input type for inserting data into table "game_information_self_hosted" */
 export type GameInformationSelfHosted_Insert_Input = {
   createdAt?: InputMaybe<Scalars['timestamp']>;
+  difficulty?: InputMaybe<Scalars['String']>;
   gameType?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
+  isStarted?: InputMaybe<Scalars['Boolean']>;
   name?: InputMaybe<Scalars['String']>;
+  rounds?: InputMaybe<Scalars['Int']>;
   state?: InputMaybe<Scalars['String']>;
   systemSettings?: InputMaybe<GameInformationSelfHosted_Obj_Rel_Insert_Input>;
   systemSettingsId?: InputMaybe<Scalars['uuid']>;
@@ -7807,9 +8486,11 @@ export type GameInformationSelfHosted_Insert_Input = {
 export type GameInformationSelfHosted_Max_Fields = {
   __typename?: 'gameInformationSelfHosted_max_fields';
   createdAt?: Maybe<Scalars['timestamp']>;
+  difficulty?: Maybe<Scalars['String']>;
   gameType?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
   name?: Maybe<Scalars['String']>;
+  rounds?: Maybe<Scalars['Int']>;
   state?: Maybe<Scalars['String']>;
   systemSettingsId?: Maybe<Scalars['uuid']>;
 };
@@ -7818,9 +8499,11 @@ export type GameInformationSelfHosted_Max_Fields = {
 export type GameInformationSelfHosted_Min_Fields = {
   __typename?: 'gameInformationSelfHosted_min_fields';
   createdAt?: Maybe<Scalars['timestamp']>;
+  difficulty?: Maybe<Scalars['String']>;
   gameType?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
   name?: Maybe<Scalars['String']>;
+  rounds?: Maybe<Scalars['Int']>;
   state?: Maybe<Scalars['String']>;
   systemSettingsId?: Maybe<Scalars['uuid']>;
 };
@@ -7851,9 +8534,12 @@ export type GameInformationSelfHosted_On_Conflict = {
 /** Ordering options when selecting data from "game_information_self_hosted". */
 export type GameInformationSelfHosted_Order_By = {
   createdAt?: InputMaybe<Order_By>;
+  difficulty?: InputMaybe<Order_By>;
   gameType?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  isStarted?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
+  rounds?: InputMaybe<Order_By>;
   state?: InputMaybe<Order_By>;
   systemSettings?: InputMaybe<GameInformationSelfHosted_Order_By>;
   systemSettingsId?: InputMaybe<Order_By>;
@@ -7869,11 +8555,17 @@ export enum GameInformationSelfHosted_Select_Column {
   /** column name */
   CreatedAt = 'createdAt',
   /** column name */
+  Difficulty = 'difficulty',
+  /** column name */
   GameType = 'gameType',
   /** column name */
   Id = 'id',
   /** column name */
+  IsStarted = 'isStarted',
+  /** column name */
   Name = 'name',
+  /** column name */
+  Rounds = 'rounds',
   /** column name */
   State = 'state',
   /** column name */
@@ -7883,11 +8575,32 @@ export enum GameInformationSelfHosted_Select_Column {
 /** input type for updating data in table "game_information_self_hosted" */
 export type GameInformationSelfHosted_Set_Input = {
   createdAt?: InputMaybe<Scalars['timestamp']>;
+  difficulty?: InputMaybe<Scalars['String']>;
   gameType?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
+  isStarted?: InputMaybe<Scalars['Boolean']>;
   name?: InputMaybe<Scalars['String']>;
+  rounds?: InputMaybe<Scalars['Int']>;
   state?: InputMaybe<Scalars['String']>;
   systemSettingsId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate stddev on columns */
+export type GameInformationSelfHosted_Stddev_Fields = {
+  __typename?: 'gameInformationSelfHosted_stddev_fields';
+  rounds?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type GameInformationSelfHosted_Stddev_Pop_Fields = {
+  __typename?: 'gameInformationSelfHosted_stddev_pop_fields';
+  rounds?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type GameInformationSelfHosted_Stddev_Samp_Fields = {
+  __typename?: 'gameInformationSelfHosted_stddev_samp_fields';
+  rounds?: Maybe<Scalars['Float']>;
 };
 
 /** Streaming cursor of the table "gameInformationSelfHosted" */
@@ -7901,11 +8614,20 @@ export type GameInformationSelfHosted_Stream_Cursor_Input = {
 /** Initial value of the column from where the streaming should start */
 export type GameInformationSelfHosted_Stream_Cursor_Value_Input = {
   createdAt?: InputMaybe<Scalars['timestamp']>;
+  difficulty?: InputMaybe<Scalars['String']>;
   gameType?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
+  isStarted?: InputMaybe<Scalars['Boolean']>;
   name?: InputMaybe<Scalars['String']>;
+  rounds?: InputMaybe<Scalars['Int']>;
   state?: InputMaybe<Scalars['String']>;
   systemSettingsId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate sum on columns */
+export type GameInformationSelfHosted_Sum_Fields = {
+  __typename?: 'gameInformationSelfHosted_sum_fields';
+  rounds?: Maybe<Scalars['Int']>;
 };
 
 /** update columns of table "game_information_self_hosted" */
@@ -7913,11 +8635,17 @@ export enum GameInformationSelfHosted_Update_Column {
   /** column name */
   CreatedAt = 'createdAt',
   /** column name */
+  Difficulty = 'difficulty',
+  /** column name */
   GameType = 'gameType',
   /** column name */
   Id = 'id',
   /** column name */
+  IsStarted = 'isStarted',
+  /** column name */
   Name = 'name',
+  /** column name */
+  Rounds = 'rounds',
   /** column name */
   State = 'state',
   /** column name */
@@ -7925,28 +8653,78 @@ export enum GameInformationSelfHosted_Update_Column {
 }
 
 export type GameInformationSelfHosted_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<GameInformationSelfHosted_Inc_Input>;
   /** sets the columns of the filtered rows to the given values */
   _set?: InputMaybe<GameInformationSelfHosted_Set_Input>;
   /** filter the rows which have to be updated */
   where: GameInformationSelfHosted_Bool_Exp;
 };
 
+/** aggregate var_pop on columns */
+export type GameInformationSelfHosted_Var_Pop_Fields = {
+  __typename?: 'gameInformationSelfHosted_var_pop_fields';
+  rounds?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate var_samp on columns */
+export type GameInformationSelfHosted_Var_Samp_Fields = {
+  __typename?: 'gameInformationSelfHosted_var_samp_fields';
+  rounds?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate variance on columns */
+export type GameInformationSelfHosted_Variance_Fields = {
+  __typename?: 'gameInformationSelfHosted_variance_fields';
+  rounds?: Maybe<Scalars['Float']>;
+};
+
 /** columns and relationships of "sketchWars.game_information_sketch_wars" */
 export type GameInformationSketchWars = {
   __typename?: 'gameInformationSketchWars';
+  /** An array relationship */
+  categories: Array<SketchWars_Game_Categories>;
+  /** An aggregate relationship */
+  categories_aggregate: SketchWars_Game_Categories_Aggregate;
+  /** An object relationship */
+  category?: Maybe<Categories>;
+  categoryId?: Maybe<Scalars['uuid']>;
   /** An array relationship */
   collections: Array<GameInformationCollections>;
   /** An aggregate relationship */
   collections_aggregate: GameInformationCollections_Aggregate;
   drawTime: Scalars['Int'];
+  /** An object relationship */
+  event?: Maybe<Events>;
   hints: Scalars['Boolean'];
   id: Scalars['uuid'];
+  isStarted: Scalars['Boolean'];
   state: Scalars['String'];
   teamAssignments: Scalars['String'];
   totalMatchups?: Maybe<Scalars['Int']>;
   totalRounds?: Maybe<Scalars['Int']>;
   tournamentMode: Scalars['Boolean'];
   wordMode: Scalars['String'];
+};
+
+
+/** columns and relationships of "sketchWars.game_information_sketch_wars" */
+export type GameInformationSketchWarsCategoriesArgs = {
+  distinct_on?: InputMaybe<Array<SketchWars_Game_Categories_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<SketchWars_Game_Categories_Order_By>>;
+  where?: InputMaybe<SketchWars_Game_Categories_Bool_Exp>;
+};
+
+
+/** columns and relationships of "sketchWars.game_information_sketch_wars" */
+export type GameInformationSketchWarsCategories_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<SketchWars_Game_Categories_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<SketchWars_Game_Categories_Order_By>>;
+  where?: InputMaybe<SketchWars_Game_Categories_Bool_Exp>;
 };
 
 
@@ -8012,11 +8790,17 @@ export type GameInformationSketchWars_Bool_Exp = {
   _and?: InputMaybe<Array<GameInformationSketchWars_Bool_Exp>>;
   _not?: InputMaybe<GameInformationSketchWars_Bool_Exp>;
   _or?: InputMaybe<Array<GameInformationSketchWars_Bool_Exp>>;
+  categories?: InputMaybe<SketchWars_Game_Categories_Bool_Exp>;
+  categories_aggregate?: InputMaybe<SketchWars_Game_Categories_Aggregate_Bool_Exp>;
+  category?: InputMaybe<Categories_Bool_Exp>;
+  categoryId?: InputMaybe<Uuid_Comparison_Exp>;
   collections?: InputMaybe<GameInformationCollections_Bool_Exp>;
   collections_aggregate?: InputMaybe<GameInformationCollections_Aggregate_Bool_Exp>;
   drawTime?: InputMaybe<Int_Comparison_Exp>;
+  event?: InputMaybe<Events_Bool_Exp>;
   hints?: InputMaybe<Boolean_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
+  isStarted?: InputMaybe<Boolean_Comparison_Exp>;
   state?: InputMaybe<String_Comparison_Exp>;
   teamAssignments?: InputMaybe<String_Comparison_Exp>;
   totalMatchups?: InputMaybe<Int_Comparison_Exp>;
@@ -8040,10 +8824,15 @@ export type GameInformationSketchWars_Inc_Input = {
 
 /** input type for inserting data into table "sketchWars.game_information_sketch_wars" */
 export type GameInformationSketchWars_Insert_Input = {
+  categories?: InputMaybe<SketchWars_Game_Categories_Arr_Rel_Insert_Input>;
+  category?: InputMaybe<Categories_Obj_Rel_Insert_Input>;
+  categoryId?: InputMaybe<Scalars['uuid']>;
   collections?: InputMaybe<GameInformationCollections_Arr_Rel_Insert_Input>;
   drawTime?: InputMaybe<Scalars['Int']>;
+  event?: InputMaybe<Events_Obj_Rel_Insert_Input>;
   hints?: InputMaybe<Scalars['Boolean']>;
   id?: InputMaybe<Scalars['uuid']>;
+  isStarted?: InputMaybe<Scalars['Boolean']>;
   state?: InputMaybe<Scalars['String']>;
   teamAssignments?: InputMaybe<Scalars['String']>;
   totalMatchups?: InputMaybe<Scalars['Int']>;
@@ -8055,6 +8844,7 @@ export type GameInformationSketchWars_Insert_Input = {
 /** aggregate max on columns */
 export type GameInformationSketchWars_Max_Fields = {
   __typename?: 'gameInformationSketchWars_max_fields';
+  categoryId?: Maybe<Scalars['uuid']>;
   drawTime?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['uuid']>;
   state?: Maybe<Scalars['String']>;
@@ -8067,6 +8857,7 @@ export type GameInformationSketchWars_Max_Fields = {
 /** aggregate min on columns */
 export type GameInformationSketchWars_Min_Fields = {
   __typename?: 'gameInformationSketchWars_min_fields';
+  categoryId?: Maybe<Scalars['uuid']>;
   drawTime?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['uuid']>;
   state?: Maybe<Scalars['String']>;
@@ -8101,10 +8892,15 @@ export type GameInformationSketchWars_On_Conflict = {
 
 /** Ordering options when selecting data from "sketchWars.game_information_sketch_wars". */
 export type GameInformationSketchWars_Order_By = {
+  categories_aggregate?: InputMaybe<SketchWars_Game_Categories_Aggregate_Order_By>;
+  category?: InputMaybe<Categories_Order_By>;
+  categoryId?: InputMaybe<Order_By>;
   collections_aggregate?: InputMaybe<GameInformationCollections_Aggregate_Order_By>;
   drawTime?: InputMaybe<Order_By>;
+  event?: InputMaybe<Events_Order_By>;
   hints?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  isStarted?: InputMaybe<Order_By>;
   state?: InputMaybe<Order_By>;
   teamAssignments?: InputMaybe<Order_By>;
   totalMatchups?: InputMaybe<Order_By>;
@@ -8121,11 +8917,15 @@ export type GameInformationSketchWars_Pk_Columns_Input = {
 /** select columns of table "sketchWars.game_information_sketch_wars" */
 export enum GameInformationSketchWars_Select_Column {
   /** column name */
+  CategoryId = 'categoryId',
+  /** column name */
   DrawTime = 'drawTime',
   /** column name */
   Hints = 'hints',
   /** column name */
   Id = 'id',
+  /** column name */
+  IsStarted = 'isStarted',
   /** column name */
   State = 'state',
   /** column name */
@@ -8142,9 +8942,11 @@ export enum GameInformationSketchWars_Select_Column {
 
 /** input type for updating data in table "sketchWars.game_information_sketch_wars" */
 export type GameInformationSketchWars_Set_Input = {
+  categoryId?: InputMaybe<Scalars['uuid']>;
   drawTime?: InputMaybe<Scalars['Int']>;
   hints?: InputMaybe<Scalars['Boolean']>;
   id?: InputMaybe<Scalars['uuid']>;
+  isStarted?: InputMaybe<Scalars['Boolean']>;
   state?: InputMaybe<Scalars['String']>;
   teamAssignments?: InputMaybe<Scalars['String']>;
   totalMatchups?: InputMaybe<Scalars['Int']>;
@@ -8187,9 +8989,11 @@ export type GameInformationSketchWars_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type GameInformationSketchWars_Stream_Cursor_Value_Input = {
+  categoryId?: InputMaybe<Scalars['uuid']>;
   drawTime?: InputMaybe<Scalars['Int']>;
   hints?: InputMaybe<Scalars['Boolean']>;
   id?: InputMaybe<Scalars['uuid']>;
+  isStarted?: InputMaybe<Scalars['Boolean']>;
   state?: InputMaybe<Scalars['String']>;
   teamAssignments?: InputMaybe<Scalars['String']>;
   totalMatchups?: InputMaybe<Scalars['Int']>;
@@ -8209,11 +9013,15 @@ export type GameInformationSketchWars_Sum_Fields = {
 /** update columns of table "sketchWars.game_information_sketch_wars" */
 export enum GameInformationSketchWars_Update_Column {
   /** column name */
+  CategoryId = 'categoryId',
+  /** column name */
   DrawTime = 'drawTime',
   /** column name */
   Hints = 'hints',
   /** column name */
   Id = 'id',
+  /** column name */
+  IsStarted = 'isStarted',
   /** column name */
   State = 'state',
   /** column name */
@@ -8393,6 +9201,7 @@ export type GameInformationStq_Updates = {
 /** columns and relationships of "game_information_template" */
 export type GameInformationTemplate = {
   __typename?: 'gameInformationTemplate';
+  allowCoHostRole: Scalars['Boolean'];
   /** An array relationship */
   bonuses: Array<Olympics_Event_Stages>;
   /** An aggregate relationship */
@@ -8401,11 +9210,11 @@ export type GameInformationTemplate = {
   escapeTime?: Maybe<Scalars['numeric']>;
   eventStartTime?: Maybe<Scalars['numeric']>;
   favicon?: Maybe<Scalars['String']>;
+  friendGameLink?: Maybe<Scalars['String']>;
   gameLogo: Scalars['String'];
   id: Scalars['uuid'];
   name: Scalars['String'];
   presentationCoverImage?: Maybe<Scalars['String']>;
-  presentationFormat: Scalars['String'];
   presentationTitlePreText?: Maybe<Scalars['String']>;
   presentationTitleText?: Maybe<Scalars['String']>;
   /** An object relationship */
@@ -8482,17 +9291,18 @@ export type GameInformationTemplate_Bool_Exp = {
   _and?: InputMaybe<Array<GameInformationTemplate_Bool_Exp>>;
   _not?: InputMaybe<GameInformationTemplate_Bool_Exp>;
   _or?: InputMaybe<Array<GameInformationTemplate_Bool_Exp>>;
+  allowCoHostRole?: InputMaybe<Boolean_Comparison_Exp>;
   bonuses?: InputMaybe<Olympics_Event_Stages_Bool_Exp>;
   bonuses_aggregate?: InputMaybe<Olympics_Event_Stages_Aggregate_Bool_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   escapeTime?: InputMaybe<Numeric_Comparison_Exp>;
   eventStartTime?: InputMaybe<Numeric_Comparison_Exp>;
   favicon?: InputMaybe<String_Comparison_Exp>;
+  friendGameLink?: InputMaybe<String_Comparison_Exp>;
   gameLogo?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   presentationCoverImage?: InputMaybe<String_Comparison_Exp>;
-  presentationFormat?: InputMaybe<String_Comparison_Exp>;
   presentationTitlePreText?: InputMaybe<String_Comparison_Exp>;
   presentationTitleText?: InputMaybe<String_Comparison_Exp>;
   resource?: InputMaybe<Resources_Bool_Exp>;
@@ -8519,16 +9329,17 @@ export type GameInformationTemplate_Inc_Input = {
 
 /** input type for inserting data into table "game_information_template" */
 export type GameInformationTemplate_Insert_Input = {
+  allowCoHostRole?: InputMaybe<Scalars['Boolean']>;
   bonuses?: InputMaybe<Olympics_Event_Stages_Arr_Rel_Insert_Input>;
   created_at?: InputMaybe<Scalars['timestamptz']>;
   escapeTime?: InputMaybe<Scalars['numeric']>;
   eventStartTime?: InputMaybe<Scalars['numeric']>;
   favicon?: InputMaybe<Scalars['String']>;
+  friendGameLink?: InputMaybe<Scalars['String']>;
   gameLogo?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
   name?: InputMaybe<Scalars['String']>;
   presentationCoverImage?: InputMaybe<Scalars['String']>;
-  presentationFormat?: InputMaybe<Scalars['String']>;
   presentationTitlePreText?: InputMaybe<Scalars['String']>;
   presentationTitleText?: InputMaybe<Scalars['String']>;
   resource?: InputMaybe<Resources_Obj_Rel_Insert_Input>;
@@ -8548,11 +9359,11 @@ export type GameInformationTemplate_Max_Fields = {
   escapeTime?: Maybe<Scalars['numeric']>;
   eventStartTime?: Maybe<Scalars['numeric']>;
   favicon?: Maybe<Scalars['String']>;
+  friendGameLink?: Maybe<Scalars['String']>;
   gameLogo?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
   name?: Maybe<Scalars['String']>;
   presentationCoverImage?: Maybe<Scalars['String']>;
-  presentationFormat?: Maybe<Scalars['String']>;
   presentationTitlePreText?: Maybe<Scalars['String']>;
   presentationTitleText?: Maybe<Scalars['String']>;
   resourceId?: Maybe<Scalars['uuid']>;
@@ -8570,11 +9381,11 @@ export type GameInformationTemplate_Min_Fields = {
   escapeTime?: Maybe<Scalars['numeric']>;
   eventStartTime?: Maybe<Scalars['numeric']>;
   favicon?: Maybe<Scalars['String']>;
+  friendGameLink?: Maybe<Scalars['String']>;
   gameLogo?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
   name?: Maybe<Scalars['String']>;
   presentationCoverImage?: Maybe<Scalars['String']>;
-  presentationFormat?: Maybe<Scalars['String']>;
   presentationTitlePreText?: Maybe<Scalars['String']>;
   presentationTitleText?: Maybe<Scalars['String']>;
   resourceId?: Maybe<Scalars['uuid']>;
@@ -8610,16 +9421,17 @@ export type GameInformationTemplate_On_Conflict = {
 
 /** Ordering options when selecting data from "game_information_template". */
 export type GameInformationTemplate_Order_By = {
+  allowCoHostRole?: InputMaybe<Order_By>;
   bonuses_aggregate?: InputMaybe<Olympics_Event_Stages_Aggregate_Order_By>;
   created_at?: InputMaybe<Order_By>;
   escapeTime?: InputMaybe<Order_By>;
   eventStartTime?: InputMaybe<Order_By>;
   favicon?: InputMaybe<Order_By>;
+  friendGameLink?: InputMaybe<Order_By>;
   gameLogo?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   presentationCoverImage?: InputMaybe<Order_By>;
-  presentationFormat?: InputMaybe<Order_By>;
   presentationTitlePreText?: InputMaybe<Order_By>;
   presentationTitleText?: InputMaybe<Order_By>;
   resource?: InputMaybe<Resources_Order_By>;
@@ -8640,6 +9452,8 @@ export type GameInformationTemplate_Pk_Columns_Input = {
 /** select columns of table "game_information_template" */
 export enum GameInformationTemplate_Select_Column {
   /** column name */
+  AllowCoHostRole = 'allowCoHostRole',
+  /** column name */
   CreatedAt = 'created_at',
   /** column name */
   EscapeTime = 'escapeTime',
@@ -8648,6 +9462,8 @@ export enum GameInformationTemplate_Select_Column {
   /** column name */
   Favicon = 'favicon',
   /** column name */
+  FriendGameLink = 'friendGameLink',
+  /** column name */
   GameLogo = 'gameLogo',
   /** column name */
   Id = 'id',
@@ -8655,8 +9471,6 @@ export enum GameInformationTemplate_Select_Column {
   Name = 'name',
   /** column name */
   PresentationCoverImage = 'presentationCoverImage',
-  /** column name */
-  PresentationFormat = 'presentationFormat',
   /** column name */
   PresentationTitlePreText = 'presentationTitlePreText',
   /** column name */
@@ -8677,15 +9491,16 @@ export enum GameInformationTemplate_Select_Column {
 
 /** input type for updating data in table "game_information_template" */
 export type GameInformationTemplate_Set_Input = {
+  allowCoHostRole?: InputMaybe<Scalars['Boolean']>;
   created_at?: InputMaybe<Scalars['timestamptz']>;
   escapeTime?: InputMaybe<Scalars['numeric']>;
   eventStartTime?: InputMaybe<Scalars['numeric']>;
   favicon?: InputMaybe<Scalars['String']>;
+  friendGameLink?: InputMaybe<Scalars['String']>;
   gameLogo?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
   name?: InputMaybe<Scalars['String']>;
   presentationCoverImage?: InputMaybe<Scalars['String']>;
-  presentationFormat?: InputMaybe<Scalars['String']>;
   presentationTitlePreText?: InputMaybe<Scalars['String']>;
   presentationTitleText?: InputMaybe<Scalars['String']>;
   resourceId?: InputMaybe<Scalars['uuid']>;
@@ -8727,15 +9542,16 @@ export type GameInformationTemplate_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type GameInformationTemplate_Stream_Cursor_Value_Input = {
+  allowCoHostRole?: InputMaybe<Scalars['Boolean']>;
   created_at?: InputMaybe<Scalars['timestamptz']>;
   escapeTime?: InputMaybe<Scalars['numeric']>;
   eventStartTime?: InputMaybe<Scalars['numeric']>;
   favicon?: InputMaybe<Scalars['String']>;
+  friendGameLink?: InputMaybe<Scalars['String']>;
   gameLogo?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
   name?: InputMaybe<Scalars['String']>;
   presentationCoverImage?: InputMaybe<Scalars['String']>;
-  presentationFormat?: InputMaybe<Scalars['String']>;
   presentationTitlePreText?: InputMaybe<Scalars['String']>;
   presentationTitleText?: InputMaybe<Scalars['String']>;
   resourceId?: InputMaybe<Scalars['uuid']>;
@@ -8756,6 +9572,8 @@ export type GameInformationTemplate_Sum_Fields = {
 /** update columns of table "game_information_template" */
 export enum GameInformationTemplate_Update_Column {
   /** column name */
+  AllowCoHostRole = 'allowCoHostRole',
+  /** column name */
   CreatedAt = 'created_at',
   /** column name */
   EscapeTime = 'escapeTime',
@@ -8764,6 +9582,8 @@ export enum GameInformationTemplate_Update_Column {
   /** column name */
   Favicon = 'favicon',
   /** column name */
+  FriendGameLink = 'friendGameLink',
+  /** column name */
   GameLogo = 'gameLogo',
   /** column name */
   Id = 'id',
@@ -8771,8 +9591,6 @@ export enum GameInformationTemplate_Update_Column {
   Name = 'name',
   /** column name */
   PresentationCoverImage = 'presentationCoverImage',
-  /** column name */
-  PresentationFormat = 'presentationFormat',
   /** column name */
   PresentationTitlePreText = 'presentationTitlePreText',
   /** column name */
@@ -9580,6 +10398,10 @@ export type Mutation_Root = {
   delete_events?: Maybe<Events_Mutation_Response>;
   /** delete single row from the table: "events" */
   delete_events_by_pk?: Maybe<Events>;
+  /** delete data from the table: "feud_old.game_out_questions" */
+  delete_feud_old_game_out_questions?: Maybe<Feud_Old_Game_Out_Questions_Mutation_Response>;
+  /** delete single row from the table: "feud_old.game_out_questions" */
+  delete_feud_old_game_out_questions_by_pk?: Maybe<Feud_Old_Game_Out_Questions>;
   /** delete data from the table: "feud_old.game_room_rounds" */
   delete_feud_old_game_room_rounds?: Maybe<Feud_Old_Game_Room_Rounds_Mutation_Response>;
   /** delete single row from the table: "feud_old.game_room_rounds" */
@@ -9588,6 +10410,10 @@ export type Mutation_Root = {
   delete_feud_old_game_rooms?: Maybe<Feud_Old_Game_Rooms_Mutation_Response>;
   /** delete single row from the table: "feud_old.game_rooms" */
   delete_feud_old_game_rooms_by_pk?: Maybe<Feud_Old_Game_Rooms>;
+  /** delete data from the table: "feud_old.game_times" */
+  delete_feud_old_game_times?: Maybe<Feud_Old_Game_Times_Mutation_Response>;
+  /** delete single row from the table: "feud_old.game_times" */
+  delete_feud_old_game_times_by_pk?: Maybe<Feud_Old_Game_Times>;
   /** delete data from the table: "feud_old.games_old" */
   delete_feud_old_games_old?: Maybe<Feud_Old_Games_Old_Mutation_Response>;
   /** delete single row from the table: "feud_old.games_old" */
@@ -9640,6 +10466,34 @@ export type Mutation_Root = {
   delete_olympics_event_stages?: Maybe<Olympics_Event_Stages_Mutation_Response>;
   /** delete single row from the table: "olympics.event_stages" */
   delete_olympics_event_stages_by_pk?: Maybe<Olympics_Event_Stages>;
+  /** delete data from the table: "payroll.business_info" */
+  delete_payroll_business_info?: Maybe<Payroll_Business_Info_Mutation_Response>;
+  /** delete single row from the table: "payroll.business_info" */
+  delete_payroll_business_info_by_pk?: Maybe<Payroll_Business_Info>;
+  /** delete data from the table: "payroll.game_pay_grades" */
+  delete_payroll_game_pay_grades?: Maybe<Payroll_Game_Pay_Grades_Mutation_Response>;
+  /** delete single row from the table: "payroll.game_pay_grades" */
+  delete_payroll_game_pay_grades_by_pk?: Maybe<Payroll_Game_Pay_Grades>;
+  /** delete data from the table: "payroll.grade_bonuses" */
+  delete_payroll_grade_bonuses?: Maybe<Payroll_Grade_Bonuses_Mutation_Response>;
+  /** delete single row from the table: "payroll.grade_bonuses" */
+  delete_payroll_grade_bonuses_by_pk?: Maybe<Payroll_Grade_Bonuses>;
+  /** delete data from the table: "payroll.host_rating_calculation_ranges" */
+  delete_payroll_host_rating_calculation_ranges?: Maybe<Payroll_Host_Rating_Calculation_Ranges_Mutation_Response>;
+  /** delete single row from the table: "payroll.host_rating_calculation_ranges" */
+  delete_payroll_host_rating_calculation_ranges_by_pk?: Maybe<Payroll_Host_Rating_Calculation_Ranges>;
+  /** delete data from the table: "payroll.paid_data" */
+  delete_payroll_paid_data?: Maybe<Payroll_Paid_Data_Mutation_Response>;
+  /** delete single row from the table: "payroll.paid_data" */
+  delete_payroll_paid_data_by_pk?: Maybe<Payroll_Paid_Data>;
+  /** delete data from the table: "payroll.pay_grades" */
+  delete_payroll_pay_grades?: Maybe<Payroll_Pay_Grades_Mutation_Response>;
+  /** delete single row from the table: "payroll.pay_grades" */
+  delete_payroll_pay_grades_by_pk?: Maybe<Payroll_Pay_Grades>;
+  /** delete data from the table: "payroll.pay_grades_group" */
+  delete_payroll_pay_grades_group?: Maybe<Payroll_Pay_Grades_Group_Mutation_Response>;
+  /** delete single row from the table: "payroll.pay_grades_group" */
+  delete_payroll_pay_grades_group_by_pk?: Maybe<Payroll_Pay_Grades_Group>;
   /** delete data from the table: "players" */
   delete_players?: Maybe<Players_Mutation_Response>;
   /** delete single row from the table: "players" */
@@ -9668,6 +10522,30 @@ export type Mutation_Root = {
   delete_reviews?: Maybe<Reviews_Mutation_Response>;
   /** delete single row from the table: "reviews" */
   delete_reviews_by_pk?: Maybe<Reviews>;
+  /** delete data from the table: "schedule.day_availability" */
+  delete_schedule_day_availability?: Maybe<Schedule_Day_Availability_Mutation_Response>;
+  /** delete single row from the table: "schedule.day_availability" */
+  delete_schedule_day_availability_by_pk?: Maybe<Schedule_Day_Availability>;
+  /** delete data from the table: "schedule.week_availability" */
+  delete_schedule_week_availability?: Maybe<Schedule_Week_Availability_Mutation_Response>;
+  /** delete single row from the table: "schedule.week_availability" */
+  delete_schedule_week_availability_by_pk?: Maybe<Schedule_Week_Availability>;
+  /** delete data from the table: "schedule.weeks" */
+  delete_schedule_weeks?: Maybe<Schedule_Weeks_Mutation_Response>;
+  /** delete single row from the table: "schedule.weeks" */
+  delete_schedule_weeks_by_pk?: Maybe<Schedule_Weeks>;
+  /** delete data from the table: "sketchWars.game_categories" */
+  delete_sketchWars_game_categories?: Maybe<SketchWars_Game_Categories_Mutation_Response>;
+  /** delete single row from the table: "sketchWars.game_categories" */
+  delete_sketchWars_game_categories_by_pk?: Maybe<SketchWars_Game_Categories>;
+  /** delete data from the table: "sketchWars.messages" */
+  delete_sketchWars_messages?: Maybe<SketchWars_Messages_Mutation_Response>;
+  /** delete single row from the table: "sketchWars.messages" */
+  delete_sketchWars_messages_by_pk?: Maybe<SketchWars_Messages>;
+  /** delete data from the table: "sketchWars.rounds" */
+  delete_sketchWars_rounds?: Maybe<SketchWars_Rounds_Mutation_Response>;
+  /** delete single row from the table: "sketchWars.rounds" */
+  delete_sketchWars_rounds_by_pk?: Maybe<SketchWars_Rounds>;
   /** delete data from the table: "sources" */
   delete_sources?: Maybe<Sources_Mutation_Response>;
   /** delete single row from the table: "sources" */
@@ -9684,6 +10562,14 @@ export type Mutation_Root = {
   delete_userMetadata?: Maybe<UserMetadata_Mutation_Response>;
   /** delete single row from the table: "user_metadata" */
   delete_userMetadata_by_pk?: Maybe<UserMetadata>;
+  /** delete data from the table: "witw.attempts" */
+  delete_witwCoordinateAttempts?: Maybe<WitwCoordinateAttempts_Mutation_Response>;
+  /** delete single row from the table: "witw.attempts" */
+  delete_witwCoordinateAttempts_by_pk?: Maybe<WitwCoordinateAttempts>;
+  /** delete data from the table: "witw.coordinates" */
+  delete_witwCoordinates?: Maybe<WitwCoordinates_Mutation_Response>;
+  /** delete single row from the table: "witw.coordinates" */
+  delete_witwCoordinates_by_pk?: Maybe<WitwCoordinates>;
   /** insert a single row into the table: "auth.providers" */
   insertAuthProvider?: Maybe<AuthProviders>;
   /** insert a single row into the table: "auth.provider_requests" */
@@ -9764,6 +10650,10 @@ export type Mutation_Root = {
   insert_events?: Maybe<Events_Mutation_Response>;
   /** insert a single row into the table: "events" */
   insert_events_one?: Maybe<Events>;
+  /** insert data into the table: "feud_old.game_out_questions" */
+  insert_feud_old_game_out_questions?: Maybe<Feud_Old_Game_Out_Questions_Mutation_Response>;
+  /** insert a single row into the table: "feud_old.game_out_questions" */
+  insert_feud_old_game_out_questions_one?: Maybe<Feud_Old_Game_Out_Questions>;
   /** insert data into the table: "feud_old.game_room_rounds" */
   insert_feud_old_game_room_rounds?: Maybe<Feud_Old_Game_Room_Rounds_Mutation_Response>;
   /** insert a single row into the table: "feud_old.game_room_rounds" */
@@ -9772,6 +10662,10 @@ export type Mutation_Root = {
   insert_feud_old_game_rooms?: Maybe<Feud_Old_Game_Rooms_Mutation_Response>;
   /** insert a single row into the table: "feud_old.game_rooms" */
   insert_feud_old_game_rooms_one?: Maybe<Feud_Old_Game_Rooms>;
+  /** insert data into the table: "feud_old.game_times" */
+  insert_feud_old_game_times?: Maybe<Feud_Old_Game_Times_Mutation_Response>;
+  /** insert a single row into the table: "feud_old.game_times" */
+  insert_feud_old_game_times_one?: Maybe<Feud_Old_Game_Times>;
   /** insert data into the table: "feud_old.games_old" */
   insert_feud_old_games_old?: Maybe<Feud_Old_Games_Old_Mutation_Response>;
   /** insert a single row into the table: "feud_old.games_old" */
@@ -9824,6 +10718,34 @@ export type Mutation_Root = {
   insert_olympics_event_stages?: Maybe<Olympics_Event_Stages_Mutation_Response>;
   /** insert a single row into the table: "olympics.event_stages" */
   insert_olympics_event_stages_one?: Maybe<Olympics_Event_Stages>;
+  /** insert data into the table: "payroll.business_info" */
+  insert_payroll_business_info?: Maybe<Payroll_Business_Info_Mutation_Response>;
+  /** insert a single row into the table: "payroll.business_info" */
+  insert_payroll_business_info_one?: Maybe<Payroll_Business_Info>;
+  /** insert data into the table: "payroll.game_pay_grades" */
+  insert_payroll_game_pay_grades?: Maybe<Payroll_Game_Pay_Grades_Mutation_Response>;
+  /** insert a single row into the table: "payroll.game_pay_grades" */
+  insert_payroll_game_pay_grades_one?: Maybe<Payroll_Game_Pay_Grades>;
+  /** insert data into the table: "payroll.grade_bonuses" */
+  insert_payroll_grade_bonuses?: Maybe<Payroll_Grade_Bonuses_Mutation_Response>;
+  /** insert a single row into the table: "payroll.grade_bonuses" */
+  insert_payroll_grade_bonuses_one?: Maybe<Payroll_Grade_Bonuses>;
+  /** insert data into the table: "payroll.host_rating_calculation_ranges" */
+  insert_payroll_host_rating_calculation_ranges?: Maybe<Payroll_Host_Rating_Calculation_Ranges_Mutation_Response>;
+  /** insert a single row into the table: "payroll.host_rating_calculation_ranges" */
+  insert_payroll_host_rating_calculation_ranges_one?: Maybe<Payroll_Host_Rating_Calculation_Ranges>;
+  /** insert data into the table: "payroll.paid_data" */
+  insert_payroll_paid_data?: Maybe<Payroll_Paid_Data_Mutation_Response>;
+  /** insert a single row into the table: "payroll.paid_data" */
+  insert_payroll_paid_data_one?: Maybe<Payroll_Paid_Data>;
+  /** insert data into the table: "payroll.pay_grades" */
+  insert_payroll_pay_grades?: Maybe<Payroll_Pay_Grades_Mutation_Response>;
+  /** insert data into the table: "payroll.pay_grades_group" */
+  insert_payroll_pay_grades_group?: Maybe<Payroll_Pay_Grades_Group_Mutation_Response>;
+  /** insert a single row into the table: "payroll.pay_grades_group" */
+  insert_payroll_pay_grades_group_one?: Maybe<Payroll_Pay_Grades_Group>;
+  /** insert a single row into the table: "payroll.pay_grades" */
+  insert_payroll_pay_grades_one?: Maybe<Payroll_Pay_Grades>;
   /** insert data into the table: "players" */
   insert_players?: Maybe<Players_Mutation_Response>;
   /** insert a single row into the table: "players" */
@@ -9852,6 +10774,30 @@ export type Mutation_Root = {
   insert_reviews?: Maybe<Reviews_Mutation_Response>;
   /** insert a single row into the table: "reviews" */
   insert_reviews_one?: Maybe<Reviews>;
+  /** insert data into the table: "schedule.day_availability" */
+  insert_schedule_day_availability?: Maybe<Schedule_Day_Availability_Mutation_Response>;
+  /** insert a single row into the table: "schedule.day_availability" */
+  insert_schedule_day_availability_one?: Maybe<Schedule_Day_Availability>;
+  /** insert data into the table: "schedule.week_availability" */
+  insert_schedule_week_availability?: Maybe<Schedule_Week_Availability_Mutation_Response>;
+  /** insert a single row into the table: "schedule.week_availability" */
+  insert_schedule_week_availability_one?: Maybe<Schedule_Week_Availability>;
+  /** insert data into the table: "schedule.weeks" */
+  insert_schedule_weeks?: Maybe<Schedule_Weeks_Mutation_Response>;
+  /** insert a single row into the table: "schedule.weeks" */
+  insert_schedule_weeks_one?: Maybe<Schedule_Weeks>;
+  /** insert data into the table: "sketchWars.game_categories" */
+  insert_sketchWars_game_categories?: Maybe<SketchWars_Game_Categories_Mutation_Response>;
+  /** insert a single row into the table: "sketchWars.game_categories" */
+  insert_sketchWars_game_categories_one?: Maybe<SketchWars_Game_Categories>;
+  /** insert data into the table: "sketchWars.messages" */
+  insert_sketchWars_messages?: Maybe<SketchWars_Messages_Mutation_Response>;
+  /** insert a single row into the table: "sketchWars.messages" */
+  insert_sketchWars_messages_one?: Maybe<SketchWars_Messages>;
+  /** insert data into the table: "sketchWars.rounds" */
+  insert_sketchWars_rounds?: Maybe<SketchWars_Rounds_Mutation_Response>;
+  /** insert a single row into the table: "sketchWars.rounds" */
+  insert_sketchWars_rounds_one?: Maybe<SketchWars_Rounds>;
   /** insert data into the table: "sources" */
   insert_sources?: Maybe<Sources_Mutation_Response>;
   /** insert a single row into the table: "sources" */
@@ -9868,6 +10814,14 @@ export type Mutation_Root = {
   insert_userMetadata?: Maybe<UserMetadata_Mutation_Response>;
   /** insert a single row into the table: "user_metadata" */
   insert_userMetadata_one?: Maybe<UserMetadata>;
+  /** insert data into the table: "witw.attempts" */
+  insert_witwCoordinateAttempts?: Maybe<WitwCoordinateAttempts_Mutation_Response>;
+  /** insert a single row into the table: "witw.attempts" */
+  insert_witwCoordinateAttempts_one?: Maybe<WitwCoordinateAttempts>;
+  /** insert data into the table: "witw.coordinates" */
+  insert_witwCoordinates?: Maybe<WitwCoordinates_Mutation_Response>;
+  /** insert a single row into the table: "witw.coordinates" */
+  insert_witwCoordinates_one?: Maybe<WitwCoordinates>;
   sendEmail: Scalars['Boolean'];
   /** update single row of the table: "auth.providers" */
   updateAuthProvider?: Maybe<AuthProviders>;
@@ -9985,6 +10939,12 @@ export type Mutation_Root = {
   update_events_by_pk?: Maybe<Events>;
   /** update multiples rows of table: "events" */
   update_events_many?: Maybe<Array<Maybe<Events_Mutation_Response>>>;
+  /** update data of the table: "feud_old.game_out_questions" */
+  update_feud_old_game_out_questions?: Maybe<Feud_Old_Game_Out_Questions_Mutation_Response>;
+  /** update single row of the table: "feud_old.game_out_questions" */
+  update_feud_old_game_out_questions_by_pk?: Maybe<Feud_Old_Game_Out_Questions>;
+  /** update multiples rows of table: "feud_old.game_out_questions" */
+  update_feud_old_game_out_questions_many?: Maybe<Array<Maybe<Feud_Old_Game_Out_Questions_Mutation_Response>>>;
   /** update data of the table: "feud_old.game_room_rounds" */
   update_feud_old_game_room_rounds?: Maybe<Feud_Old_Game_Room_Rounds_Mutation_Response>;
   /** update single row of the table: "feud_old.game_room_rounds" */
@@ -9997,6 +10957,12 @@ export type Mutation_Root = {
   update_feud_old_game_rooms_by_pk?: Maybe<Feud_Old_Game_Rooms>;
   /** update multiples rows of table: "feud_old.game_rooms" */
   update_feud_old_game_rooms_many?: Maybe<Array<Maybe<Feud_Old_Game_Rooms_Mutation_Response>>>;
+  /** update data of the table: "feud_old.game_times" */
+  update_feud_old_game_times?: Maybe<Feud_Old_Game_Times_Mutation_Response>;
+  /** update single row of the table: "feud_old.game_times" */
+  update_feud_old_game_times_by_pk?: Maybe<Feud_Old_Game_Times>;
+  /** update multiples rows of table: "feud_old.game_times" */
+  update_feud_old_game_times_many?: Maybe<Array<Maybe<Feud_Old_Game_Times_Mutation_Response>>>;
   /** update data of the table: "feud_old.games_old" */
   update_feud_old_games_old?: Maybe<Feud_Old_Games_Old_Mutation_Response>;
   /** update single row of the table: "feud_old.games_old" */
@@ -10077,6 +11043,48 @@ export type Mutation_Root = {
   update_olympics_event_stages_by_pk?: Maybe<Olympics_Event_Stages>;
   /** update multiples rows of table: "olympics.event_stages" */
   update_olympics_event_stages_many?: Maybe<Array<Maybe<Olympics_Event_Stages_Mutation_Response>>>;
+  /** update data of the table: "payroll.business_info" */
+  update_payroll_business_info?: Maybe<Payroll_Business_Info_Mutation_Response>;
+  /** update single row of the table: "payroll.business_info" */
+  update_payroll_business_info_by_pk?: Maybe<Payroll_Business_Info>;
+  /** update multiples rows of table: "payroll.business_info" */
+  update_payroll_business_info_many?: Maybe<Array<Maybe<Payroll_Business_Info_Mutation_Response>>>;
+  /** update data of the table: "payroll.game_pay_grades" */
+  update_payroll_game_pay_grades?: Maybe<Payroll_Game_Pay_Grades_Mutation_Response>;
+  /** update single row of the table: "payroll.game_pay_grades" */
+  update_payroll_game_pay_grades_by_pk?: Maybe<Payroll_Game_Pay_Grades>;
+  /** update multiples rows of table: "payroll.game_pay_grades" */
+  update_payroll_game_pay_grades_many?: Maybe<Array<Maybe<Payroll_Game_Pay_Grades_Mutation_Response>>>;
+  /** update data of the table: "payroll.grade_bonuses" */
+  update_payroll_grade_bonuses?: Maybe<Payroll_Grade_Bonuses_Mutation_Response>;
+  /** update single row of the table: "payroll.grade_bonuses" */
+  update_payroll_grade_bonuses_by_pk?: Maybe<Payroll_Grade_Bonuses>;
+  /** update multiples rows of table: "payroll.grade_bonuses" */
+  update_payroll_grade_bonuses_many?: Maybe<Array<Maybe<Payroll_Grade_Bonuses_Mutation_Response>>>;
+  /** update data of the table: "payroll.host_rating_calculation_ranges" */
+  update_payroll_host_rating_calculation_ranges?: Maybe<Payroll_Host_Rating_Calculation_Ranges_Mutation_Response>;
+  /** update single row of the table: "payroll.host_rating_calculation_ranges" */
+  update_payroll_host_rating_calculation_ranges_by_pk?: Maybe<Payroll_Host_Rating_Calculation_Ranges>;
+  /** update multiples rows of table: "payroll.host_rating_calculation_ranges" */
+  update_payroll_host_rating_calculation_ranges_many?: Maybe<Array<Maybe<Payroll_Host_Rating_Calculation_Ranges_Mutation_Response>>>;
+  /** update data of the table: "payroll.paid_data" */
+  update_payroll_paid_data?: Maybe<Payroll_Paid_Data_Mutation_Response>;
+  /** update single row of the table: "payroll.paid_data" */
+  update_payroll_paid_data_by_pk?: Maybe<Payroll_Paid_Data>;
+  /** update multiples rows of table: "payroll.paid_data" */
+  update_payroll_paid_data_many?: Maybe<Array<Maybe<Payroll_Paid_Data_Mutation_Response>>>;
+  /** update data of the table: "payroll.pay_grades" */
+  update_payroll_pay_grades?: Maybe<Payroll_Pay_Grades_Mutation_Response>;
+  /** update single row of the table: "payroll.pay_grades" */
+  update_payroll_pay_grades_by_pk?: Maybe<Payroll_Pay_Grades>;
+  /** update data of the table: "payroll.pay_grades_group" */
+  update_payroll_pay_grades_group?: Maybe<Payroll_Pay_Grades_Group_Mutation_Response>;
+  /** update single row of the table: "payroll.pay_grades_group" */
+  update_payroll_pay_grades_group_by_pk?: Maybe<Payroll_Pay_Grades_Group>;
+  /** update multiples rows of table: "payroll.pay_grades_group" */
+  update_payroll_pay_grades_group_many?: Maybe<Array<Maybe<Payroll_Pay_Grades_Group_Mutation_Response>>>;
+  /** update multiples rows of table: "payroll.pay_grades" */
+  update_payroll_pay_grades_many?: Maybe<Array<Maybe<Payroll_Pay_Grades_Mutation_Response>>>;
   /** update data of the table: "players" */
   update_players?: Maybe<Players_Mutation_Response>;
   /** update single row of the table: "players" */
@@ -10119,6 +11127,42 @@ export type Mutation_Root = {
   update_reviews_by_pk?: Maybe<Reviews>;
   /** update multiples rows of table: "reviews" */
   update_reviews_many?: Maybe<Array<Maybe<Reviews_Mutation_Response>>>;
+  /** update data of the table: "schedule.day_availability" */
+  update_schedule_day_availability?: Maybe<Schedule_Day_Availability_Mutation_Response>;
+  /** update single row of the table: "schedule.day_availability" */
+  update_schedule_day_availability_by_pk?: Maybe<Schedule_Day_Availability>;
+  /** update multiples rows of table: "schedule.day_availability" */
+  update_schedule_day_availability_many?: Maybe<Array<Maybe<Schedule_Day_Availability_Mutation_Response>>>;
+  /** update data of the table: "schedule.week_availability" */
+  update_schedule_week_availability?: Maybe<Schedule_Week_Availability_Mutation_Response>;
+  /** update single row of the table: "schedule.week_availability" */
+  update_schedule_week_availability_by_pk?: Maybe<Schedule_Week_Availability>;
+  /** update multiples rows of table: "schedule.week_availability" */
+  update_schedule_week_availability_many?: Maybe<Array<Maybe<Schedule_Week_Availability_Mutation_Response>>>;
+  /** update data of the table: "schedule.weeks" */
+  update_schedule_weeks?: Maybe<Schedule_Weeks_Mutation_Response>;
+  /** update single row of the table: "schedule.weeks" */
+  update_schedule_weeks_by_pk?: Maybe<Schedule_Weeks>;
+  /** update multiples rows of table: "schedule.weeks" */
+  update_schedule_weeks_many?: Maybe<Array<Maybe<Schedule_Weeks_Mutation_Response>>>;
+  /** update data of the table: "sketchWars.game_categories" */
+  update_sketchWars_game_categories?: Maybe<SketchWars_Game_Categories_Mutation_Response>;
+  /** update single row of the table: "sketchWars.game_categories" */
+  update_sketchWars_game_categories_by_pk?: Maybe<SketchWars_Game_Categories>;
+  /** update multiples rows of table: "sketchWars.game_categories" */
+  update_sketchWars_game_categories_many?: Maybe<Array<Maybe<SketchWars_Game_Categories_Mutation_Response>>>;
+  /** update data of the table: "sketchWars.messages" */
+  update_sketchWars_messages?: Maybe<SketchWars_Messages_Mutation_Response>;
+  /** update single row of the table: "sketchWars.messages" */
+  update_sketchWars_messages_by_pk?: Maybe<SketchWars_Messages>;
+  /** update multiples rows of table: "sketchWars.messages" */
+  update_sketchWars_messages_many?: Maybe<Array<Maybe<SketchWars_Messages_Mutation_Response>>>;
+  /** update data of the table: "sketchWars.rounds" */
+  update_sketchWars_rounds?: Maybe<SketchWars_Rounds_Mutation_Response>;
+  /** update single row of the table: "sketchWars.rounds" */
+  update_sketchWars_rounds_by_pk?: Maybe<SketchWars_Rounds>;
+  /** update multiples rows of table: "sketchWars.rounds" */
+  update_sketchWars_rounds_many?: Maybe<Array<Maybe<SketchWars_Rounds_Mutation_Response>>>;
   /** update data of the table: "sources" */
   update_sources?: Maybe<Sources_Mutation_Response>;
   /** update single row of the table: "sources" */
@@ -10145,6 +11189,18 @@ export type Mutation_Root = {
   update_userMetadata_many?: Maybe<Array<Maybe<UserMetadata_Mutation_Response>>>;
   /** update multiples rows of table: "auth.users" */
   update_users_many?: Maybe<Array<Maybe<Users_Mutation_Response>>>;
+  /** update data of the table: "witw.attempts" */
+  update_witwCoordinateAttempts?: Maybe<WitwCoordinateAttempts_Mutation_Response>;
+  /** update single row of the table: "witw.attempts" */
+  update_witwCoordinateAttempts_by_pk?: Maybe<WitwCoordinateAttempts>;
+  /** update multiples rows of table: "witw.attempts" */
+  update_witwCoordinateAttempts_many?: Maybe<Array<Maybe<WitwCoordinateAttempts_Mutation_Response>>>;
+  /** update data of the table: "witw.coordinates" */
+  update_witwCoordinates?: Maybe<WitwCoordinates_Mutation_Response>;
+  /** update single row of the table: "witw.coordinates" */
+  update_witwCoordinates_by_pk?: Maybe<WitwCoordinates>;
+  /** update multiples rows of table: "witw.coordinates" */
+  update_witwCoordinates_many?: Maybe<Array<Maybe<WitwCoordinates_Mutation_Response>>>;
 };
 
 
@@ -10393,6 +11449,18 @@ export type Mutation_RootDelete_Events_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootDelete_Feud_Old_Game_Out_QuestionsArgs = {
+  where: Feud_Old_Game_Out_Questions_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Feud_Old_Game_Out_Questions_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
+/** mutation root */
 export type Mutation_RootDelete_Feud_Old_Game_Room_RoundsArgs = {
   where: Feud_Old_Game_Room_Rounds_Bool_Exp;
 };
@@ -10413,6 +11481,18 @@ export type Mutation_RootDelete_Feud_Old_Game_RoomsArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Feud_Old_Game_Rooms_By_PkArgs = {
   id: Scalars['Int'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Feud_Old_Game_TimesArgs = {
+  where: Feud_Old_Game_Times_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Feud_Old_Game_Times_By_PkArgs = {
+  id: Scalars['uuid'];
 };
 
 
@@ -10574,6 +11654,90 @@ export type Mutation_RootDelete_Olympics_Event_Stages_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootDelete_Payroll_Business_InfoArgs = {
+  where: Payroll_Business_Info_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Payroll_Business_Info_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Payroll_Game_Pay_GradesArgs = {
+  where: Payroll_Game_Pay_Grades_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Payroll_Game_Pay_Grades_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Payroll_Grade_BonusesArgs = {
+  where: Payroll_Grade_Bonuses_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Payroll_Grade_Bonuses_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Payroll_Host_Rating_Calculation_RangesArgs = {
+  where: Payroll_Host_Rating_Calculation_Ranges_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Payroll_Host_Rating_Calculation_Ranges_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Payroll_Paid_DataArgs = {
+  where: Payroll_Paid_Data_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Payroll_Paid_Data_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Payroll_Pay_GradesArgs = {
+  where: Payroll_Pay_Grades_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Payroll_Pay_Grades_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Payroll_Pay_Grades_GroupArgs = {
+  where: Payroll_Pay_Grades_Group_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Payroll_Pay_Grades_Group_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
 export type Mutation_RootDelete_PlayersArgs = {
   where: Players_Bool_Exp;
 };
@@ -10658,6 +11822,78 @@ export type Mutation_RootDelete_Reviews_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootDelete_Schedule_Day_AvailabilityArgs = {
+  where: Schedule_Day_Availability_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Schedule_Day_Availability_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Schedule_Week_AvailabilityArgs = {
+  where: Schedule_Week_Availability_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Schedule_Week_Availability_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Schedule_WeeksArgs = {
+  where: Schedule_Weeks_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Schedule_Weeks_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_SketchWars_Game_CategoriesArgs = {
+  where: SketchWars_Game_Categories_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_SketchWars_Game_Categories_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_SketchWars_MessagesArgs = {
+  where: SketchWars_Messages_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_SketchWars_Messages_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_SketchWars_RoundsArgs = {
+  where: SketchWars_Rounds_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_SketchWars_Rounds_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
 export type Mutation_RootDelete_SourcesArgs = {
   where: Sources_Bool_Exp;
 };
@@ -10701,6 +11937,30 @@ export type Mutation_RootDelete_UserMetadataArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_UserMetadata_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_WitwCoordinateAttemptsArgs = {
+  where: WitwCoordinateAttempts_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_WitwCoordinateAttempts_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_WitwCoordinatesArgs = {
+  where: WitwCoordinates_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_WitwCoordinates_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -10986,6 +12246,20 @@ export type Mutation_RootInsert_Events_OneArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInsert_Feud_Old_Game_Out_QuestionsArgs = {
+  objects: Array<Feud_Old_Game_Out_Questions_Insert_Input>;
+  on_conflict?: InputMaybe<Feud_Old_Game_Out_Questions_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Feud_Old_Game_Out_Questions_OneArgs = {
+  object: Feud_Old_Game_Out_Questions_Insert_Input;
+  on_conflict?: InputMaybe<Feud_Old_Game_Out_Questions_On_Conflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootInsert_Feud_Old_Game_Room_RoundsArgs = {
   objects: Array<Feud_Old_Game_Room_Rounds_Insert_Input>;
   on_conflict?: InputMaybe<Feud_Old_Game_Room_Rounds_On_Conflict>;
@@ -11010,6 +12284,20 @@ export type Mutation_RootInsert_Feud_Old_Game_RoomsArgs = {
 export type Mutation_RootInsert_Feud_Old_Game_Rooms_OneArgs = {
   object: Feud_Old_Game_Rooms_Insert_Input;
   on_conflict?: InputMaybe<Feud_Old_Game_Rooms_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Feud_Old_Game_TimesArgs = {
+  objects: Array<Feud_Old_Game_Times_Insert_Input>;
+  on_conflict?: InputMaybe<Feud_Old_Game_Times_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Feud_Old_Game_Times_OneArgs = {
+  object: Feud_Old_Game_Times_Insert_Input;
+  on_conflict?: InputMaybe<Feud_Old_Game_Times_On_Conflict>;
 };
 
 
@@ -11196,6 +12484,104 @@ export type Mutation_RootInsert_Olympics_Event_Stages_OneArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInsert_Payroll_Business_InfoArgs = {
+  objects: Array<Payroll_Business_Info_Insert_Input>;
+  on_conflict?: InputMaybe<Payroll_Business_Info_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Payroll_Business_Info_OneArgs = {
+  object: Payroll_Business_Info_Insert_Input;
+  on_conflict?: InputMaybe<Payroll_Business_Info_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Payroll_Game_Pay_GradesArgs = {
+  objects: Array<Payroll_Game_Pay_Grades_Insert_Input>;
+  on_conflict?: InputMaybe<Payroll_Game_Pay_Grades_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Payroll_Game_Pay_Grades_OneArgs = {
+  object: Payroll_Game_Pay_Grades_Insert_Input;
+  on_conflict?: InputMaybe<Payroll_Game_Pay_Grades_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Payroll_Grade_BonusesArgs = {
+  objects: Array<Payroll_Grade_Bonuses_Insert_Input>;
+  on_conflict?: InputMaybe<Payroll_Grade_Bonuses_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Payroll_Grade_Bonuses_OneArgs = {
+  object: Payroll_Grade_Bonuses_Insert_Input;
+  on_conflict?: InputMaybe<Payroll_Grade_Bonuses_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Payroll_Host_Rating_Calculation_RangesArgs = {
+  objects: Array<Payroll_Host_Rating_Calculation_Ranges_Insert_Input>;
+  on_conflict?: InputMaybe<Payroll_Host_Rating_Calculation_Ranges_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Payroll_Host_Rating_Calculation_Ranges_OneArgs = {
+  object: Payroll_Host_Rating_Calculation_Ranges_Insert_Input;
+  on_conflict?: InputMaybe<Payroll_Host_Rating_Calculation_Ranges_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Payroll_Paid_DataArgs = {
+  objects: Array<Payroll_Paid_Data_Insert_Input>;
+  on_conflict?: InputMaybe<Payroll_Paid_Data_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Payroll_Paid_Data_OneArgs = {
+  object: Payroll_Paid_Data_Insert_Input;
+  on_conflict?: InputMaybe<Payroll_Paid_Data_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Payroll_Pay_GradesArgs = {
+  objects: Array<Payroll_Pay_Grades_Insert_Input>;
+  on_conflict?: InputMaybe<Payroll_Pay_Grades_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Payroll_Pay_Grades_GroupArgs = {
+  objects: Array<Payroll_Pay_Grades_Group_Insert_Input>;
+  on_conflict?: InputMaybe<Payroll_Pay_Grades_Group_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Payroll_Pay_Grades_Group_OneArgs = {
+  object: Payroll_Pay_Grades_Group_Insert_Input;
+  on_conflict?: InputMaybe<Payroll_Pay_Grades_Group_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Payroll_Pay_Grades_OneArgs = {
+  object: Payroll_Pay_Grades_Insert_Input;
+  on_conflict?: InputMaybe<Payroll_Pay_Grades_On_Conflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootInsert_PlayersArgs = {
   objects: Array<Players_Insert_Input>;
   on_conflict?: InputMaybe<Players_On_Conflict>;
@@ -11294,6 +12680,90 @@ export type Mutation_RootInsert_Reviews_OneArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInsert_Schedule_Day_AvailabilityArgs = {
+  objects: Array<Schedule_Day_Availability_Insert_Input>;
+  on_conflict?: InputMaybe<Schedule_Day_Availability_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Schedule_Day_Availability_OneArgs = {
+  object: Schedule_Day_Availability_Insert_Input;
+  on_conflict?: InputMaybe<Schedule_Day_Availability_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Schedule_Week_AvailabilityArgs = {
+  objects: Array<Schedule_Week_Availability_Insert_Input>;
+  on_conflict?: InputMaybe<Schedule_Week_Availability_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Schedule_Week_Availability_OneArgs = {
+  object: Schedule_Week_Availability_Insert_Input;
+  on_conflict?: InputMaybe<Schedule_Week_Availability_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Schedule_WeeksArgs = {
+  objects: Array<Schedule_Weeks_Insert_Input>;
+  on_conflict?: InputMaybe<Schedule_Weeks_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Schedule_Weeks_OneArgs = {
+  object: Schedule_Weeks_Insert_Input;
+  on_conflict?: InputMaybe<Schedule_Weeks_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_SketchWars_Game_CategoriesArgs = {
+  objects: Array<SketchWars_Game_Categories_Insert_Input>;
+  on_conflict?: InputMaybe<SketchWars_Game_Categories_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_SketchWars_Game_Categories_OneArgs = {
+  object: SketchWars_Game_Categories_Insert_Input;
+  on_conflict?: InputMaybe<SketchWars_Game_Categories_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_SketchWars_MessagesArgs = {
+  objects: Array<SketchWars_Messages_Insert_Input>;
+  on_conflict?: InputMaybe<SketchWars_Messages_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_SketchWars_Messages_OneArgs = {
+  object: SketchWars_Messages_Insert_Input;
+  on_conflict?: InputMaybe<SketchWars_Messages_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_SketchWars_RoundsArgs = {
+  objects: Array<SketchWars_Rounds_Insert_Input>;
+  on_conflict?: InputMaybe<SketchWars_Rounds_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_SketchWars_Rounds_OneArgs = {
+  object: SketchWars_Rounds_Insert_Input;
+  on_conflict?: InputMaybe<SketchWars_Rounds_On_Conflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootInsert_SourcesArgs = {
   objects: Array<Sources_Insert_Input>;
   on_conflict?: InputMaybe<Sources_On_Conflict>;
@@ -11346,6 +12816,34 @@ export type Mutation_RootInsert_UserMetadataArgs = {
 export type Mutation_RootInsert_UserMetadata_OneArgs = {
   object: UserMetadata_Insert_Input;
   on_conflict?: InputMaybe<UserMetadata_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_WitwCoordinateAttemptsArgs = {
+  objects: Array<WitwCoordinateAttempts_Insert_Input>;
+  on_conflict?: InputMaybe<WitwCoordinateAttempts_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_WitwCoordinateAttempts_OneArgs = {
+  object: WitwCoordinateAttempts_Insert_Input;
+  on_conflict?: InputMaybe<WitwCoordinateAttempts_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_WitwCoordinatesArgs = {
+  objects: Array<WitwCoordinates_Insert_Input>;
+  on_conflict?: InputMaybe<WitwCoordinates_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_WitwCoordinates_OneArgs = {
+  object: WitwCoordinates_Insert_Input;
+  on_conflict?: InputMaybe<WitwCoordinates_On_Conflict>;
 };
 
 
@@ -11784,6 +13282,28 @@ export type Mutation_RootUpdate_Events_ManyArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Feud_Old_Game_Out_QuestionsArgs = {
+  _inc?: InputMaybe<Feud_Old_Game_Out_Questions_Inc_Input>;
+  _set?: InputMaybe<Feud_Old_Game_Out_Questions_Set_Input>;
+  where: Feud_Old_Game_Out_Questions_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Feud_Old_Game_Out_Questions_By_PkArgs = {
+  _inc?: InputMaybe<Feud_Old_Game_Out_Questions_Inc_Input>;
+  _set?: InputMaybe<Feud_Old_Game_Out_Questions_Set_Input>;
+  pk_columns: Feud_Old_Game_Out_Questions_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Feud_Old_Game_Out_Questions_ManyArgs = {
+  updates: Array<Feud_Old_Game_Out_Questions_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Feud_Old_Game_Room_RoundsArgs = {
   _inc?: InputMaybe<Feud_Old_Game_Room_Rounds_Inc_Input>;
   _set?: InputMaybe<Feud_Old_Game_Room_Rounds_Set_Input>;
@@ -11824,6 +13344,26 @@ export type Mutation_RootUpdate_Feud_Old_Game_Rooms_By_PkArgs = {
 /** mutation root */
 export type Mutation_RootUpdate_Feud_Old_Game_Rooms_ManyArgs = {
   updates: Array<Feud_Old_Game_Rooms_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Feud_Old_Game_TimesArgs = {
+  _set?: InputMaybe<Feud_Old_Game_Times_Set_Input>;
+  where: Feud_Old_Game_Times_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Feud_Old_Game_Times_By_PkArgs = {
+  _set?: InputMaybe<Feud_Old_Game_Times_Set_Input>;
+  pk_columns: Feud_Old_Game_Times_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Feud_Old_Game_Times_ManyArgs = {
+  updates: Array<Feud_Old_Game_Times_Updates>;
 };
 
 
@@ -11919,6 +13459,7 @@ export type Mutation_RootUpdate_GameInformationOlympics_ManyArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_GameInformationSelfHostedArgs = {
+  _inc?: InputMaybe<GameInformationSelfHosted_Inc_Input>;
   _set?: InputMaybe<GameInformationSelfHosted_Set_Input>;
   where: GameInformationSelfHosted_Bool_Exp;
 };
@@ -11926,6 +13467,7 @@ export type Mutation_RootUpdate_GameInformationSelfHostedArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_GameInformationSelfHosted_By_PkArgs = {
+  _inc?: InputMaybe<GameInformationSelfHosted_Inc_Input>;
   _set?: InputMaybe<GameInformationSelfHosted_Set_Input>;
   pk_columns: GameInformationSelfHosted_Pk_Columns_Input;
 };
@@ -12106,6 +13648,154 @@ export type Mutation_RootUpdate_Olympics_Event_Stages_ManyArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Payroll_Business_InfoArgs = {
+  _set?: InputMaybe<Payroll_Business_Info_Set_Input>;
+  where: Payroll_Business_Info_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Payroll_Business_Info_By_PkArgs = {
+  _set?: InputMaybe<Payroll_Business_Info_Set_Input>;
+  pk_columns: Payroll_Business_Info_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Payroll_Business_Info_ManyArgs = {
+  updates: Array<Payroll_Business_Info_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Payroll_Game_Pay_GradesArgs = {
+  _set?: InputMaybe<Payroll_Game_Pay_Grades_Set_Input>;
+  where: Payroll_Game_Pay_Grades_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Payroll_Game_Pay_Grades_By_PkArgs = {
+  _set?: InputMaybe<Payroll_Game_Pay_Grades_Set_Input>;
+  pk_columns: Payroll_Game_Pay_Grades_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Payroll_Game_Pay_Grades_ManyArgs = {
+  updates: Array<Payroll_Game_Pay_Grades_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Payroll_Grade_BonusesArgs = {
+  _inc?: InputMaybe<Payroll_Grade_Bonuses_Inc_Input>;
+  _set?: InputMaybe<Payroll_Grade_Bonuses_Set_Input>;
+  where: Payroll_Grade_Bonuses_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Payroll_Grade_Bonuses_By_PkArgs = {
+  _inc?: InputMaybe<Payroll_Grade_Bonuses_Inc_Input>;
+  _set?: InputMaybe<Payroll_Grade_Bonuses_Set_Input>;
+  pk_columns: Payroll_Grade_Bonuses_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Payroll_Grade_Bonuses_ManyArgs = {
+  updates: Array<Payroll_Grade_Bonuses_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Payroll_Host_Rating_Calculation_RangesArgs = {
+  _inc?: InputMaybe<Payroll_Host_Rating_Calculation_Ranges_Inc_Input>;
+  _set?: InputMaybe<Payroll_Host_Rating_Calculation_Ranges_Set_Input>;
+  where: Payroll_Host_Rating_Calculation_Ranges_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Payroll_Host_Rating_Calculation_Ranges_By_PkArgs = {
+  _inc?: InputMaybe<Payroll_Host_Rating_Calculation_Ranges_Inc_Input>;
+  _set?: InputMaybe<Payroll_Host_Rating_Calculation_Ranges_Set_Input>;
+  pk_columns: Payroll_Host_Rating_Calculation_Ranges_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Payroll_Host_Rating_Calculation_Ranges_ManyArgs = {
+  updates: Array<Payroll_Host_Rating_Calculation_Ranges_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Payroll_Paid_DataArgs = {
+  _inc?: InputMaybe<Payroll_Paid_Data_Inc_Input>;
+  _set?: InputMaybe<Payroll_Paid_Data_Set_Input>;
+  where: Payroll_Paid_Data_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Payroll_Paid_Data_By_PkArgs = {
+  _inc?: InputMaybe<Payroll_Paid_Data_Inc_Input>;
+  _set?: InputMaybe<Payroll_Paid_Data_Set_Input>;
+  pk_columns: Payroll_Paid_Data_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Payroll_Paid_Data_ManyArgs = {
+  updates: Array<Payroll_Paid_Data_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Payroll_Pay_GradesArgs = {
+  _inc?: InputMaybe<Payroll_Pay_Grades_Inc_Input>;
+  _set?: InputMaybe<Payroll_Pay_Grades_Set_Input>;
+  where: Payroll_Pay_Grades_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Payroll_Pay_Grades_By_PkArgs = {
+  _inc?: InputMaybe<Payroll_Pay_Grades_Inc_Input>;
+  _set?: InputMaybe<Payroll_Pay_Grades_Set_Input>;
+  pk_columns: Payroll_Pay_Grades_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Payroll_Pay_Grades_GroupArgs = {
+  _set?: InputMaybe<Payroll_Pay_Grades_Group_Set_Input>;
+  where: Payroll_Pay_Grades_Group_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Payroll_Pay_Grades_Group_By_PkArgs = {
+  _set?: InputMaybe<Payroll_Pay_Grades_Group_Set_Input>;
+  pk_columns: Payroll_Pay_Grades_Group_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Payroll_Pay_Grades_Group_ManyArgs = {
+  updates: Array<Payroll_Pay_Grades_Group_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Payroll_Pay_Grades_ManyArgs = {
+  updates: Array<Payroll_Pay_Grades_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_PlayersArgs = {
   _inc?: InputMaybe<Players_Inc_Input>;
   _set?: InputMaybe<Players_Set_Input>;
@@ -12252,6 +13942,142 @@ export type Mutation_RootUpdate_Reviews_ManyArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Schedule_Day_AvailabilityArgs = {
+  _inc?: InputMaybe<Schedule_Day_Availability_Inc_Input>;
+  _set?: InputMaybe<Schedule_Day_Availability_Set_Input>;
+  where: Schedule_Day_Availability_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Schedule_Day_Availability_By_PkArgs = {
+  _inc?: InputMaybe<Schedule_Day_Availability_Inc_Input>;
+  _set?: InputMaybe<Schedule_Day_Availability_Set_Input>;
+  pk_columns: Schedule_Day_Availability_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Schedule_Day_Availability_ManyArgs = {
+  updates: Array<Schedule_Day_Availability_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Schedule_Week_AvailabilityArgs = {
+  _set?: InputMaybe<Schedule_Week_Availability_Set_Input>;
+  where: Schedule_Week_Availability_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Schedule_Week_Availability_By_PkArgs = {
+  _set?: InputMaybe<Schedule_Week_Availability_Set_Input>;
+  pk_columns: Schedule_Week_Availability_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Schedule_Week_Availability_ManyArgs = {
+  updates: Array<Schedule_Week_Availability_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Schedule_WeeksArgs = {
+  _inc?: InputMaybe<Schedule_Weeks_Inc_Input>;
+  _set?: InputMaybe<Schedule_Weeks_Set_Input>;
+  where: Schedule_Weeks_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Schedule_Weeks_By_PkArgs = {
+  _inc?: InputMaybe<Schedule_Weeks_Inc_Input>;
+  _set?: InputMaybe<Schedule_Weeks_Set_Input>;
+  pk_columns: Schedule_Weeks_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Schedule_Weeks_ManyArgs = {
+  updates: Array<Schedule_Weeks_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_SketchWars_Game_CategoriesArgs = {
+  _set?: InputMaybe<SketchWars_Game_Categories_Set_Input>;
+  where: SketchWars_Game_Categories_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_SketchWars_Game_Categories_By_PkArgs = {
+  _set?: InputMaybe<SketchWars_Game_Categories_Set_Input>;
+  pk_columns: SketchWars_Game_Categories_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_SketchWars_Game_Categories_ManyArgs = {
+  updates: Array<SketchWars_Game_Categories_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_SketchWars_MessagesArgs = {
+  _set?: InputMaybe<SketchWars_Messages_Set_Input>;
+  where: SketchWars_Messages_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_SketchWars_Messages_By_PkArgs = {
+  _set?: InputMaybe<SketchWars_Messages_Set_Input>;
+  pk_columns: SketchWars_Messages_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_SketchWars_Messages_ManyArgs = {
+  updates: Array<SketchWars_Messages_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_SketchWars_RoundsArgs = {
+  _append?: InputMaybe<SketchWars_Rounds_Append_Input>;
+  _delete_at_path?: InputMaybe<SketchWars_Rounds_Delete_At_Path_Input>;
+  _delete_elem?: InputMaybe<SketchWars_Rounds_Delete_Elem_Input>;
+  _delete_key?: InputMaybe<SketchWars_Rounds_Delete_Key_Input>;
+  _inc?: InputMaybe<SketchWars_Rounds_Inc_Input>;
+  _prepend?: InputMaybe<SketchWars_Rounds_Prepend_Input>;
+  _set?: InputMaybe<SketchWars_Rounds_Set_Input>;
+  where: SketchWars_Rounds_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_SketchWars_Rounds_By_PkArgs = {
+  _append?: InputMaybe<SketchWars_Rounds_Append_Input>;
+  _delete_at_path?: InputMaybe<SketchWars_Rounds_Delete_At_Path_Input>;
+  _delete_elem?: InputMaybe<SketchWars_Rounds_Delete_Elem_Input>;
+  _delete_key?: InputMaybe<SketchWars_Rounds_Delete_Key_Input>;
+  _inc?: InputMaybe<SketchWars_Rounds_Inc_Input>;
+  _prepend?: InputMaybe<SketchWars_Rounds_Prepend_Input>;
+  _set?: InputMaybe<SketchWars_Rounds_Set_Input>;
+  pk_columns: SketchWars_Rounds_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_SketchWars_Rounds_ManyArgs = {
+  updates: Array<SketchWars_Rounds_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_SourcesArgs = {
   _set?: InputMaybe<Sources_Set_Input>;
   where: Sources_Bool_Exp;
@@ -12336,6 +14162,48 @@ export type Mutation_RootUpdate_UserMetadata_ManyArgs = {
 /** mutation root */
 export type Mutation_RootUpdate_Users_ManyArgs = {
   updates: Array<Users_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_WitwCoordinateAttemptsArgs = {
+  _inc?: InputMaybe<WitwCoordinateAttempts_Inc_Input>;
+  _set?: InputMaybe<WitwCoordinateAttempts_Set_Input>;
+  where: WitwCoordinateAttempts_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_WitwCoordinateAttempts_By_PkArgs = {
+  _inc?: InputMaybe<WitwCoordinateAttempts_Inc_Input>;
+  _set?: InputMaybe<WitwCoordinateAttempts_Set_Input>;
+  pk_columns: WitwCoordinateAttempts_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_WitwCoordinateAttempts_ManyArgs = {
+  updates: Array<WitwCoordinateAttempts_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_WitwCoordinatesArgs = {
+  _set?: InputMaybe<WitwCoordinates_Set_Input>;
+  where: WitwCoordinates_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_WitwCoordinates_By_PkArgs = {
+  _set?: InputMaybe<WitwCoordinates_Set_Input>;
+  pk_columns: WitwCoordinates_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_WitwCoordinates_ManyArgs = {
+  updates: Array<WitwCoordinates_Updates>;
 };
 
 /** Boolean expression to compare columns of type "numeric". All fields are combined with logical 'AND'. */
@@ -13069,9 +14937,2007 @@ export enum Order_By {
   DescNullsLast = 'desc_nulls_last'
 }
 
+/** columns and relationships of "payroll.business_info" */
+export type Payroll_Business_Info = {
+  __typename?: 'payroll_business_info';
+  address: Scalars['String'];
+  companyLogo?: Maybe<Scalars['uuid']>;
+  contact: Scalars['String'];
+  email: Scalars['String'];
+  id: Scalars['uuid'];
+  name: Scalars['String'];
+  phone: Scalars['String'];
+};
+
+/** aggregated selection of "payroll.business_info" */
+export type Payroll_Business_Info_Aggregate = {
+  __typename?: 'payroll_business_info_aggregate';
+  aggregate?: Maybe<Payroll_Business_Info_Aggregate_Fields>;
+  nodes: Array<Payroll_Business_Info>;
+};
+
+/** aggregate fields of "payroll.business_info" */
+export type Payroll_Business_Info_Aggregate_Fields = {
+  __typename?: 'payroll_business_info_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Payroll_Business_Info_Max_Fields>;
+  min?: Maybe<Payroll_Business_Info_Min_Fields>;
+};
+
+
+/** aggregate fields of "payroll.business_info" */
+export type Payroll_Business_Info_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Payroll_Business_Info_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "payroll.business_info". All fields are combined with a logical 'AND'. */
+export type Payroll_Business_Info_Bool_Exp = {
+  _and?: InputMaybe<Array<Payroll_Business_Info_Bool_Exp>>;
+  _not?: InputMaybe<Payroll_Business_Info_Bool_Exp>;
+  _or?: InputMaybe<Array<Payroll_Business_Info_Bool_Exp>>;
+  address?: InputMaybe<String_Comparison_Exp>;
+  companyLogo?: InputMaybe<Uuid_Comparison_Exp>;
+  contact?: InputMaybe<String_Comparison_Exp>;
+  email?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+  phone?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "payroll.business_info" */
+export enum Payroll_Business_Info_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  BusinessInfoPkey = 'business_info_pkey'
+}
+
+/** input type for inserting data into table "payroll.business_info" */
+export type Payroll_Business_Info_Insert_Input = {
+  address?: InputMaybe<Scalars['String']>;
+  companyLogo?: InputMaybe<Scalars['uuid']>;
+  contact?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  phone?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Payroll_Business_Info_Max_Fields = {
+  __typename?: 'payroll_business_info_max_fields';
+  address?: Maybe<Scalars['String']>;
+  companyLogo?: Maybe<Scalars['uuid']>;
+  contact?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Payroll_Business_Info_Min_Fields = {
+  __typename?: 'payroll_business_info_min_fields';
+  address?: Maybe<Scalars['String']>;
+  companyLogo?: Maybe<Scalars['uuid']>;
+  contact?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "payroll.business_info" */
+export type Payroll_Business_Info_Mutation_Response = {
+  __typename?: 'payroll_business_info_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Payroll_Business_Info>;
+};
+
+/** on_conflict condition type for table "payroll.business_info" */
+export type Payroll_Business_Info_On_Conflict = {
+  constraint: Payroll_Business_Info_Constraint;
+  update_columns?: Array<Payroll_Business_Info_Update_Column>;
+  where?: InputMaybe<Payroll_Business_Info_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "payroll.business_info". */
+export type Payroll_Business_Info_Order_By = {
+  address?: InputMaybe<Order_By>;
+  companyLogo?: InputMaybe<Order_By>;
+  contact?: InputMaybe<Order_By>;
+  email?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  phone?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: payroll.business_info */
+export type Payroll_Business_Info_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "payroll.business_info" */
+export enum Payroll_Business_Info_Select_Column {
+  /** column name */
+  Address = 'address',
+  /** column name */
+  CompanyLogo = 'companyLogo',
+  /** column name */
+  Contact = 'contact',
+  /** column name */
+  Email = 'email',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  Phone = 'phone'
+}
+
+/** input type for updating data in table "payroll.business_info" */
+export type Payroll_Business_Info_Set_Input = {
+  address?: InputMaybe<Scalars['String']>;
+  companyLogo?: InputMaybe<Scalars['uuid']>;
+  contact?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  phone?: InputMaybe<Scalars['String']>;
+};
+
+/** Streaming cursor of the table "payroll_business_info" */
+export type Payroll_Business_Info_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Payroll_Business_Info_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Payroll_Business_Info_Stream_Cursor_Value_Input = {
+  address?: InputMaybe<Scalars['String']>;
+  companyLogo?: InputMaybe<Scalars['uuid']>;
+  contact?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  phone?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "payroll.business_info" */
+export enum Payroll_Business_Info_Update_Column {
+  /** column name */
+  Address = 'address',
+  /** column name */
+  CompanyLogo = 'companyLogo',
+  /** column name */
+  Contact = 'contact',
+  /** column name */
+  Email = 'email',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  Phone = 'phone'
+}
+
+export type Payroll_Business_Info_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Payroll_Business_Info_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Payroll_Business_Info_Bool_Exp;
+};
+
+/** columns and relationships of "payroll.game_pay_grades" */
+export type Payroll_Game_Pay_Grades = {
+  __typename?: 'payroll_game_pay_grades';
+  gameId: Scalars['String'];
+  /** An object relationship */
+  grade?: Maybe<Payroll_Pay_Grades>;
+  gradeId: Scalars['uuid'];
+  /** An object relationship */
+  group?: Maybe<Payroll_Pay_Grades_Group>;
+  groupId: Scalars['uuid'];
+  id: Scalars['uuid'];
+  role: Scalars['String'];
+};
+
+/** aggregated selection of "payroll.game_pay_grades" */
+export type Payroll_Game_Pay_Grades_Aggregate = {
+  __typename?: 'payroll_game_pay_grades_aggregate';
+  aggregate?: Maybe<Payroll_Game_Pay_Grades_Aggregate_Fields>;
+  nodes: Array<Payroll_Game_Pay_Grades>;
+};
+
+export type Payroll_Game_Pay_Grades_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Payroll_Game_Pay_Grades_Aggregate_Bool_Exp_Count>;
+};
+
+export type Payroll_Game_Pay_Grades_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Payroll_Game_Pay_Grades_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Payroll_Game_Pay_Grades_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
+/** aggregate fields of "payroll.game_pay_grades" */
+export type Payroll_Game_Pay_Grades_Aggregate_Fields = {
+  __typename?: 'payroll_game_pay_grades_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Payroll_Game_Pay_Grades_Max_Fields>;
+  min?: Maybe<Payroll_Game_Pay_Grades_Min_Fields>;
+};
+
+
+/** aggregate fields of "payroll.game_pay_grades" */
+export type Payroll_Game_Pay_Grades_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Payroll_Game_Pay_Grades_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "payroll.game_pay_grades" */
+export type Payroll_Game_Pay_Grades_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Payroll_Game_Pay_Grades_Max_Order_By>;
+  min?: InputMaybe<Payroll_Game_Pay_Grades_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "payroll.game_pay_grades" */
+export type Payroll_Game_Pay_Grades_Arr_Rel_Insert_Input = {
+  data: Array<Payroll_Game_Pay_Grades_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Payroll_Game_Pay_Grades_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "payroll.game_pay_grades". All fields are combined with a logical 'AND'. */
+export type Payroll_Game_Pay_Grades_Bool_Exp = {
+  _and?: InputMaybe<Array<Payroll_Game_Pay_Grades_Bool_Exp>>;
+  _not?: InputMaybe<Payroll_Game_Pay_Grades_Bool_Exp>;
+  _or?: InputMaybe<Array<Payroll_Game_Pay_Grades_Bool_Exp>>;
+  gameId?: InputMaybe<String_Comparison_Exp>;
+  grade?: InputMaybe<Payroll_Pay_Grades_Bool_Exp>;
+  gradeId?: InputMaybe<Uuid_Comparison_Exp>;
+  group?: InputMaybe<Payroll_Pay_Grades_Group_Bool_Exp>;
+  groupId?: InputMaybe<Uuid_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  role?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "payroll.game_pay_grades" */
+export enum Payroll_Game_Pay_Grades_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  GamePayGradesPkey = 'game_pay_grades_pkey'
+}
+
+/** input type for inserting data into table "payroll.game_pay_grades" */
+export type Payroll_Game_Pay_Grades_Insert_Input = {
+  gameId?: InputMaybe<Scalars['String']>;
+  grade?: InputMaybe<Payroll_Pay_Grades_Obj_Rel_Insert_Input>;
+  gradeId?: InputMaybe<Scalars['uuid']>;
+  group?: InputMaybe<Payroll_Pay_Grades_Group_Obj_Rel_Insert_Input>;
+  groupId?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  role?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Payroll_Game_Pay_Grades_Max_Fields = {
+  __typename?: 'payroll_game_pay_grades_max_fields';
+  gameId?: Maybe<Scalars['String']>;
+  gradeId?: Maybe<Scalars['uuid']>;
+  groupId?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  role?: Maybe<Scalars['String']>;
+};
+
+/** order by max() on columns of table "payroll.game_pay_grades" */
+export type Payroll_Game_Pay_Grades_Max_Order_By = {
+  gameId?: InputMaybe<Order_By>;
+  gradeId?: InputMaybe<Order_By>;
+  groupId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  role?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Payroll_Game_Pay_Grades_Min_Fields = {
+  __typename?: 'payroll_game_pay_grades_min_fields';
+  gameId?: Maybe<Scalars['String']>;
+  gradeId?: Maybe<Scalars['uuid']>;
+  groupId?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  role?: Maybe<Scalars['String']>;
+};
+
+/** order by min() on columns of table "payroll.game_pay_grades" */
+export type Payroll_Game_Pay_Grades_Min_Order_By = {
+  gameId?: InputMaybe<Order_By>;
+  gradeId?: InputMaybe<Order_By>;
+  groupId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  role?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "payroll.game_pay_grades" */
+export type Payroll_Game_Pay_Grades_Mutation_Response = {
+  __typename?: 'payroll_game_pay_grades_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Payroll_Game_Pay_Grades>;
+};
+
+/** on_conflict condition type for table "payroll.game_pay_grades" */
+export type Payroll_Game_Pay_Grades_On_Conflict = {
+  constraint: Payroll_Game_Pay_Grades_Constraint;
+  update_columns?: Array<Payroll_Game_Pay_Grades_Update_Column>;
+  where?: InputMaybe<Payroll_Game_Pay_Grades_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "payroll.game_pay_grades". */
+export type Payroll_Game_Pay_Grades_Order_By = {
+  gameId?: InputMaybe<Order_By>;
+  grade?: InputMaybe<Payroll_Pay_Grades_Order_By>;
+  gradeId?: InputMaybe<Order_By>;
+  group?: InputMaybe<Payroll_Pay_Grades_Group_Order_By>;
+  groupId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  role?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: payroll.game_pay_grades */
+export type Payroll_Game_Pay_Grades_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "payroll.game_pay_grades" */
+export enum Payroll_Game_Pay_Grades_Select_Column {
+  /** column name */
+  GameId = 'gameId',
+  /** column name */
+  GradeId = 'gradeId',
+  /** column name */
+  GroupId = 'groupId',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Role = 'role'
+}
+
+/** input type for updating data in table "payroll.game_pay_grades" */
+export type Payroll_Game_Pay_Grades_Set_Input = {
+  gameId?: InputMaybe<Scalars['String']>;
+  gradeId?: InputMaybe<Scalars['uuid']>;
+  groupId?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  role?: InputMaybe<Scalars['String']>;
+};
+
+/** Streaming cursor of the table "payroll_game_pay_grades" */
+export type Payroll_Game_Pay_Grades_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Payroll_Game_Pay_Grades_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Payroll_Game_Pay_Grades_Stream_Cursor_Value_Input = {
+  gameId?: InputMaybe<Scalars['String']>;
+  gradeId?: InputMaybe<Scalars['uuid']>;
+  groupId?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  role?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "payroll.game_pay_grades" */
+export enum Payroll_Game_Pay_Grades_Update_Column {
+  /** column name */
+  GameId = 'gameId',
+  /** column name */
+  GradeId = 'gradeId',
+  /** column name */
+  GroupId = 'groupId',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Role = 'role'
+}
+
+export type Payroll_Game_Pay_Grades_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Payroll_Game_Pay_Grades_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Payroll_Game_Pay_Grades_Bool_Exp;
+};
+
+/** columns and relationships of "payroll.grade_bonuses" */
+export type Payroll_Grade_Bonuses = {
+  __typename?: 'payroll_grade_bonuses';
+  from: Scalars['numeric'];
+  /** An object relationship */
+  grade?: Maybe<Payroll_Pay_Grades>;
+  gradeId: Scalars['uuid'];
+  id: Scalars['uuid'];
+  to?: Maybe<Scalars['numeric']>;
+  value: Scalars['Int'];
+};
+
+/** aggregated selection of "payroll.grade_bonuses" */
+export type Payroll_Grade_Bonuses_Aggregate = {
+  __typename?: 'payroll_grade_bonuses_aggregate';
+  aggregate?: Maybe<Payroll_Grade_Bonuses_Aggregate_Fields>;
+  nodes: Array<Payroll_Grade_Bonuses>;
+};
+
+export type Payroll_Grade_Bonuses_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Payroll_Grade_Bonuses_Aggregate_Bool_Exp_Count>;
+};
+
+export type Payroll_Grade_Bonuses_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Payroll_Grade_Bonuses_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Payroll_Grade_Bonuses_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
+/** aggregate fields of "payroll.grade_bonuses" */
+export type Payroll_Grade_Bonuses_Aggregate_Fields = {
+  __typename?: 'payroll_grade_bonuses_aggregate_fields';
+  avg?: Maybe<Payroll_Grade_Bonuses_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Payroll_Grade_Bonuses_Max_Fields>;
+  min?: Maybe<Payroll_Grade_Bonuses_Min_Fields>;
+  stddev?: Maybe<Payroll_Grade_Bonuses_Stddev_Fields>;
+  stddev_pop?: Maybe<Payroll_Grade_Bonuses_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Payroll_Grade_Bonuses_Stddev_Samp_Fields>;
+  sum?: Maybe<Payroll_Grade_Bonuses_Sum_Fields>;
+  var_pop?: Maybe<Payroll_Grade_Bonuses_Var_Pop_Fields>;
+  var_samp?: Maybe<Payroll_Grade_Bonuses_Var_Samp_Fields>;
+  variance?: Maybe<Payroll_Grade_Bonuses_Variance_Fields>;
+};
+
+
+/** aggregate fields of "payroll.grade_bonuses" */
+export type Payroll_Grade_Bonuses_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Payroll_Grade_Bonuses_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "payroll.grade_bonuses" */
+export type Payroll_Grade_Bonuses_Aggregate_Order_By = {
+  avg?: InputMaybe<Payroll_Grade_Bonuses_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Payroll_Grade_Bonuses_Max_Order_By>;
+  min?: InputMaybe<Payroll_Grade_Bonuses_Min_Order_By>;
+  stddev?: InputMaybe<Payroll_Grade_Bonuses_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Payroll_Grade_Bonuses_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Payroll_Grade_Bonuses_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Payroll_Grade_Bonuses_Sum_Order_By>;
+  var_pop?: InputMaybe<Payroll_Grade_Bonuses_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Payroll_Grade_Bonuses_Var_Samp_Order_By>;
+  variance?: InputMaybe<Payroll_Grade_Bonuses_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "payroll.grade_bonuses" */
+export type Payroll_Grade_Bonuses_Arr_Rel_Insert_Input = {
+  data: Array<Payroll_Grade_Bonuses_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Payroll_Grade_Bonuses_On_Conflict>;
+};
+
+/** aggregate avg on columns */
+export type Payroll_Grade_Bonuses_Avg_Fields = {
+  __typename?: 'payroll_grade_bonuses_avg_fields';
+  from?: Maybe<Scalars['Float']>;
+  to?: Maybe<Scalars['Float']>;
+  value?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "payroll.grade_bonuses" */
+export type Payroll_Grade_Bonuses_Avg_Order_By = {
+  from?: InputMaybe<Order_By>;
+  to?: InputMaybe<Order_By>;
+  value?: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "payroll.grade_bonuses". All fields are combined with a logical 'AND'. */
+export type Payroll_Grade_Bonuses_Bool_Exp = {
+  _and?: InputMaybe<Array<Payroll_Grade_Bonuses_Bool_Exp>>;
+  _not?: InputMaybe<Payroll_Grade_Bonuses_Bool_Exp>;
+  _or?: InputMaybe<Array<Payroll_Grade_Bonuses_Bool_Exp>>;
+  from?: InputMaybe<Numeric_Comparison_Exp>;
+  grade?: InputMaybe<Payroll_Pay_Grades_Bool_Exp>;
+  gradeId?: InputMaybe<Uuid_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  to?: InputMaybe<Numeric_Comparison_Exp>;
+  value?: InputMaybe<Int_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "payroll.grade_bonuses" */
+export enum Payroll_Grade_Bonuses_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  GradeBonusesPkey = 'grade_bonuses_pkey'
+}
+
+/** input type for incrementing numeric columns in table "payroll.grade_bonuses" */
+export type Payroll_Grade_Bonuses_Inc_Input = {
+  from?: InputMaybe<Scalars['numeric']>;
+  to?: InputMaybe<Scalars['numeric']>;
+  value?: InputMaybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "payroll.grade_bonuses" */
+export type Payroll_Grade_Bonuses_Insert_Input = {
+  from?: InputMaybe<Scalars['numeric']>;
+  grade?: InputMaybe<Payroll_Pay_Grades_Obj_Rel_Insert_Input>;
+  gradeId?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  to?: InputMaybe<Scalars['numeric']>;
+  value?: InputMaybe<Scalars['Int']>;
+};
+
+/** aggregate max on columns */
+export type Payroll_Grade_Bonuses_Max_Fields = {
+  __typename?: 'payroll_grade_bonuses_max_fields';
+  from?: Maybe<Scalars['numeric']>;
+  gradeId?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  to?: Maybe<Scalars['numeric']>;
+  value?: Maybe<Scalars['Int']>;
+};
+
+/** order by max() on columns of table "payroll.grade_bonuses" */
+export type Payroll_Grade_Bonuses_Max_Order_By = {
+  from?: InputMaybe<Order_By>;
+  gradeId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  to?: InputMaybe<Order_By>;
+  value?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Payroll_Grade_Bonuses_Min_Fields = {
+  __typename?: 'payroll_grade_bonuses_min_fields';
+  from?: Maybe<Scalars['numeric']>;
+  gradeId?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  to?: Maybe<Scalars['numeric']>;
+  value?: Maybe<Scalars['Int']>;
+};
+
+/** order by min() on columns of table "payroll.grade_bonuses" */
+export type Payroll_Grade_Bonuses_Min_Order_By = {
+  from?: InputMaybe<Order_By>;
+  gradeId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  to?: InputMaybe<Order_By>;
+  value?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "payroll.grade_bonuses" */
+export type Payroll_Grade_Bonuses_Mutation_Response = {
+  __typename?: 'payroll_grade_bonuses_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Payroll_Grade_Bonuses>;
+};
+
+/** on_conflict condition type for table "payroll.grade_bonuses" */
+export type Payroll_Grade_Bonuses_On_Conflict = {
+  constraint: Payroll_Grade_Bonuses_Constraint;
+  update_columns?: Array<Payroll_Grade_Bonuses_Update_Column>;
+  where?: InputMaybe<Payroll_Grade_Bonuses_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "payroll.grade_bonuses". */
+export type Payroll_Grade_Bonuses_Order_By = {
+  from?: InputMaybe<Order_By>;
+  grade?: InputMaybe<Payroll_Pay_Grades_Order_By>;
+  gradeId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  to?: InputMaybe<Order_By>;
+  value?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: payroll.grade_bonuses */
+export type Payroll_Grade_Bonuses_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "payroll.grade_bonuses" */
+export enum Payroll_Grade_Bonuses_Select_Column {
+  /** column name */
+  From = 'from',
+  /** column name */
+  GradeId = 'gradeId',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  To = 'to',
+  /** column name */
+  Value = 'value'
+}
+
+/** input type for updating data in table "payroll.grade_bonuses" */
+export type Payroll_Grade_Bonuses_Set_Input = {
+  from?: InputMaybe<Scalars['numeric']>;
+  gradeId?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  to?: InputMaybe<Scalars['numeric']>;
+  value?: InputMaybe<Scalars['Int']>;
+};
+
+/** aggregate stddev on columns */
+export type Payroll_Grade_Bonuses_Stddev_Fields = {
+  __typename?: 'payroll_grade_bonuses_stddev_fields';
+  from?: Maybe<Scalars['Float']>;
+  to?: Maybe<Scalars['Float']>;
+  value?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "payroll.grade_bonuses" */
+export type Payroll_Grade_Bonuses_Stddev_Order_By = {
+  from?: InputMaybe<Order_By>;
+  to?: InputMaybe<Order_By>;
+  value?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Payroll_Grade_Bonuses_Stddev_Pop_Fields = {
+  __typename?: 'payroll_grade_bonuses_stddev_pop_fields';
+  from?: Maybe<Scalars['Float']>;
+  to?: Maybe<Scalars['Float']>;
+  value?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "payroll.grade_bonuses" */
+export type Payroll_Grade_Bonuses_Stddev_Pop_Order_By = {
+  from?: InputMaybe<Order_By>;
+  to?: InputMaybe<Order_By>;
+  value?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Payroll_Grade_Bonuses_Stddev_Samp_Fields = {
+  __typename?: 'payroll_grade_bonuses_stddev_samp_fields';
+  from?: Maybe<Scalars['Float']>;
+  to?: Maybe<Scalars['Float']>;
+  value?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "payroll.grade_bonuses" */
+export type Payroll_Grade_Bonuses_Stddev_Samp_Order_By = {
+  from?: InputMaybe<Order_By>;
+  to?: InputMaybe<Order_By>;
+  value?: InputMaybe<Order_By>;
+};
+
+/** Streaming cursor of the table "payroll_grade_bonuses" */
+export type Payroll_Grade_Bonuses_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Payroll_Grade_Bonuses_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Payroll_Grade_Bonuses_Stream_Cursor_Value_Input = {
+  from?: InputMaybe<Scalars['numeric']>;
+  gradeId?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  to?: InputMaybe<Scalars['numeric']>;
+  value?: InputMaybe<Scalars['Int']>;
+};
+
+/** aggregate sum on columns */
+export type Payroll_Grade_Bonuses_Sum_Fields = {
+  __typename?: 'payroll_grade_bonuses_sum_fields';
+  from?: Maybe<Scalars['numeric']>;
+  to?: Maybe<Scalars['numeric']>;
+  value?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "payroll.grade_bonuses" */
+export type Payroll_Grade_Bonuses_Sum_Order_By = {
+  from?: InputMaybe<Order_By>;
+  to?: InputMaybe<Order_By>;
+  value?: InputMaybe<Order_By>;
+};
+
+/** update columns of table "payroll.grade_bonuses" */
+export enum Payroll_Grade_Bonuses_Update_Column {
+  /** column name */
+  From = 'from',
+  /** column name */
+  GradeId = 'gradeId',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  To = 'to',
+  /** column name */
+  Value = 'value'
+}
+
+export type Payroll_Grade_Bonuses_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Payroll_Grade_Bonuses_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Payroll_Grade_Bonuses_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Payroll_Grade_Bonuses_Bool_Exp;
+};
+
+/** aggregate var_pop on columns */
+export type Payroll_Grade_Bonuses_Var_Pop_Fields = {
+  __typename?: 'payroll_grade_bonuses_var_pop_fields';
+  from?: Maybe<Scalars['Float']>;
+  to?: Maybe<Scalars['Float']>;
+  value?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "payroll.grade_bonuses" */
+export type Payroll_Grade_Bonuses_Var_Pop_Order_By = {
+  from?: InputMaybe<Order_By>;
+  to?: InputMaybe<Order_By>;
+  value?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Payroll_Grade_Bonuses_Var_Samp_Fields = {
+  __typename?: 'payroll_grade_bonuses_var_samp_fields';
+  from?: Maybe<Scalars['Float']>;
+  to?: Maybe<Scalars['Float']>;
+  value?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "payroll.grade_bonuses" */
+export type Payroll_Grade_Bonuses_Var_Samp_Order_By = {
+  from?: InputMaybe<Order_By>;
+  to?: InputMaybe<Order_By>;
+  value?: InputMaybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Payroll_Grade_Bonuses_Variance_Fields = {
+  __typename?: 'payroll_grade_bonuses_variance_fields';
+  from?: Maybe<Scalars['Float']>;
+  to?: Maybe<Scalars['Float']>;
+  value?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "payroll.grade_bonuses" */
+export type Payroll_Grade_Bonuses_Variance_Order_By = {
+  from?: InputMaybe<Order_By>;
+  to?: InputMaybe<Order_By>;
+  value?: InputMaybe<Order_By>;
+};
+
+/** columns and relationships of "payroll.host_rating_calculation_ranges" */
+export type Payroll_Host_Rating_Calculation_Ranges = {
+  __typename?: 'payroll_host_rating_calculation_ranges';
+  end?: Maybe<Scalars['timestamptz']>;
+  from: Scalars['timestamptz'];
+  id: Scalars['uuid'];
+  year: Scalars['Int'];
+};
+
+/** aggregated selection of "payroll.host_rating_calculation_ranges" */
+export type Payroll_Host_Rating_Calculation_Ranges_Aggregate = {
+  __typename?: 'payroll_host_rating_calculation_ranges_aggregate';
+  aggregate?: Maybe<Payroll_Host_Rating_Calculation_Ranges_Aggregate_Fields>;
+  nodes: Array<Payroll_Host_Rating_Calculation_Ranges>;
+};
+
+/** aggregate fields of "payroll.host_rating_calculation_ranges" */
+export type Payroll_Host_Rating_Calculation_Ranges_Aggregate_Fields = {
+  __typename?: 'payroll_host_rating_calculation_ranges_aggregate_fields';
+  avg?: Maybe<Payroll_Host_Rating_Calculation_Ranges_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Payroll_Host_Rating_Calculation_Ranges_Max_Fields>;
+  min?: Maybe<Payroll_Host_Rating_Calculation_Ranges_Min_Fields>;
+  stddev?: Maybe<Payroll_Host_Rating_Calculation_Ranges_Stddev_Fields>;
+  stddev_pop?: Maybe<Payroll_Host_Rating_Calculation_Ranges_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Payroll_Host_Rating_Calculation_Ranges_Stddev_Samp_Fields>;
+  sum?: Maybe<Payroll_Host_Rating_Calculation_Ranges_Sum_Fields>;
+  var_pop?: Maybe<Payroll_Host_Rating_Calculation_Ranges_Var_Pop_Fields>;
+  var_samp?: Maybe<Payroll_Host_Rating_Calculation_Ranges_Var_Samp_Fields>;
+  variance?: Maybe<Payroll_Host_Rating_Calculation_Ranges_Variance_Fields>;
+};
+
+
+/** aggregate fields of "payroll.host_rating_calculation_ranges" */
+export type Payroll_Host_Rating_Calculation_Ranges_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Payroll_Host_Rating_Calculation_Ranges_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** aggregate avg on columns */
+export type Payroll_Host_Rating_Calculation_Ranges_Avg_Fields = {
+  __typename?: 'payroll_host_rating_calculation_ranges_avg_fields';
+  year?: Maybe<Scalars['Float']>;
+};
+
+/** Boolean expression to filter rows from the table "payroll.host_rating_calculation_ranges". All fields are combined with a logical 'AND'. */
+export type Payroll_Host_Rating_Calculation_Ranges_Bool_Exp = {
+  _and?: InputMaybe<Array<Payroll_Host_Rating_Calculation_Ranges_Bool_Exp>>;
+  _not?: InputMaybe<Payroll_Host_Rating_Calculation_Ranges_Bool_Exp>;
+  _or?: InputMaybe<Array<Payroll_Host_Rating_Calculation_Ranges_Bool_Exp>>;
+  end?: InputMaybe<Timestamptz_Comparison_Exp>;
+  from?: InputMaybe<Timestamptz_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  year?: InputMaybe<Int_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "payroll.host_rating_calculation_ranges" */
+export enum Payroll_Host_Rating_Calculation_Ranges_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  HostRatingCalculationRangesPkey = 'host_rating_calculation_ranges_pkey'
+}
+
+/** input type for incrementing numeric columns in table "payroll.host_rating_calculation_ranges" */
+export type Payroll_Host_Rating_Calculation_Ranges_Inc_Input = {
+  year?: InputMaybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "payroll.host_rating_calculation_ranges" */
+export type Payroll_Host_Rating_Calculation_Ranges_Insert_Input = {
+  end?: InputMaybe<Scalars['timestamptz']>;
+  from?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  year?: InputMaybe<Scalars['Int']>;
+};
+
+/** aggregate max on columns */
+export type Payroll_Host_Rating_Calculation_Ranges_Max_Fields = {
+  __typename?: 'payroll_host_rating_calculation_ranges_max_fields';
+  end?: Maybe<Scalars['timestamptz']>;
+  from?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+  year?: Maybe<Scalars['Int']>;
+};
+
+/** aggregate min on columns */
+export type Payroll_Host_Rating_Calculation_Ranges_Min_Fields = {
+  __typename?: 'payroll_host_rating_calculation_ranges_min_fields';
+  end?: Maybe<Scalars['timestamptz']>;
+  from?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+  year?: Maybe<Scalars['Int']>;
+};
+
+/** response of any mutation on the table "payroll.host_rating_calculation_ranges" */
+export type Payroll_Host_Rating_Calculation_Ranges_Mutation_Response = {
+  __typename?: 'payroll_host_rating_calculation_ranges_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Payroll_Host_Rating_Calculation_Ranges>;
+};
+
+/** on_conflict condition type for table "payroll.host_rating_calculation_ranges" */
+export type Payroll_Host_Rating_Calculation_Ranges_On_Conflict = {
+  constraint: Payroll_Host_Rating_Calculation_Ranges_Constraint;
+  update_columns?: Array<Payroll_Host_Rating_Calculation_Ranges_Update_Column>;
+  where?: InputMaybe<Payroll_Host_Rating_Calculation_Ranges_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "payroll.host_rating_calculation_ranges". */
+export type Payroll_Host_Rating_Calculation_Ranges_Order_By = {
+  end?: InputMaybe<Order_By>;
+  from?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  year?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: payroll.host_rating_calculation_ranges */
+export type Payroll_Host_Rating_Calculation_Ranges_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "payroll.host_rating_calculation_ranges" */
+export enum Payroll_Host_Rating_Calculation_Ranges_Select_Column {
+  /** column name */
+  End = 'end',
+  /** column name */
+  From = 'from',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Year = 'year'
+}
+
+/** input type for updating data in table "payroll.host_rating_calculation_ranges" */
+export type Payroll_Host_Rating_Calculation_Ranges_Set_Input = {
+  end?: InputMaybe<Scalars['timestamptz']>;
+  from?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  year?: InputMaybe<Scalars['Int']>;
+};
+
+/** aggregate stddev on columns */
+export type Payroll_Host_Rating_Calculation_Ranges_Stddev_Fields = {
+  __typename?: 'payroll_host_rating_calculation_ranges_stddev_fields';
+  year?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Payroll_Host_Rating_Calculation_Ranges_Stddev_Pop_Fields = {
+  __typename?: 'payroll_host_rating_calculation_ranges_stddev_pop_fields';
+  year?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Payroll_Host_Rating_Calculation_Ranges_Stddev_Samp_Fields = {
+  __typename?: 'payroll_host_rating_calculation_ranges_stddev_samp_fields';
+  year?: Maybe<Scalars['Float']>;
+};
+
+/** Streaming cursor of the table "payroll_host_rating_calculation_ranges" */
+export type Payroll_Host_Rating_Calculation_Ranges_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Payroll_Host_Rating_Calculation_Ranges_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Payroll_Host_Rating_Calculation_Ranges_Stream_Cursor_Value_Input = {
+  end?: InputMaybe<Scalars['timestamptz']>;
+  from?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  year?: InputMaybe<Scalars['Int']>;
+};
+
+/** aggregate sum on columns */
+export type Payroll_Host_Rating_Calculation_Ranges_Sum_Fields = {
+  __typename?: 'payroll_host_rating_calculation_ranges_sum_fields';
+  year?: Maybe<Scalars['Int']>;
+};
+
+/** update columns of table "payroll.host_rating_calculation_ranges" */
+export enum Payroll_Host_Rating_Calculation_Ranges_Update_Column {
+  /** column name */
+  End = 'end',
+  /** column name */
+  From = 'from',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Year = 'year'
+}
+
+export type Payroll_Host_Rating_Calculation_Ranges_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Payroll_Host_Rating_Calculation_Ranges_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Payroll_Host_Rating_Calculation_Ranges_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Payroll_Host_Rating_Calculation_Ranges_Bool_Exp;
+};
+
+/** aggregate var_pop on columns */
+export type Payroll_Host_Rating_Calculation_Ranges_Var_Pop_Fields = {
+  __typename?: 'payroll_host_rating_calculation_ranges_var_pop_fields';
+  year?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate var_samp on columns */
+export type Payroll_Host_Rating_Calculation_Ranges_Var_Samp_Fields = {
+  __typename?: 'payroll_host_rating_calculation_ranges_var_samp_fields';
+  year?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate variance on columns */
+export type Payroll_Host_Rating_Calculation_Ranges_Variance_Fields = {
+  __typename?: 'payroll_host_rating_calculation_ranges_variance_fields';
+  year?: Maybe<Scalars['Float']>;
+};
+
+/** columns and relationships of "payroll.paid_data" */
+export type Payroll_Paid_Data = {
+  __typename?: 'payroll_paid_data';
+  coHostBonusRate?: Maybe<Scalars['numeric']>;
+  coHostGameRate?: Maybe<Scalars['numeric']>;
+  coHostQuantity?: Maybe<Scalars['Int']>;
+  coHostSubtotal?: Maybe<Scalars['numeric']>;
+  from: Scalars['timestamptz'];
+  gameLeaderBonusRate?: Maybe<Scalars['numeric']>;
+  gameLeaderGameRate?: Maybe<Scalars['numeric']>;
+  gameLeaderQuantity?: Maybe<Scalars['Int']>;
+  gameLeaderSubtotal?: Maybe<Scalars['numeric']>;
+  hostBonusRate?: Maybe<Scalars['numeric']>;
+  hostGameRate?: Maybe<Scalars['numeric']>;
+  hostQuantity?: Maybe<Scalars['Int']>;
+  hostSubtotal?: Maybe<Scalars['numeric']>;
+  id: Scalars['uuid'];
+  otherPay?: Maybe<Scalars['numeric']>;
+  otherPayComment?: Maybe<Scalars['String']>;
+  /** An object relationship */
+  payDoc?: Maybe<Files>;
+  payDocId?: Maybe<Scalars['uuid']>;
+  salary?: Maybe<Scalars['numeric']>;
+  to: Scalars['timestamptz'];
+  total?: Maybe<Scalars['numeric']>;
+  /** An object relationship */
+  user?: Maybe<UserMetadata>;
+  userId: Scalars['uuid'];
+};
+
+/** aggregated selection of "payroll.paid_data" */
+export type Payroll_Paid_Data_Aggregate = {
+  __typename?: 'payroll_paid_data_aggregate';
+  aggregate?: Maybe<Payroll_Paid_Data_Aggregate_Fields>;
+  nodes: Array<Payroll_Paid_Data>;
+};
+
+/** aggregate fields of "payroll.paid_data" */
+export type Payroll_Paid_Data_Aggregate_Fields = {
+  __typename?: 'payroll_paid_data_aggregate_fields';
+  avg?: Maybe<Payroll_Paid_Data_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Payroll_Paid_Data_Max_Fields>;
+  min?: Maybe<Payroll_Paid_Data_Min_Fields>;
+  stddev?: Maybe<Payroll_Paid_Data_Stddev_Fields>;
+  stddev_pop?: Maybe<Payroll_Paid_Data_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Payroll_Paid_Data_Stddev_Samp_Fields>;
+  sum?: Maybe<Payroll_Paid_Data_Sum_Fields>;
+  var_pop?: Maybe<Payroll_Paid_Data_Var_Pop_Fields>;
+  var_samp?: Maybe<Payroll_Paid_Data_Var_Samp_Fields>;
+  variance?: Maybe<Payroll_Paid_Data_Variance_Fields>;
+};
+
+
+/** aggregate fields of "payroll.paid_data" */
+export type Payroll_Paid_Data_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Payroll_Paid_Data_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** aggregate avg on columns */
+export type Payroll_Paid_Data_Avg_Fields = {
+  __typename?: 'payroll_paid_data_avg_fields';
+  coHostBonusRate?: Maybe<Scalars['Float']>;
+  coHostGameRate?: Maybe<Scalars['Float']>;
+  coHostQuantity?: Maybe<Scalars['Float']>;
+  coHostSubtotal?: Maybe<Scalars['Float']>;
+  gameLeaderBonusRate?: Maybe<Scalars['Float']>;
+  gameLeaderGameRate?: Maybe<Scalars['Float']>;
+  gameLeaderQuantity?: Maybe<Scalars['Float']>;
+  gameLeaderSubtotal?: Maybe<Scalars['Float']>;
+  hostBonusRate?: Maybe<Scalars['Float']>;
+  hostGameRate?: Maybe<Scalars['Float']>;
+  hostQuantity?: Maybe<Scalars['Float']>;
+  hostSubtotal?: Maybe<Scalars['Float']>;
+  otherPay?: Maybe<Scalars['Float']>;
+  salary?: Maybe<Scalars['Float']>;
+  total?: Maybe<Scalars['Float']>;
+};
+
+/** Boolean expression to filter rows from the table "payroll.paid_data". All fields are combined with a logical 'AND'. */
+export type Payroll_Paid_Data_Bool_Exp = {
+  _and?: InputMaybe<Array<Payroll_Paid_Data_Bool_Exp>>;
+  _not?: InputMaybe<Payroll_Paid_Data_Bool_Exp>;
+  _or?: InputMaybe<Array<Payroll_Paid_Data_Bool_Exp>>;
+  coHostBonusRate?: InputMaybe<Numeric_Comparison_Exp>;
+  coHostGameRate?: InputMaybe<Numeric_Comparison_Exp>;
+  coHostQuantity?: InputMaybe<Int_Comparison_Exp>;
+  coHostSubtotal?: InputMaybe<Numeric_Comparison_Exp>;
+  from?: InputMaybe<Timestamptz_Comparison_Exp>;
+  gameLeaderBonusRate?: InputMaybe<Numeric_Comparison_Exp>;
+  gameLeaderGameRate?: InputMaybe<Numeric_Comparison_Exp>;
+  gameLeaderQuantity?: InputMaybe<Int_Comparison_Exp>;
+  gameLeaderSubtotal?: InputMaybe<Numeric_Comparison_Exp>;
+  hostBonusRate?: InputMaybe<Numeric_Comparison_Exp>;
+  hostGameRate?: InputMaybe<Numeric_Comparison_Exp>;
+  hostQuantity?: InputMaybe<Int_Comparison_Exp>;
+  hostSubtotal?: InputMaybe<Numeric_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  otherPay?: InputMaybe<Numeric_Comparison_Exp>;
+  otherPayComment?: InputMaybe<String_Comparison_Exp>;
+  payDoc?: InputMaybe<Files_Bool_Exp>;
+  payDocId?: InputMaybe<Uuid_Comparison_Exp>;
+  salary?: InputMaybe<Numeric_Comparison_Exp>;
+  to?: InputMaybe<Timestamptz_Comparison_Exp>;
+  total?: InputMaybe<Numeric_Comparison_Exp>;
+  user?: InputMaybe<UserMetadata_Bool_Exp>;
+  userId?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "payroll.paid_data" */
+export enum Payroll_Paid_Data_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  PaidDataPkey = 'paid_data_pkey'
+}
+
+/** input type for incrementing numeric columns in table "payroll.paid_data" */
+export type Payroll_Paid_Data_Inc_Input = {
+  coHostBonusRate?: InputMaybe<Scalars['numeric']>;
+  coHostGameRate?: InputMaybe<Scalars['numeric']>;
+  coHostQuantity?: InputMaybe<Scalars['Int']>;
+  coHostSubtotal?: InputMaybe<Scalars['numeric']>;
+  gameLeaderBonusRate?: InputMaybe<Scalars['numeric']>;
+  gameLeaderGameRate?: InputMaybe<Scalars['numeric']>;
+  gameLeaderQuantity?: InputMaybe<Scalars['Int']>;
+  gameLeaderSubtotal?: InputMaybe<Scalars['numeric']>;
+  hostBonusRate?: InputMaybe<Scalars['numeric']>;
+  hostGameRate?: InputMaybe<Scalars['numeric']>;
+  hostQuantity?: InputMaybe<Scalars['Int']>;
+  hostSubtotal?: InputMaybe<Scalars['numeric']>;
+  otherPay?: InputMaybe<Scalars['numeric']>;
+  salary?: InputMaybe<Scalars['numeric']>;
+  total?: InputMaybe<Scalars['numeric']>;
+};
+
+/** input type for inserting data into table "payroll.paid_data" */
+export type Payroll_Paid_Data_Insert_Input = {
+  coHostBonusRate?: InputMaybe<Scalars['numeric']>;
+  coHostGameRate?: InputMaybe<Scalars['numeric']>;
+  coHostQuantity?: InputMaybe<Scalars['Int']>;
+  coHostSubtotal?: InputMaybe<Scalars['numeric']>;
+  from?: InputMaybe<Scalars['timestamptz']>;
+  gameLeaderBonusRate?: InputMaybe<Scalars['numeric']>;
+  gameLeaderGameRate?: InputMaybe<Scalars['numeric']>;
+  gameLeaderQuantity?: InputMaybe<Scalars['Int']>;
+  gameLeaderSubtotal?: InputMaybe<Scalars['numeric']>;
+  hostBonusRate?: InputMaybe<Scalars['numeric']>;
+  hostGameRate?: InputMaybe<Scalars['numeric']>;
+  hostQuantity?: InputMaybe<Scalars['Int']>;
+  hostSubtotal?: InputMaybe<Scalars['numeric']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  otherPay?: InputMaybe<Scalars['numeric']>;
+  otherPayComment?: InputMaybe<Scalars['String']>;
+  payDoc?: InputMaybe<Files_Obj_Rel_Insert_Input>;
+  payDocId?: InputMaybe<Scalars['uuid']>;
+  salary?: InputMaybe<Scalars['numeric']>;
+  to?: InputMaybe<Scalars['timestamptz']>;
+  total?: InputMaybe<Scalars['numeric']>;
+  user?: InputMaybe<UserMetadata_Obj_Rel_Insert_Input>;
+  userId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate max on columns */
+export type Payroll_Paid_Data_Max_Fields = {
+  __typename?: 'payroll_paid_data_max_fields';
+  coHostBonusRate?: Maybe<Scalars['numeric']>;
+  coHostGameRate?: Maybe<Scalars['numeric']>;
+  coHostQuantity?: Maybe<Scalars['Int']>;
+  coHostSubtotal?: Maybe<Scalars['numeric']>;
+  from?: Maybe<Scalars['timestamptz']>;
+  gameLeaderBonusRate?: Maybe<Scalars['numeric']>;
+  gameLeaderGameRate?: Maybe<Scalars['numeric']>;
+  gameLeaderQuantity?: Maybe<Scalars['Int']>;
+  gameLeaderSubtotal?: Maybe<Scalars['numeric']>;
+  hostBonusRate?: Maybe<Scalars['numeric']>;
+  hostGameRate?: Maybe<Scalars['numeric']>;
+  hostQuantity?: Maybe<Scalars['Int']>;
+  hostSubtotal?: Maybe<Scalars['numeric']>;
+  id?: Maybe<Scalars['uuid']>;
+  otherPay?: Maybe<Scalars['numeric']>;
+  otherPayComment?: Maybe<Scalars['String']>;
+  payDocId?: Maybe<Scalars['uuid']>;
+  salary?: Maybe<Scalars['numeric']>;
+  to?: Maybe<Scalars['timestamptz']>;
+  total?: Maybe<Scalars['numeric']>;
+  userId?: Maybe<Scalars['uuid']>;
+};
+
+/** aggregate min on columns */
+export type Payroll_Paid_Data_Min_Fields = {
+  __typename?: 'payroll_paid_data_min_fields';
+  coHostBonusRate?: Maybe<Scalars['numeric']>;
+  coHostGameRate?: Maybe<Scalars['numeric']>;
+  coHostQuantity?: Maybe<Scalars['Int']>;
+  coHostSubtotal?: Maybe<Scalars['numeric']>;
+  from?: Maybe<Scalars['timestamptz']>;
+  gameLeaderBonusRate?: Maybe<Scalars['numeric']>;
+  gameLeaderGameRate?: Maybe<Scalars['numeric']>;
+  gameLeaderQuantity?: Maybe<Scalars['Int']>;
+  gameLeaderSubtotal?: Maybe<Scalars['numeric']>;
+  hostBonusRate?: Maybe<Scalars['numeric']>;
+  hostGameRate?: Maybe<Scalars['numeric']>;
+  hostQuantity?: Maybe<Scalars['Int']>;
+  hostSubtotal?: Maybe<Scalars['numeric']>;
+  id?: Maybe<Scalars['uuid']>;
+  otherPay?: Maybe<Scalars['numeric']>;
+  otherPayComment?: Maybe<Scalars['String']>;
+  payDocId?: Maybe<Scalars['uuid']>;
+  salary?: Maybe<Scalars['numeric']>;
+  to?: Maybe<Scalars['timestamptz']>;
+  total?: Maybe<Scalars['numeric']>;
+  userId?: Maybe<Scalars['uuid']>;
+};
+
+/** response of any mutation on the table "payroll.paid_data" */
+export type Payroll_Paid_Data_Mutation_Response = {
+  __typename?: 'payroll_paid_data_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Payroll_Paid_Data>;
+};
+
+/** on_conflict condition type for table "payroll.paid_data" */
+export type Payroll_Paid_Data_On_Conflict = {
+  constraint: Payroll_Paid_Data_Constraint;
+  update_columns?: Array<Payroll_Paid_Data_Update_Column>;
+  where?: InputMaybe<Payroll_Paid_Data_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "payroll.paid_data". */
+export type Payroll_Paid_Data_Order_By = {
+  coHostBonusRate?: InputMaybe<Order_By>;
+  coHostGameRate?: InputMaybe<Order_By>;
+  coHostQuantity?: InputMaybe<Order_By>;
+  coHostSubtotal?: InputMaybe<Order_By>;
+  from?: InputMaybe<Order_By>;
+  gameLeaderBonusRate?: InputMaybe<Order_By>;
+  gameLeaderGameRate?: InputMaybe<Order_By>;
+  gameLeaderQuantity?: InputMaybe<Order_By>;
+  gameLeaderSubtotal?: InputMaybe<Order_By>;
+  hostBonusRate?: InputMaybe<Order_By>;
+  hostGameRate?: InputMaybe<Order_By>;
+  hostQuantity?: InputMaybe<Order_By>;
+  hostSubtotal?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  otherPay?: InputMaybe<Order_By>;
+  otherPayComment?: InputMaybe<Order_By>;
+  payDoc?: InputMaybe<Files_Order_By>;
+  payDocId?: InputMaybe<Order_By>;
+  salary?: InputMaybe<Order_By>;
+  to?: InputMaybe<Order_By>;
+  total?: InputMaybe<Order_By>;
+  user?: InputMaybe<UserMetadata_Order_By>;
+  userId?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: payroll.paid_data */
+export type Payroll_Paid_Data_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "payroll.paid_data" */
+export enum Payroll_Paid_Data_Select_Column {
+  /** column name */
+  CoHostBonusRate = 'coHostBonusRate',
+  /** column name */
+  CoHostGameRate = 'coHostGameRate',
+  /** column name */
+  CoHostQuantity = 'coHostQuantity',
+  /** column name */
+  CoHostSubtotal = 'coHostSubtotal',
+  /** column name */
+  From = 'from',
+  /** column name */
+  GameLeaderBonusRate = 'gameLeaderBonusRate',
+  /** column name */
+  GameLeaderGameRate = 'gameLeaderGameRate',
+  /** column name */
+  GameLeaderQuantity = 'gameLeaderQuantity',
+  /** column name */
+  GameLeaderSubtotal = 'gameLeaderSubtotal',
+  /** column name */
+  HostBonusRate = 'hostBonusRate',
+  /** column name */
+  HostGameRate = 'hostGameRate',
+  /** column name */
+  HostQuantity = 'hostQuantity',
+  /** column name */
+  HostSubtotal = 'hostSubtotal',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  OtherPay = 'otherPay',
+  /** column name */
+  OtherPayComment = 'otherPayComment',
+  /** column name */
+  PayDocId = 'payDocId',
+  /** column name */
+  Salary = 'salary',
+  /** column name */
+  To = 'to',
+  /** column name */
+  Total = 'total',
+  /** column name */
+  UserId = 'userId'
+}
+
+/** input type for updating data in table "payroll.paid_data" */
+export type Payroll_Paid_Data_Set_Input = {
+  coHostBonusRate?: InputMaybe<Scalars['numeric']>;
+  coHostGameRate?: InputMaybe<Scalars['numeric']>;
+  coHostQuantity?: InputMaybe<Scalars['Int']>;
+  coHostSubtotal?: InputMaybe<Scalars['numeric']>;
+  from?: InputMaybe<Scalars['timestamptz']>;
+  gameLeaderBonusRate?: InputMaybe<Scalars['numeric']>;
+  gameLeaderGameRate?: InputMaybe<Scalars['numeric']>;
+  gameLeaderQuantity?: InputMaybe<Scalars['Int']>;
+  gameLeaderSubtotal?: InputMaybe<Scalars['numeric']>;
+  hostBonusRate?: InputMaybe<Scalars['numeric']>;
+  hostGameRate?: InputMaybe<Scalars['numeric']>;
+  hostQuantity?: InputMaybe<Scalars['Int']>;
+  hostSubtotal?: InputMaybe<Scalars['numeric']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  otherPay?: InputMaybe<Scalars['numeric']>;
+  otherPayComment?: InputMaybe<Scalars['String']>;
+  payDocId?: InputMaybe<Scalars['uuid']>;
+  salary?: InputMaybe<Scalars['numeric']>;
+  to?: InputMaybe<Scalars['timestamptz']>;
+  total?: InputMaybe<Scalars['numeric']>;
+  userId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate stddev on columns */
+export type Payroll_Paid_Data_Stddev_Fields = {
+  __typename?: 'payroll_paid_data_stddev_fields';
+  coHostBonusRate?: Maybe<Scalars['Float']>;
+  coHostGameRate?: Maybe<Scalars['Float']>;
+  coHostQuantity?: Maybe<Scalars['Float']>;
+  coHostSubtotal?: Maybe<Scalars['Float']>;
+  gameLeaderBonusRate?: Maybe<Scalars['Float']>;
+  gameLeaderGameRate?: Maybe<Scalars['Float']>;
+  gameLeaderQuantity?: Maybe<Scalars['Float']>;
+  gameLeaderSubtotal?: Maybe<Scalars['Float']>;
+  hostBonusRate?: Maybe<Scalars['Float']>;
+  hostGameRate?: Maybe<Scalars['Float']>;
+  hostQuantity?: Maybe<Scalars['Float']>;
+  hostSubtotal?: Maybe<Scalars['Float']>;
+  otherPay?: Maybe<Scalars['Float']>;
+  salary?: Maybe<Scalars['Float']>;
+  total?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Payroll_Paid_Data_Stddev_Pop_Fields = {
+  __typename?: 'payroll_paid_data_stddev_pop_fields';
+  coHostBonusRate?: Maybe<Scalars['Float']>;
+  coHostGameRate?: Maybe<Scalars['Float']>;
+  coHostQuantity?: Maybe<Scalars['Float']>;
+  coHostSubtotal?: Maybe<Scalars['Float']>;
+  gameLeaderBonusRate?: Maybe<Scalars['Float']>;
+  gameLeaderGameRate?: Maybe<Scalars['Float']>;
+  gameLeaderQuantity?: Maybe<Scalars['Float']>;
+  gameLeaderSubtotal?: Maybe<Scalars['Float']>;
+  hostBonusRate?: Maybe<Scalars['Float']>;
+  hostGameRate?: Maybe<Scalars['Float']>;
+  hostQuantity?: Maybe<Scalars['Float']>;
+  hostSubtotal?: Maybe<Scalars['Float']>;
+  otherPay?: Maybe<Scalars['Float']>;
+  salary?: Maybe<Scalars['Float']>;
+  total?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Payroll_Paid_Data_Stddev_Samp_Fields = {
+  __typename?: 'payroll_paid_data_stddev_samp_fields';
+  coHostBonusRate?: Maybe<Scalars['Float']>;
+  coHostGameRate?: Maybe<Scalars['Float']>;
+  coHostQuantity?: Maybe<Scalars['Float']>;
+  coHostSubtotal?: Maybe<Scalars['Float']>;
+  gameLeaderBonusRate?: Maybe<Scalars['Float']>;
+  gameLeaderGameRate?: Maybe<Scalars['Float']>;
+  gameLeaderQuantity?: Maybe<Scalars['Float']>;
+  gameLeaderSubtotal?: Maybe<Scalars['Float']>;
+  hostBonusRate?: Maybe<Scalars['Float']>;
+  hostGameRate?: Maybe<Scalars['Float']>;
+  hostQuantity?: Maybe<Scalars['Float']>;
+  hostSubtotal?: Maybe<Scalars['Float']>;
+  otherPay?: Maybe<Scalars['Float']>;
+  salary?: Maybe<Scalars['Float']>;
+  total?: Maybe<Scalars['Float']>;
+};
+
+/** Streaming cursor of the table "payroll_paid_data" */
+export type Payroll_Paid_Data_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Payroll_Paid_Data_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Payroll_Paid_Data_Stream_Cursor_Value_Input = {
+  coHostBonusRate?: InputMaybe<Scalars['numeric']>;
+  coHostGameRate?: InputMaybe<Scalars['numeric']>;
+  coHostQuantity?: InputMaybe<Scalars['Int']>;
+  coHostSubtotal?: InputMaybe<Scalars['numeric']>;
+  from?: InputMaybe<Scalars['timestamptz']>;
+  gameLeaderBonusRate?: InputMaybe<Scalars['numeric']>;
+  gameLeaderGameRate?: InputMaybe<Scalars['numeric']>;
+  gameLeaderQuantity?: InputMaybe<Scalars['Int']>;
+  gameLeaderSubtotal?: InputMaybe<Scalars['numeric']>;
+  hostBonusRate?: InputMaybe<Scalars['numeric']>;
+  hostGameRate?: InputMaybe<Scalars['numeric']>;
+  hostQuantity?: InputMaybe<Scalars['Int']>;
+  hostSubtotal?: InputMaybe<Scalars['numeric']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  otherPay?: InputMaybe<Scalars['numeric']>;
+  otherPayComment?: InputMaybe<Scalars['String']>;
+  payDocId?: InputMaybe<Scalars['uuid']>;
+  salary?: InputMaybe<Scalars['numeric']>;
+  to?: InputMaybe<Scalars['timestamptz']>;
+  total?: InputMaybe<Scalars['numeric']>;
+  userId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate sum on columns */
+export type Payroll_Paid_Data_Sum_Fields = {
+  __typename?: 'payroll_paid_data_sum_fields';
+  coHostBonusRate?: Maybe<Scalars['numeric']>;
+  coHostGameRate?: Maybe<Scalars['numeric']>;
+  coHostQuantity?: Maybe<Scalars['Int']>;
+  coHostSubtotal?: Maybe<Scalars['numeric']>;
+  gameLeaderBonusRate?: Maybe<Scalars['numeric']>;
+  gameLeaderGameRate?: Maybe<Scalars['numeric']>;
+  gameLeaderQuantity?: Maybe<Scalars['Int']>;
+  gameLeaderSubtotal?: Maybe<Scalars['numeric']>;
+  hostBonusRate?: Maybe<Scalars['numeric']>;
+  hostGameRate?: Maybe<Scalars['numeric']>;
+  hostQuantity?: Maybe<Scalars['Int']>;
+  hostSubtotal?: Maybe<Scalars['numeric']>;
+  otherPay?: Maybe<Scalars['numeric']>;
+  salary?: Maybe<Scalars['numeric']>;
+  total?: Maybe<Scalars['numeric']>;
+};
+
+/** update columns of table "payroll.paid_data" */
+export enum Payroll_Paid_Data_Update_Column {
+  /** column name */
+  CoHostBonusRate = 'coHostBonusRate',
+  /** column name */
+  CoHostGameRate = 'coHostGameRate',
+  /** column name */
+  CoHostQuantity = 'coHostQuantity',
+  /** column name */
+  CoHostSubtotal = 'coHostSubtotal',
+  /** column name */
+  From = 'from',
+  /** column name */
+  GameLeaderBonusRate = 'gameLeaderBonusRate',
+  /** column name */
+  GameLeaderGameRate = 'gameLeaderGameRate',
+  /** column name */
+  GameLeaderQuantity = 'gameLeaderQuantity',
+  /** column name */
+  GameLeaderSubtotal = 'gameLeaderSubtotal',
+  /** column name */
+  HostBonusRate = 'hostBonusRate',
+  /** column name */
+  HostGameRate = 'hostGameRate',
+  /** column name */
+  HostQuantity = 'hostQuantity',
+  /** column name */
+  HostSubtotal = 'hostSubtotal',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  OtherPay = 'otherPay',
+  /** column name */
+  OtherPayComment = 'otherPayComment',
+  /** column name */
+  PayDocId = 'payDocId',
+  /** column name */
+  Salary = 'salary',
+  /** column name */
+  To = 'to',
+  /** column name */
+  Total = 'total',
+  /** column name */
+  UserId = 'userId'
+}
+
+export type Payroll_Paid_Data_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Payroll_Paid_Data_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Payroll_Paid_Data_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Payroll_Paid_Data_Bool_Exp;
+};
+
+/** aggregate var_pop on columns */
+export type Payroll_Paid_Data_Var_Pop_Fields = {
+  __typename?: 'payroll_paid_data_var_pop_fields';
+  coHostBonusRate?: Maybe<Scalars['Float']>;
+  coHostGameRate?: Maybe<Scalars['Float']>;
+  coHostQuantity?: Maybe<Scalars['Float']>;
+  coHostSubtotal?: Maybe<Scalars['Float']>;
+  gameLeaderBonusRate?: Maybe<Scalars['Float']>;
+  gameLeaderGameRate?: Maybe<Scalars['Float']>;
+  gameLeaderQuantity?: Maybe<Scalars['Float']>;
+  gameLeaderSubtotal?: Maybe<Scalars['Float']>;
+  hostBonusRate?: Maybe<Scalars['Float']>;
+  hostGameRate?: Maybe<Scalars['Float']>;
+  hostQuantity?: Maybe<Scalars['Float']>;
+  hostSubtotal?: Maybe<Scalars['Float']>;
+  otherPay?: Maybe<Scalars['Float']>;
+  salary?: Maybe<Scalars['Float']>;
+  total?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate var_samp on columns */
+export type Payroll_Paid_Data_Var_Samp_Fields = {
+  __typename?: 'payroll_paid_data_var_samp_fields';
+  coHostBonusRate?: Maybe<Scalars['Float']>;
+  coHostGameRate?: Maybe<Scalars['Float']>;
+  coHostQuantity?: Maybe<Scalars['Float']>;
+  coHostSubtotal?: Maybe<Scalars['Float']>;
+  gameLeaderBonusRate?: Maybe<Scalars['Float']>;
+  gameLeaderGameRate?: Maybe<Scalars['Float']>;
+  gameLeaderQuantity?: Maybe<Scalars['Float']>;
+  gameLeaderSubtotal?: Maybe<Scalars['Float']>;
+  hostBonusRate?: Maybe<Scalars['Float']>;
+  hostGameRate?: Maybe<Scalars['Float']>;
+  hostQuantity?: Maybe<Scalars['Float']>;
+  hostSubtotal?: Maybe<Scalars['Float']>;
+  otherPay?: Maybe<Scalars['Float']>;
+  salary?: Maybe<Scalars['Float']>;
+  total?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate variance on columns */
+export type Payroll_Paid_Data_Variance_Fields = {
+  __typename?: 'payroll_paid_data_variance_fields';
+  coHostBonusRate?: Maybe<Scalars['Float']>;
+  coHostGameRate?: Maybe<Scalars['Float']>;
+  coHostQuantity?: Maybe<Scalars['Float']>;
+  coHostSubtotal?: Maybe<Scalars['Float']>;
+  gameLeaderBonusRate?: Maybe<Scalars['Float']>;
+  gameLeaderGameRate?: Maybe<Scalars['Float']>;
+  gameLeaderQuantity?: Maybe<Scalars['Float']>;
+  gameLeaderSubtotal?: Maybe<Scalars['Float']>;
+  hostBonusRate?: Maybe<Scalars['Float']>;
+  hostGameRate?: Maybe<Scalars['Float']>;
+  hostQuantity?: Maybe<Scalars['Float']>;
+  hostSubtotal?: Maybe<Scalars['Float']>;
+  otherPay?: Maybe<Scalars['Float']>;
+  salary?: Maybe<Scalars['Float']>;
+  total?: Maybe<Scalars['Float']>;
+};
+
+/** columns and relationships of "payroll.pay_grades" */
+export type Payroll_Pay_Grades = {
+  __typename?: 'payroll_pay_grades';
+  /** An array relationship */
+  bonuses: Array<Payroll_Grade_Bonuses>;
+  /** An aggregate relationship */
+  bonuses_aggregate: Payroll_Grade_Bonuses_Aggregate;
+  createdAt: Scalars['timestamptz'];
+  id: Scalars['uuid'];
+  isBonus: Scalars['Boolean'];
+  name: Scalars['String'];
+  rate: Scalars['numeric'];
+};
+
+
+/** columns and relationships of "payroll.pay_grades" */
+export type Payroll_Pay_GradesBonusesArgs = {
+  distinct_on?: InputMaybe<Array<Payroll_Grade_Bonuses_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Payroll_Grade_Bonuses_Order_By>>;
+  where?: InputMaybe<Payroll_Grade_Bonuses_Bool_Exp>;
+};
+
+
+/** columns and relationships of "payroll.pay_grades" */
+export type Payroll_Pay_GradesBonuses_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Payroll_Grade_Bonuses_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Payroll_Grade_Bonuses_Order_By>>;
+  where?: InputMaybe<Payroll_Grade_Bonuses_Bool_Exp>;
+};
+
+/** aggregated selection of "payroll.pay_grades" */
+export type Payroll_Pay_Grades_Aggregate = {
+  __typename?: 'payroll_pay_grades_aggregate';
+  aggregate?: Maybe<Payroll_Pay_Grades_Aggregate_Fields>;
+  nodes: Array<Payroll_Pay_Grades>;
+};
+
+/** aggregate fields of "payroll.pay_grades" */
+export type Payroll_Pay_Grades_Aggregate_Fields = {
+  __typename?: 'payroll_pay_grades_aggregate_fields';
+  avg?: Maybe<Payroll_Pay_Grades_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Payroll_Pay_Grades_Max_Fields>;
+  min?: Maybe<Payroll_Pay_Grades_Min_Fields>;
+  stddev?: Maybe<Payroll_Pay_Grades_Stddev_Fields>;
+  stddev_pop?: Maybe<Payroll_Pay_Grades_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Payroll_Pay_Grades_Stddev_Samp_Fields>;
+  sum?: Maybe<Payroll_Pay_Grades_Sum_Fields>;
+  var_pop?: Maybe<Payroll_Pay_Grades_Var_Pop_Fields>;
+  var_samp?: Maybe<Payroll_Pay_Grades_Var_Samp_Fields>;
+  variance?: Maybe<Payroll_Pay_Grades_Variance_Fields>;
+};
+
+
+/** aggregate fields of "payroll.pay_grades" */
+export type Payroll_Pay_Grades_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Payroll_Pay_Grades_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** aggregate avg on columns */
+export type Payroll_Pay_Grades_Avg_Fields = {
+  __typename?: 'payroll_pay_grades_avg_fields';
+  rate?: Maybe<Scalars['Float']>;
+};
+
+/** Boolean expression to filter rows from the table "payroll.pay_grades". All fields are combined with a logical 'AND'. */
+export type Payroll_Pay_Grades_Bool_Exp = {
+  _and?: InputMaybe<Array<Payroll_Pay_Grades_Bool_Exp>>;
+  _not?: InputMaybe<Payroll_Pay_Grades_Bool_Exp>;
+  _or?: InputMaybe<Array<Payroll_Pay_Grades_Bool_Exp>>;
+  bonuses?: InputMaybe<Payroll_Grade_Bonuses_Bool_Exp>;
+  bonuses_aggregate?: InputMaybe<Payroll_Grade_Bonuses_Aggregate_Bool_Exp>;
+  createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  isBonus?: InputMaybe<Boolean_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+  rate?: InputMaybe<Numeric_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "payroll.pay_grades" */
+export enum Payroll_Pay_Grades_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  PayGradesPkey = 'pay_grades_pkey'
+}
+
+/** columns and relationships of "payroll.pay_grades_group" */
+export type Payroll_Pay_Grades_Group = {
+  __typename?: 'payroll_pay_grades_group';
+  /** An array relationship */
+  gamePayGrades: Array<Payroll_Game_Pay_Grades>;
+  /** An aggregate relationship */
+  gamePayGrades_aggregate: Payroll_Game_Pay_Grades_Aggregate;
+  id: Scalars['uuid'];
+  name: Scalars['String'];
+};
+
+
+/** columns and relationships of "payroll.pay_grades_group" */
+export type Payroll_Pay_Grades_GroupGamePayGradesArgs = {
+  distinct_on?: InputMaybe<Array<Payroll_Game_Pay_Grades_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Payroll_Game_Pay_Grades_Order_By>>;
+  where?: InputMaybe<Payroll_Game_Pay_Grades_Bool_Exp>;
+};
+
+
+/** columns and relationships of "payroll.pay_grades_group" */
+export type Payroll_Pay_Grades_GroupGamePayGrades_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Payroll_Game_Pay_Grades_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Payroll_Game_Pay_Grades_Order_By>>;
+  where?: InputMaybe<Payroll_Game_Pay_Grades_Bool_Exp>;
+};
+
+/** aggregated selection of "payroll.pay_grades_group" */
+export type Payroll_Pay_Grades_Group_Aggregate = {
+  __typename?: 'payroll_pay_grades_group_aggregate';
+  aggregate?: Maybe<Payroll_Pay_Grades_Group_Aggregate_Fields>;
+  nodes: Array<Payroll_Pay_Grades_Group>;
+};
+
+/** aggregate fields of "payroll.pay_grades_group" */
+export type Payroll_Pay_Grades_Group_Aggregate_Fields = {
+  __typename?: 'payroll_pay_grades_group_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Payroll_Pay_Grades_Group_Max_Fields>;
+  min?: Maybe<Payroll_Pay_Grades_Group_Min_Fields>;
+};
+
+
+/** aggregate fields of "payroll.pay_grades_group" */
+export type Payroll_Pay_Grades_Group_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Payroll_Pay_Grades_Group_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "payroll.pay_grades_group". All fields are combined with a logical 'AND'. */
+export type Payroll_Pay_Grades_Group_Bool_Exp = {
+  _and?: InputMaybe<Array<Payroll_Pay_Grades_Group_Bool_Exp>>;
+  _not?: InputMaybe<Payroll_Pay_Grades_Group_Bool_Exp>;
+  _or?: InputMaybe<Array<Payroll_Pay_Grades_Group_Bool_Exp>>;
+  gamePayGrades?: InputMaybe<Payroll_Game_Pay_Grades_Bool_Exp>;
+  gamePayGrades_aggregate?: InputMaybe<Payroll_Game_Pay_Grades_Aggregate_Bool_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "payroll.pay_grades_group" */
+export enum Payroll_Pay_Grades_Group_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  PayGradesGroupPkey = 'pay_grades_group_pkey'
+}
+
+/** input type for inserting data into table "payroll.pay_grades_group" */
+export type Payroll_Pay_Grades_Group_Insert_Input = {
+  gamePayGrades?: InputMaybe<Payroll_Game_Pay_Grades_Arr_Rel_Insert_Input>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Payroll_Pay_Grades_Group_Max_Fields = {
+  __typename?: 'payroll_pay_grades_group_max_fields';
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Payroll_Pay_Grades_Group_Min_Fields = {
+  __typename?: 'payroll_pay_grades_group_min_fields';
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "payroll.pay_grades_group" */
+export type Payroll_Pay_Grades_Group_Mutation_Response = {
+  __typename?: 'payroll_pay_grades_group_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Payroll_Pay_Grades_Group>;
+};
+
+/** input type for inserting object relation for remote table "payroll.pay_grades_group" */
+export type Payroll_Pay_Grades_Group_Obj_Rel_Insert_Input = {
+  data: Payroll_Pay_Grades_Group_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Payroll_Pay_Grades_Group_On_Conflict>;
+};
+
+/** on_conflict condition type for table "payroll.pay_grades_group" */
+export type Payroll_Pay_Grades_Group_On_Conflict = {
+  constraint: Payroll_Pay_Grades_Group_Constraint;
+  update_columns?: Array<Payroll_Pay_Grades_Group_Update_Column>;
+  where?: InputMaybe<Payroll_Pay_Grades_Group_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "payroll.pay_grades_group". */
+export type Payroll_Pay_Grades_Group_Order_By = {
+  gamePayGrades_aggregate?: InputMaybe<Payroll_Game_Pay_Grades_Aggregate_Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: payroll.pay_grades_group */
+export type Payroll_Pay_Grades_Group_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "payroll.pay_grades_group" */
+export enum Payroll_Pay_Grades_Group_Select_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name'
+}
+
+/** input type for updating data in table "payroll.pay_grades_group" */
+export type Payroll_Pay_Grades_Group_Set_Input = {
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
+/** Streaming cursor of the table "payroll_pay_grades_group" */
+export type Payroll_Pay_Grades_Group_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Payroll_Pay_Grades_Group_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Payroll_Pay_Grades_Group_Stream_Cursor_Value_Input = {
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "payroll.pay_grades_group" */
+export enum Payroll_Pay_Grades_Group_Update_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name'
+}
+
+export type Payroll_Pay_Grades_Group_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Payroll_Pay_Grades_Group_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Payroll_Pay_Grades_Group_Bool_Exp;
+};
+
+/** input type for incrementing numeric columns in table "payroll.pay_grades" */
+export type Payroll_Pay_Grades_Inc_Input = {
+  rate?: InputMaybe<Scalars['numeric']>;
+};
+
+/** input type for inserting data into table "payroll.pay_grades" */
+export type Payroll_Pay_Grades_Insert_Input = {
+  bonuses?: InputMaybe<Payroll_Grade_Bonuses_Arr_Rel_Insert_Input>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  isBonus?: InputMaybe<Scalars['Boolean']>;
+  name?: InputMaybe<Scalars['String']>;
+  rate?: InputMaybe<Scalars['numeric']>;
+};
+
+/** aggregate max on columns */
+export type Payroll_Pay_Grades_Max_Fields = {
+  __typename?: 'payroll_pay_grades_max_fields';
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+  rate?: Maybe<Scalars['numeric']>;
+};
+
+/** aggregate min on columns */
+export type Payroll_Pay_Grades_Min_Fields = {
+  __typename?: 'payroll_pay_grades_min_fields';
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+  rate?: Maybe<Scalars['numeric']>;
+};
+
+/** response of any mutation on the table "payroll.pay_grades" */
+export type Payroll_Pay_Grades_Mutation_Response = {
+  __typename?: 'payroll_pay_grades_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Payroll_Pay_Grades>;
+};
+
+/** input type for inserting object relation for remote table "payroll.pay_grades" */
+export type Payroll_Pay_Grades_Obj_Rel_Insert_Input = {
+  data: Payroll_Pay_Grades_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Payroll_Pay_Grades_On_Conflict>;
+};
+
+/** on_conflict condition type for table "payroll.pay_grades" */
+export type Payroll_Pay_Grades_On_Conflict = {
+  constraint: Payroll_Pay_Grades_Constraint;
+  update_columns?: Array<Payroll_Pay_Grades_Update_Column>;
+  where?: InputMaybe<Payroll_Pay_Grades_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "payroll.pay_grades". */
+export type Payroll_Pay_Grades_Order_By = {
+  bonuses_aggregate?: InputMaybe<Payroll_Grade_Bonuses_Aggregate_Order_By>;
+  createdAt?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  isBonus?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  rate?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: payroll.pay_grades */
+export type Payroll_Pay_Grades_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "payroll.pay_grades" */
+export enum Payroll_Pay_Grades_Select_Column {
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  IsBonus = 'isBonus',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  Rate = 'rate'
+}
+
+/** input type for updating data in table "payroll.pay_grades" */
+export type Payroll_Pay_Grades_Set_Input = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  isBonus?: InputMaybe<Scalars['Boolean']>;
+  name?: InputMaybe<Scalars['String']>;
+  rate?: InputMaybe<Scalars['numeric']>;
+};
+
+/** aggregate stddev on columns */
+export type Payroll_Pay_Grades_Stddev_Fields = {
+  __typename?: 'payroll_pay_grades_stddev_fields';
+  rate?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Payroll_Pay_Grades_Stddev_Pop_Fields = {
+  __typename?: 'payroll_pay_grades_stddev_pop_fields';
+  rate?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Payroll_Pay_Grades_Stddev_Samp_Fields = {
+  __typename?: 'payroll_pay_grades_stddev_samp_fields';
+  rate?: Maybe<Scalars['Float']>;
+};
+
+/** Streaming cursor of the table "payroll_pay_grades" */
+export type Payroll_Pay_Grades_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Payroll_Pay_Grades_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Payroll_Pay_Grades_Stream_Cursor_Value_Input = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  isBonus?: InputMaybe<Scalars['Boolean']>;
+  name?: InputMaybe<Scalars['String']>;
+  rate?: InputMaybe<Scalars['numeric']>;
+};
+
+/** aggregate sum on columns */
+export type Payroll_Pay_Grades_Sum_Fields = {
+  __typename?: 'payroll_pay_grades_sum_fields';
+  rate?: Maybe<Scalars['numeric']>;
+};
+
+/** update columns of table "payroll.pay_grades" */
+export enum Payroll_Pay_Grades_Update_Column {
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  IsBonus = 'isBonus',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  Rate = 'rate'
+}
+
+export type Payroll_Pay_Grades_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Payroll_Pay_Grades_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Payroll_Pay_Grades_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Payroll_Pay_Grades_Bool_Exp;
+};
+
+/** aggregate var_pop on columns */
+export type Payroll_Pay_Grades_Var_Pop_Fields = {
+  __typename?: 'payroll_pay_grades_var_pop_fields';
+  rate?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate var_samp on columns */
+export type Payroll_Pay_Grades_Var_Samp_Fields = {
+  __typename?: 'payroll_pay_grades_var_samp_fields';
+  rate?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate variance on columns */
+export type Payroll_Pay_Grades_Variance_Fields = {
+  __typename?: 'payroll_pay_grades_variance_fields';
+  rate?: Maybe<Scalars['Float']>;
+};
+
 /** columns and relationships of "players" */
 export type Players = {
   __typename?: 'players';
+  avatarId?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['timestamptz']>;
   id: Scalars['uuid'];
   index?: Maybe<Scalars['Int']>;
@@ -13150,12 +17016,14 @@ export type Players_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type Players_Avg_Fields = {
   __typename?: 'players_avg_fields';
+  avatarId?: Maybe<Scalars['Float']>;
   index?: Maybe<Scalars['Float']>;
   result?: Maybe<Scalars['Float']>;
 };
 
 /** order by avg() on columns of table "players" */
 export type Players_Avg_Order_By = {
+  avatarId?: InputMaybe<Order_By>;
   index?: InputMaybe<Order_By>;
   result?: InputMaybe<Order_By>;
 };
@@ -13165,6 +17033,7 @@ export type Players_Bool_Exp = {
   _and?: InputMaybe<Array<Players_Bool_Exp>>;
   _not?: InputMaybe<Players_Bool_Exp>;
   _or?: InputMaybe<Array<Players_Bool_Exp>>;
+  avatarId?: InputMaybe<Int_Comparison_Exp>;
   createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   index?: InputMaybe<Int_Comparison_Exp>;
@@ -13183,12 +17052,14 @@ export enum Players_Constraint {
 
 /** input type for incrementing numeric columns in table "players" */
 export type Players_Inc_Input = {
+  avatarId?: InputMaybe<Scalars['Int']>;
   index?: InputMaybe<Scalars['Int']>;
   result?: InputMaybe<Scalars['Int']>;
 };
 
 /** input type for inserting data into table "players" */
 export type Players_Insert_Input = {
+  avatarId?: InputMaybe<Scalars['Int']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['uuid']>;
   index?: InputMaybe<Scalars['Int']>;
@@ -13202,6 +17073,7 @@ export type Players_Insert_Input = {
 /** aggregate max on columns */
 export type Players_Max_Fields = {
   __typename?: 'players_max_fields';
+  avatarId?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
   index?: Maybe<Scalars['Int']>;
@@ -13212,6 +17084,7 @@ export type Players_Max_Fields = {
 
 /** order by max() on columns of table "players" */
 export type Players_Max_Order_By = {
+  avatarId?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   index?: InputMaybe<Order_By>;
@@ -13223,6 +17096,7 @@ export type Players_Max_Order_By = {
 /** aggregate min on columns */
 export type Players_Min_Fields = {
   __typename?: 'players_min_fields';
+  avatarId?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
   index?: Maybe<Scalars['Int']>;
@@ -13233,6 +17107,7 @@ export type Players_Min_Fields = {
 
 /** order by min() on columns of table "players" */
 export type Players_Min_Order_By = {
+  avatarId?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   index?: InputMaybe<Order_By>;
@@ -13250,6 +17125,13 @@ export type Players_Mutation_Response = {
   returning: Array<Players>;
 };
 
+/** input type for inserting object relation for remote table "players" */
+export type Players_Obj_Rel_Insert_Input = {
+  data: Players_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Players_On_Conflict>;
+};
+
 /** on_conflict condition type for table "players" */
 export type Players_On_Conflict = {
   constraint: Players_Constraint;
@@ -13259,6 +17141,7 @@ export type Players_On_Conflict = {
 
 /** Ordering options when selecting data from "players". */
 export type Players_Order_By = {
+  avatarId?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   index?: InputMaybe<Order_By>;
@@ -13277,6 +17160,8 @@ export type Players_Pk_Columns_Input = {
 /** select columns of table "players" */
 export enum Players_Select_Column {
   /** column name */
+  AvatarId = 'avatarId',
+  /** column name */
   CreatedAt = 'createdAt',
   /** column name */
   Id = 'id',
@@ -13292,6 +17177,7 @@ export enum Players_Select_Column {
 
 /** input type for updating data in table "players" */
 export type Players_Set_Input = {
+  avatarId?: InputMaybe<Scalars['Int']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['uuid']>;
   index?: InputMaybe<Scalars['Int']>;
@@ -13303,12 +17189,14 @@ export type Players_Set_Input = {
 /** aggregate stddev on columns */
 export type Players_Stddev_Fields = {
   __typename?: 'players_stddev_fields';
+  avatarId?: Maybe<Scalars['Float']>;
   index?: Maybe<Scalars['Float']>;
   result?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev() on columns of table "players" */
 export type Players_Stddev_Order_By = {
+  avatarId?: InputMaybe<Order_By>;
   index?: InputMaybe<Order_By>;
   result?: InputMaybe<Order_By>;
 };
@@ -13316,12 +17204,14 @@ export type Players_Stddev_Order_By = {
 /** aggregate stddev_pop on columns */
 export type Players_Stddev_Pop_Fields = {
   __typename?: 'players_stddev_pop_fields';
+  avatarId?: Maybe<Scalars['Float']>;
   index?: Maybe<Scalars['Float']>;
   result?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_pop() on columns of table "players" */
 export type Players_Stddev_Pop_Order_By = {
+  avatarId?: InputMaybe<Order_By>;
   index?: InputMaybe<Order_By>;
   result?: InputMaybe<Order_By>;
 };
@@ -13329,12 +17219,14 @@ export type Players_Stddev_Pop_Order_By = {
 /** aggregate stddev_samp on columns */
 export type Players_Stddev_Samp_Fields = {
   __typename?: 'players_stddev_samp_fields';
+  avatarId?: Maybe<Scalars['Float']>;
   index?: Maybe<Scalars['Float']>;
   result?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_samp() on columns of table "players" */
 export type Players_Stddev_Samp_Order_By = {
+  avatarId?: InputMaybe<Order_By>;
   index?: InputMaybe<Order_By>;
   result?: InputMaybe<Order_By>;
 };
@@ -13349,6 +17241,7 @@ export type Players_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Players_Stream_Cursor_Value_Input = {
+  avatarId?: InputMaybe<Scalars['Int']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['uuid']>;
   index?: InputMaybe<Scalars['Int']>;
@@ -13360,18 +17253,22 @@ export type Players_Stream_Cursor_Value_Input = {
 /** aggregate sum on columns */
 export type Players_Sum_Fields = {
   __typename?: 'players_sum_fields';
+  avatarId?: Maybe<Scalars['Int']>;
   index?: Maybe<Scalars['Int']>;
   result?: Maybe<Scalars['Int']>;
 };
 
 /** order by sum() on columns of table "players" */
 export type Players_Sum_Order_By = {
+  avatarId?: InputMaybe<Order_By>;
   index?: InputMaybe<Order_By>;
   result?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "players" */
 export enum Players_Update_Column {
+  /** column name */
+  AvatarId = 'avatarId',
   /** column name */
   CreatedAt = 'createdAt',
   /** column name */
@@ -13398,12 +17295,14 @@ export type Players_Updates = {
 /** aggregate var_pop on columns */
 export type Players_Var_Pop_Fields = {
   __typename?: 'players_var_pop_fields';
+  avatarId?: Maybe<Scalars['Float']>;
   index?: Maybe<Scalars['Float']>;
   result?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_pop() on columns of table "players" */
 export type Players_Var_Pop_Order_By = {
+  avatarId?: InputMaybe<Order_By>;
   index?: InputMaybe<Order_By>;
   result?: InputMaybe<Order_By>;
 };
@@ -13411,12 +17310,14 @@ export type Players_Var_Pop_Order_By = {
 /** aggregate var_samp on columns */
 export type Players_Var_Samp_Fields = {
   __typename?: 'players_var_samp_fields';
+  avatarId?: Maybe<Scalars['Float']>;
   index?: Maybe<Scalars['Float']>;
   result?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_samp() on columns of table "players" */
 export type Players_Var_Samp_Order_By = {
+  avatarId?: InputMaybe<Order_By>;
   index?: InputMaybe<Order_By>;
   result?: InputMaybe<Order_By>;
 };
@@ -13424,12 +17325,14 @@ export type Players_Var_Samp_Order_By = {
 /** aggregate variance on columns */
 export type Players_Variance_Fields = {
   __typename?: 'players_variance_fields';
+  avatarId?: Maybe<Scalars['Float']>;
   index?: Maybe<Scalars['Float']>;
   result?: Maybe<Scalars['Float']>;
 };
 
 /** order by variance() on columns of table "players" */
 export type Players_Variance_Order_By = {
+  avatarId?: InputMaybe<Order_By>;
   index?: InputMaybe<Order_By>;
   result?: InputMaybe<Order_By>;
 };
@@ -13544,6 +17447,12 @@ export type Query_Root = {
   events_aggregate: Events_Aggregate;
   /** fetch data from the table: "events" using primary key columns */
   events_by_pk?: Maybe<Events>;
+  /** fetch data from the table: "feud_old.game_out_questions" */
+  feud_old_game_out_questions: Array<Feud_Old_Game_Out_Questions>;
+  /** fetch aggregated fields from the table: "feud_old.game_out_questions" */
+  feud_old_game_out_questions_aggregate: Feud_Old_Game_Out_Questions_Aggregate;
+  /** fetch data from the table: "feud_old.game_out_questions" using primary key columns */
+  feud_old_game_out_questions_by_pk?: Maybe<Feud_Old_Game_Out_Questions>;
   /** fetch data from the table: "feud_old.game_room_rounds" */
   feud_old_game_room_rounds: Array<Feud_Old_Game_Room_Rounds>;
   /** fetch aggregated fields from the table: "feud_old.game_room_rounds" */
@@ -13556,6 +17465,12 @@ export type Query_Root = {
   feud_old_game_rooms_aggregate: Feud_Old_Game_Rooms_Aggregate;
   /** fetch data from the table: "feud_old.game_rooms" using primary key columns */
   feud_old_game_rooms_by_pk?: Maybe<Feud_Old_Game_Rooms>;
+  /** fetch data from the table: "feud_old.game_times" */
+  feud_old_game_times: Array<Feud_Old_Game_Times>;
+  /** fetch aggregated fields from the table: "feud_old.game_times" */
+  feud_old_game_times_aggregate: Feud_Old_Game_Times_Aggregate;
+  /** fetch data from the table: "feud_old.game_times" using primary key columns */
+  feud_old_game_times_by_pk?: Maybe<Feud_Old_Game_Times>;
   /** fetch data from the table: "feud_old.games_old" */
   feud_old_games_old: Array<Feud_Old_Games_Old>;
   /** fetch aggregated fields from the table: "feud_old.games_old" */
@@ -13568,9 +17483,9 @@ export type Query_Root = {
   files: Array<Files>;
   /** fetch aggregated fields from the table: "storage.files" */
   filesAggregate: Files_Aggregate;
-  /** fetch data from the table: "sketchWars.game_information_collections" */
+  /** An array relationship */
   gameInformationCollections: Array<GameInformationCollections>;
-  /** fetch aggregated fields from the table: "sketchWars.game_information_collections" */
+  /** An aggregate relationship */
   gameInformationCollections_aggregate: GameInformationCollections_Aggregate;
   /** fetch data from the table: "sketchWars.game_information_collections" using primary key columns */
   gameInformationCollections_by_pk?: Maybe<GameInformationCollections>;
@@ -13622,6 +17537,7 @@ export type Query_Root = {
   gameTemplates_aggregate: GameTemplates_Aggregate;
   /** fetch data from the table: "game_templates" using primary key columns */
   gameTemplates_by_pk?: Maybe<GameTemplates>;
+  getDataForExport: Scalars['String'];
   /** fetch data from the table: "matchup_settings" */
   matchupSettings: Array<MatchupSettings>;
   /** fetch aggregated fields from the table: "matchup_settings" */
@@ -13640,6 +17556,48 @@ export type Query_Root = {
   olympics_event_stages_aggregate: Olympics_Event_Stages_Aggregate;
   /** fetch data from the table: "olympics.event_stages" using primary key columns */
   olympics_event_stages_by_pk?: Maybe<Olympics_Event_Stages>;
+  /** fetch data from the table: "payroll.business_info" */
+  payroll_business_info: Array<Payroll_Business_Info>;
+  /** fetch aggregated fields from the table: "payroll.business_info" */
+  payroll_business_info_aggregate: Payroll_Business_Info_Aggregate;
+  /** fetch data from the table: "payroll.business_info" using primary key columns */
+  payroll_business_info_by_pk?: Maybe<Payroll_Business_Info>;
+  /** fetch data from the table: "payroll.game_pay_grades" */
+  payroll_game_pay_grades: Array<Payroll_Game_Pay_Grades>;
+  /** fetch aggregated fields from the table: "payroll.game_pay_grades" */
+  payroll_game_pay_grades_aggregate: Payroll_Game_Pay_Grades_Aggregate;
+  /** fetch data from the table: "payroll.game_pay_grades" using primary key columns */
+  payroll_game_pay_grades_by_pk?: Maybe<Payroll_Game_Pay_Grades>;
+  /** fetch data from the table: "payroll.grade_bonuses" */
+  payroll_grade_bonuses: Array<Payroll_Grade_Bonuses>;
+  /** fetch aggregated fields from the table: "payroll.grade_bonuses" */
+  payroll_grade_bonuses_aggregate: Payroll_Grade_Bonuses_Aggregate;
+  /** fetch data from the table: "payroll.grade_bonuses" using primary key columns */
+  payroll_grade_bonuses_by_pk?: Maybe<Payroll_Grade_Bonuses>;
+  /** fetch data from the table: "payroll.host_rating_calculation_ranges" */
+  payroll_host_rating_calculation_ranges: Array<Payroll_Host_Rating_Calculation_Ranges>;
+  /** fetch aggregated fields from the table: "payroll.host_rating_calculation_ranges" */
+  payroll_host_rating_calculation_ranges_aggregate: Payroll_Host_Rating_Calculation_Ranges_Aggregate;
+  /** fetch data from the table: "payroll.host_rating_calculation_ranges" using primary key columns */
+  payroll_host_rating_calculation_ranges_by_pk?: Maybe<Payroll_Host_Rating_Calculation_Ranges>;
+  /** fetch data from the table: "payroll.paid_data" */
+  payroll_paid_data: Array<Payroll_Paid_Data>;
+  /** fetch aggregated fields from the table: "payroll.paid_data" */
+  payroll_paid_data_aggregate: Payroll_Paid_Data_Aggregate;
+  /** fetch data from the table: "payroll.paid_data" using primary key columns */
+  payroll_paid_data_by_pk?: Maybe<Payroll_Paid_Data>;
+  /** fetch data from the table: "payroll.pay_grades" */
+  payroll_pay_grades: Array<Payroll_Pay_Grades>;
+  /** fetch aggregated fields from the table: "payroll.pay_grades" */
+  payroll_pay_grades_aggregate: Payroll_Pay_Grades_Aggregate;
+  /** fetch data from the table: "payroll.pay_grades" using primary key columns */
+  payroll_pay_grades_by_pk?: Maybe<Payroll_Pay_Grades>;
+  /** fetch data from the table: "payroll.pay_grades_group" */
+  payroll_pay_grades_group: Array<Payroll_Pay_Grades_Group>;
+  /** fetch aggregated fields from the table: "payroll.pay_grades_group" */
+  payroll_pay_grades_group_aggregate: Payroll_Pay_Grades_Group_Aggregate;
+  /** fetch data from the table: "payroll.pay_grades_group" using primary key columns */
+  payroll_pay_grades_group_by_pk?: Maybe<Payroll_Pay_Grades_Group>;
   /** An array relationship */
   players: Array<Players>;
   /** An aggregate relationship */
@@ -13682,6 +17640,42 @@ export type Query_Root = {
   reviews_aggregate: Reviews_Aggregate;
   /** fetch data from the table: "reviews" using primary key columns */
   reviews_by_pk?: Maybe<Reviews>;
+  /** fetch data from the table: "schedule.day_availability" */
+  schedule_day_availability: Array<Schedule_Day_Availability>;
+  /** fetch aggregated fields from the table: "schedule.day_availability" */
+  schedule_day_availability_aggregate: Schedule_Day_Availability_Aggregate;
+  /** fetch data from the table: "schedule.day_availability" using primary key columns */
+  schedule_day_availability_by_pk?: Maybe<Schedule_Day_Availability>;
+  /** fetch data from the table: "schedule.week_availability" */
+  schedule_week_availability: Array<Schedule_Week_Availability>;
+  /** fetch aggregated fields from the table: "schedule.week_availability" */
+  schedule_week_availability_aggregate: Schedule_Week_Availability_Aggregate;
+  /** fetch data from the table: "schedule.week_availability" using primary key columns */
+  schedule_week_availability_by_pk?: Maybe<Schedule_Week_Availability>;
+  /** fetch data from the table: "schedule.weeks" */
+  schedule_weeks: Array<Schedule_Weeks>;
+  /** fetch aggregated fields from the table: "schedule.weeks" */
+  schedule_weeks_aggregate: Schedule_Weeks_Aggregate;
+  /** fetch data from the table: "schedule.weeks" using primary key columns */
+  schedule_weeks_by_pk?: Maybe<Schedule_Weeks>;
+  /** fetch data from the table: "sketchWars.game_categories" */
+  sketchWars_game_categories: Array<SketchWars_Game_Categories>;
+  /** fetch aggregated fields from the table: "sketchWars.game_categories" */
+  sketchWars_game_categories_aggregate: SketchWars_Game_Categories_Aggregate;
+  /** fetch data from the table: "sketchWars.game_categories" using primary key columns */
+  sketchWars_game_categories_by_pk?: Maybe<SketchWars_Game_Categories>;
+  /** fetch data from the table: "sketchWars.messages" */
+  sketchWars_messages: Array<SketchWars_Messages>;
+  /** fetch aggregated fields from the table: "sketchWars.messages" */
+  sketchWars_messages_aggregate: SketchWars_Messages_Aggregate;
+  /** fetch data from the table: "sketchWars.messages" using primary key columns */
+  sketchWars_messages_by_pk?: Maybe<SketchWars_Messages>;
+  /** fetch data from the table: "sketchWars.rounds" */
+  sketchWars_rounds: Array<SketchWars_Rounds>;
+  /** fetch aggregated fields from the table: "sketchWars.rounds" */
+  sketchWars_rounds_aggregate: SketchWars_Rounds_Aggregate;
+  /** fetch data from the table: "sketchWars.rounds" using primary key columns */
+  sketchWars_rounds_by_pk?: Maybe<SketchWars_Rounds>;
   /** fetch data from the table: "sources" */
   sources: Array<Sources>;
   /** fetch aggregated fields from the table: "sources" */
@@ -13713,6 +17707,22 @@ export type Query_Root = {
   users: Array<Users>;
   /** fetch aggregated fields from the table: "auth.users" */
   usersAggregate: Users_Aggregate;
+  /** fetch data from the table: "witw.attempts" */
+  witwCoordinateAttempts: Array<WitwCoordinateAttempts>;
+  /** fetch aggregated fields from the table: "witw.attempts" */
+  witwCoordinateAttempts_aggregate: WitwCoordinateAttempts_Aggregate;
+  /** fetch data from the table: "witw.attempts" using primary key columns */
+  witwCoordinateAttempts_by_pk?: Maybe<WitwCoordinateAttempts>;
+  /** fetch data from the table: "witw.coordinates" */
+  witwCoordinates: Array<WitwCoordinates>;
+  /** fetch aggregated fields from the table: "witw.coordinates" */
+  witwCoordinates_aggregate: WitwCoordinates_Aggregate;
+  /** fetch data from the table: "witw.coordinates" using primary key columns */
+  witwCoordinates_by_pk?: Maybe<WitwCoordinates>;
+  /** execute function "witw.getrandomcoordinates" which returns "witw.coordinates" */
+  witw_getrandomcoordinates: Array<WitwCoordinates>;
+  /** execute function "witw.getrandomcoordinates" and query aggregates on result of table type "witw.coordinates" */
+  witw_getrandomcoordinates_aggregate: WitwCoordinates_Aggregate;
 };
 
 
@@ -14134,6 +18144,29 @@ export type Query_RootEvents_By_PkArgs = {
 };
 
 
+export type Query_RootFeud_Old_Game_Out_QuestionsArgs = {
+  distinct_on?: InputMaybe<Array<Feud_Old_Game_Out_Questions_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Feud_Old_Game_Out_Questions_Order_By>>;
+  where?: InputMaybe<Feud_Old_Game_Out_Questions_Bool_Exp>;
+};
+
+
+export type Query_RootFeud_Old_Game_Out_Questions_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Feud_Old_Game_Out_Questions_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Feud_Old_Game_Out_Questions_Order_By>>;
+  where?: InputMaybe<Feud_Old_Game_Out_Questions_Bool_Exp>;
+};
+
+
+export type Query_RootFeud_Old_Game_Out_Questions_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
 export type Query_RootFeud_Old_Game_Room_RoundsArgs = {
   distinct_on?: InputMaybe<Array<Feud_Old_Game_Room_Rounds_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -14177,6 +18210,29 @@ export type Query_RootFeud_Old_Game_Rooms_AggregateArgs = {
 
 export type Query_RootFeud_Old_Game_Rooms_By_PkArgs = {
   id: Scalars['Int'];
+};
+
+
+export type Query_RootFeud_Old_Game_TimesArgs = {
+  distinct_on?: InputMaybe<Array<Feud_Old_Game_Times_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Feud_Old_Game_Times_Order_By>>;
+  where?: InputMaybe<Feud_Old_Game_Times_Bool_Exp>;
+};
+
+
+export type Query_RootFeud_Old_Game_Times_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Feud_Old_Game_Times_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Feud_Old_Game_Times_Order_By>>;
+  where?: InputMaybe<Feud_Old_Game_Times_Bool_Exp>;
+};
+
+
+export type Query_RootFeud_Old_Game_Times_By_PkArgs = {
+  id: Scalars['uuid'];
 };
 
 
@@ -14434,6 +18490,11 @@ export type Query_RootGameTemplates_By_PkArgs = {
 };
 
 
+export type Query_RootGetDataForExportArgs = {
+  graphqlQuery: GraphqlQueryInterface;
+};
+
+
 export type Query_RootMatchupSettingsArgs = {
   distinct_on?: InputMaybe<Array<MatchupSettings_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -14499,6 +18560,167 @@ export type Query_RootOlympics_Event_Stages_AggregateArgs = {
 
 
 export type Query_RootOlympics_Event_Stages_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootPayroll_Business_InfoArgs = {
+  distinct_on?: InputMaybe<Array<Payroll_Business_Info_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Payroll_Business_Info_Order_By>>;
+  where?: InputMaybe<Payroll_Business_Info_Bool_Exp>;
+};
+
+
+export type Query_RootPayroll_Business_Info_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Payroll_Business_Info_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Payroll_Business_Info_Order_By>>;
+  where?: InputMaybe<Payroll_Business_Info_Bool_Exp>;
+};
+
+
+export type Query_RootPayroll_Business_Info_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootPayroll_Game_Pay_GradesArgs = {
+  distinct_on?: InputMaybe<Array<Payroll_Game_Pay_Grades_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Payroll_Game_Pay_Grades_Order_By>>;
+  where?: InputMaybe<Payroll_Game_Pay_Grades_Bool_Exp>;
+};
+
+
+export type Query_RootPayroll_Game_Pay_Grades_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Payroll_Game_Pay_Grades_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Payroll_Game_Pay_Grades_Order_By>>;
+  where?: InputMaybe<Payroll_Game_Pay_Grades_Bool_Exp>;
+};
+
+
+export type Query_RootPayroll_Game_Pay_Grades_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootPayroll_Grade_BonusesArgs = {
+  distinct_on?: InputMaybe<Array<Payroll_Grade_Bonuses_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Payroll_Grade_Bonuses_Order_By>>;
+  where?: InputMaybe<Payroll_Grade_Bonuses_Bool_Exp>;
+};
+
+
+export type Query_RootPayroll_Grade_Bonuses_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Payroll_Grade_Bonuses_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Payroll_Grade_Bonuses_Order_By>>;
+  where?: InputMaybe<Payroll_Grade_Bonuses_Bool_Exp>;
+};
+
+
+export type Query_RootPayroll_Grade_Bonuses_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootPayroll_Host_Rating_Calculation_RangesArgs = {
+  distinct_on?: InputMaybe<Array<Payroll_Host_Rating_Calculation_Ranges_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Payroll_Host_Rating_Calculation_Ranges_Order_By>>;
+  where?: InputMaybe<Payroll_Host_Rating_Calculation_Ranges_Bool_Exp>;
+};
+
+
+export type Query_RootPayroll_Host_Rating_Calculation_Ranges_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Payroll_Host_Rating_Calculation_Ranges_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Payroll_Host_Rating_Calculation_Ranges_Order_By>>;
+  where?: InputMaybe<Payroll_Host_Rating_Calculation_Ranges_Bool_Exp>;
+};
+
+
+export type Query_RootPayroll_Host_Rating_Calculation_Ranges_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootPayroll_Paid_DataArgs = {
+  distinct_on?: InputMaybe<Array<Payroll_Paid_Data_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Payroll_Paid_Data_Order_By>>;
+  where?: InputMaybe<Payroll_Paid_Data_Bool_Exp>;
+};
+
+
+export type Query_RootPayroll_Paid_Data_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Payroll_Paid_Data_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Payroll_Paid_Data_Order_By>>;
+  where?: InputMaybe<Payroll_Paid_Data_Bool_Exp>;
+};
+
+
+export type Query_RootPayroll_Paid_Data_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootPayroll_Pay_GradesArgs = {
+  distinct_on?: InputMaybe<Array<Payroll_Pay_Grades_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Payroll_Pay_Grades_Order_By>>;
+  where?: InputMaybe<Payroll_Pay_Grades_Bool_Exp>;
+};
+
+
+export type Query_RootPayroll_Pay_Grades_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Payroll_Pay_Grades_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Payroll_Pay_Grades_Order_By>>;
+  where?: InputMaybe<Payroll_Pay_Grades_Bool_Exp>;
+};
+
+
+export type Query_RootPayroll_Pay_Grades_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootPayroll_Pay_Grades_GroupArgs = {
+  distinct_on?: InputMaybe<Array<Payroll_Pay_Grades_Group_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Payroll_Pay_Grades_Group_Order_By>>;
+  where?: InputMaybe<Payroll_Pay_Grades_Group_Bool_Exp>;
+};
+
+
+export type Query_RootPayroll_Pay_Grades_Group_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Payroll_Pay_Grades_Group_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Payroll_Pay_Grades_Group_Order_By>>;
+  where?: InputMaybe<Payroll_Pay_Grades_Group_Bool_Exp>;
+};
+
+
+export type Query_RootPayroll_Pay_Grades_Group_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -14664,6 +18886,144 @@ export type Query_RootReviews_By_PkArgs = {
 };
 
 
+export type Query_RootSchedule_Day_AvailabilityArgs = {
+  distinct_on?: InputMaybe<Array<Schedule_Day_Availability_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Schedule_Day_Availability_Order_By>>;
+  where?: InputMaybe<Schedule_Day_Availability_Bool_Exp>;
+};
+
+
+export type Query_RootSchedule_Day_Availability_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Schedule_Day_Availability_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Schedule_Day_Availability_Order_By>>;
+  where?: InputMaybe<Schedule_Day_Availability_Bool_Exp>;
+};
+
+
+export type Query_RootSchedule_Day_Availability_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootSchedule_Week_AvailabilityArgs = {
+  distinct_on?: InputMaybe<Array<Schedule_Week_Availability_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Schedule_Week_Availability_Order_By>>;
+  where?: InputMaybe<Schedule_Week_Availability_Bool_Exp>;
+};
+
+
+export type Query_RootSchedule_Week_Availability_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Schedule_Week_Availability_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Schedule_Week_Availability_Order_By>>;
+  where?: InputMaybe<Schedule_Week_Availability_Bool_Exp>;
+};
+
+
+export type Query_RootSchedule_Week_Availability_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootSchedule_WeeksArgs = {
+  distinct_on?: InputMaybe<Array<Schedule_Weeks_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Schedule_Weeks_Order_By>>;
+  where?: InputMaybe<Schedule_Weeks_Bool_Exp>;
+};
+
+
+export type Query_RootSchedule_Weeks_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Schedule_Weeks_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Schedule_Weeks_Order_By>>;
+  where?: InputMaybe<Schedule_Weeks_Bool_Exp>;
+};
+
+
+export type Query_RootSchedule_Weeks_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootSketchWars_Game_CategoriesArgs = {
+  distinct_on?: InputMaybe<Array<SketchWars_Game_Categories_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<SketchWars_Game_Categories_Order_By>>;
+  where?: InputMaybe<SketchWars_Game_Categories_Bool_Exp>;
+};
+
+
+export type Query_RootSketchWars_Game_Categories_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<SketchWars_Game_Categories_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<SketchWars_Game_Categories_Order_By>>;
+  where?: InputMaybe<SketchWars_Game_Categories_Bool_Exp>;
+};
+
+
+export type Query_RootSketchWars_Game_Categories_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootSketchWars_MessagesArgs = {
+  distinct_on?: InputMaybe<Array<SketchWars_Messages_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<SketchWars_Messages_Order_By>>;
+  where?: InputMaybe<SketchWars_Messages_Bool_Exp>;
+};
+
+
+export type Query_RootSketchWars_Messages_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<SketchWars_Messages_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<SketchWars_Messages_Order_By>>;
+  where?: InputMaybe<SketchWars_Messages_Bool_Exp>;
+};
+
+
+export type Query_RootSketchWars_Messages_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootSketchWars_RoundsArgs = {
+  distinct_on?: InputMaybe<Array<SketchWars_Rounds_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<SketchWars_Rounds_Order_By>>;
+  where?: InputMaybe<SketchWars_Rounds_Bool_Exp>;
+};
+
+
+export type Query_RootSketchWars_Rounds_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<SketchWars_Rounds_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<SketchWars_Rounds_Order_By>>;
+  where?: InputMaybe<SketchWars_Rounds_Bool_Exp>;
+};
+
+
+export type Query_RootSketchWars_Rounds_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
 export type Query_RootSourcesArgs = {
   distinct_on?: InputMaybe<Array<Sources_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -14776,6 +19136,70 @@ export type Query_RootUsersAggregateArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Users_Order_By>>;
   where?: InputMaybe<Users_Bool_Exp>;
+};
+
+
+export type Query_RootWitwCoordinateAttemptsArgs = {
+  distinct_on?: InputMaybe<Array<WitwCoordinateAttempts_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<WitwCoordinateAttempts_Order_By>>;
+  where?: InputMaybe<WitwCoordinateAttempts_Bool_Exp>;
+};
+
+
+export type Query_RootWitwCoordinateAttempts_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<WitwCoordinateAttempts_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<WitwCoordinateAttempts_Order_By>>;
+  where?: InputMaybe<WitwCoordinateAttempts_Bool_Exp>;
+};
+
+
+export type Query_RootWitwCoordinateAttempts_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootWitwCoordinatesArgs = {
+  distinct_on?: InputMaybe<Array<WitwCoordinates_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<WitwCoordinates_Order_By>>;
+  where?: InputMaybe<WitwCoordinates_Bool_Exp>;
+};
+
+
+export type Query_RootWitwCoordinates_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<WitwCoordinates_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<WitwCoordinates_Order_By>>;
+  where?: InputMaybe<WitwCoordinates_Bool_Exp>;
+};
+
+
+export type Query_RootWitwCoordinates_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootWitw_GetrandomcoordinatesArgs = {
+  distinct_on?: InputMaybe<Array<WitwCoordinates_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<WitwCoordinates_Order_By>>;
+  where?: InputMaybe<WitwCoordinates_Bool_Exp>;
+};
+
+
+export type Query_RootWitw_Getrandomcoordinates_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<WitwCoordinates_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<WitwCoordinates_Order_By>>;
+  where?: InputMaybe<WitwCoordinates_Bool_Exp>;
 };
 
 /** columns and relationships of "question_answers" */
@@ -15838,7 +20262,7 @@ export type Reviews = {
   createdAt: Scalars['timestamptz'];
   /** An object relationship */
   event?: Maybe<Events>;
-  eventId: Scalars['uuid'];
+  eventId?: Maybe<Scalars['uuid']>;
   /** An array relationship */
   hosts: Array<ReviewHosts>;
   /** An aggregate relationship */
@@ -16242,6 +20666,1788 @@ export type Reviews_Variance_Order_By = {
   score?: InputMaybe<Order_By>;
 };
 
+/** columns and relationships of "schedule.day_availability" */
+export type Schedule_Day_Availability = {
+  __typename?: 'schedule_day_availability';
+  dayIndex: Scalars['Int'];
+  endTime: Scalars['timestamptz'];
+  id: Scalars['uuid'];
+  startTime: Scalars['timestamptz'];
+  status: Scalars['String'];
+  /** An array relationship */
+  weekAvailability: Array<Schedule_Week_Availability>;
+  weekAvailabilityId: Scalars['uuid'];
+  /** An aggregate relationship */
+  weekAvailability_aggregate: Schedule_Week_Availability_Aggregate;
+};
+
+
+/** columns and relationships of "schedule.day_availability" */
+export type Schedule_Day_AvailabilityWeekAvailabilityArgs = {
+  distinct_on?: InputMaybe<Array<Schedule_Week_Availability_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Schedule_Week_Availability_Order_By>>;
+  where?: InputMaybe<Schedule_Week_Availability_Bool_Exp>;
+};
+
+
+/** columns and relationships of "schedule.day_availability" */
+export type Schedule_Day_AvailabilityWeekAvailability_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Schedule_Week_Availability_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Schedule_Week_Availability_Order_By>>;
+  where?: InputMaybe<Schedule_Week_Availability_Bool_Exp>;
+};
+
+/** aggregated selection of "schedule.day_availability" */
+export type Schedule_Day_Availability_Aggregate = {
+  __typename?: 'schedule_day_availability_aggregate';
+  aggregate?: Maybe<Schedule_Day_Availability_Aggregate_Fields>;
+  nodes: Array<Schedule_Day_Availability>;
+};
+
+export type Schedule_Day_Availability_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Schedule_Day_Availability_Aggregate_Bool_Exp_Count>;
+};
+
+export type Schedule_Day_Availability_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Schedule_Day_Availability_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Schedule_Day_Availability_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
+/** aggregate fields of "schedule.day_availability" */
+export type Schedule_Day_Availability_Aggregate_Fields = {
+  __typename?: 'schedule_day_availability_aggregate_fields';
+  avg?: Maybe<Schedule_Day_Availability_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Schedule_Day_Availability_Max_Fields>;
+  min?: Maybe<Schedule_Day_Availability_Min_Fields>;
+  stddev?: Maybe<Schedule_Day_Availability_Stddev_Fields>;
+  stddev_pop?: Maybe<Schedule_Day_Availability_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Schedule_Day_Availability_Stddev_Samp_Fields>;
+  sum?: Maybe<Schedule_Day_Availability_Sum_Fields>;
+  var_pop?: Maybe<Schedule_Day_Availability_Var_Pop_Fields>;
+  var_samp?: Maybe<Schedule_Day_Availability_Var_Samp_Fields>;
+  variance?: Maybe<Schedule_Day_Availability_Variance_Fields>;
+};
+
+
+/** aggregate fields of "schedule.day_availability" */
+export type Schedule_Day_Availability_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Schedule_Day_Availability_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "schedule.day_availability" */
+export type Schedule_Day_Availability_Aggregate_Order_By = {
+  avg?: InputMaybe<Schedule_Day_Availability_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Schedule_Day_Availability_Max_Order_By>;
+  min?: InputMaybe<Schedule_Day_Availability_Min_Order_By>;
+  stddev?: InputMaybe<Schedule_Day_Availability_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Schedule_Day_Availability_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Schedule_Day_Availability_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Schedule_Day_Availability_Sum_Order_By>;
+  var_pop?: InputMaybe<Schedule_Day_Availability_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Schedule_Day_Availability_Var_Samp_Order_By>;
+  variance?: InputMaybe<Schedule_Day_Availability_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "schedule.day_availability" */
+export type Schedule_Day_Availability_Arr_Rel_Insert_Input = {
+  data: Array<Schedule_Day_Availability_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Schedule_Day_Availability_On_Conflict>;
+};
+
+/** aggregate avg on columns */
+export type Schedule_Day_Availability_Avg_Fields = {
+  __typename?: 'schedule_day_availability_avg_fields';
+  dayIndex?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "schedule.day_availability" */
+export type Schedule_Day_Availability_Avg_Order_By = {
+  dayIndex?: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "schedule.day_availability". All fields are combined with a logical 'AND'. */
+export type Schedule_Day_Availability_Bool_Exp = {
+  _and?: InputMaybe<Array<Schedule_Day_Availability_Bool_Exp>>;
+  _not?: InputMaybe<Schedule_Day_Availability_Bool_Exp>;
+  _or?: InputMaybe<Array<Schedule_Day_Availability_Bool_Exp>>;
+  dayIndex?: InputMaybe<Int_Comparison_Exp>;
+  endTime?: InputMaybe<Timestamptz_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  startTime?: InputMaybe<Timestamptz_Comparison_Exp>;
+  status?: InputMaybe<String_Comparison_Exp>;
+  weekAvailability?: InputMaybe<Schedule_Week_Availability_Bool_Exp>;
+  weekAvailabilityId?: InputMaybe<Uuid_Comparison_Exp>;
+  weekAvailability_aggregate?: InputMaybe<Schedule_Week_Availability_Aggregate_Bool_Exp>;
+};
+
+/** unique or primary key constraints on table "schedule.day_availability" */
+export enum Schedule_Day_Availability_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  DayAvailabilityPkey = 'day_availability_pkey'
+}
+
+/** input type for incrementing numeric columns in table "schedule.day_availability" */
+export type Schedule_Day_Availability_Inc_Input = {
+  dayIndex?: InputMaybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "schedule.day_availability" */
+export type Schedule_Day_Availability_Insert_Input = {
+  dayIndex?: InputMaybe<Scalars['Int']>;
+  endTime?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  startTime?: InputMaybe<Scalars['timestamptz']>;
+  status?: InputMaybe<Scalars['String']>;
+  weekAvailability?: InputMaybe<Schedule_Week_Availability_Arr_Rel_Insert_Input>;
+  weekAvailabilityId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate max on columns */
+export type Schedule_Day_Availability_Max_Fields = {
+  __typename?: 'schedule_day_availability_max_fields';
+  dayIndex?: Maybe<Scalars['Int']>;
+  endTime?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+  startTime?: Maybe<Scalars['timestamptz']>;
+  status?: Maybe<Scalars['String']>;
+  weekAvailabilityId?: Maybe<Scalars['uuid']>;
+};
+
+/** order by max() on columns of table "schedule.day_availability" */
+export type Schedule_Day_Availability_Max_Order_By = {
+  dayIndex?: InputMaybe<Order_By>;
+  endTime?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  startTime?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  weekAvailabilityId?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Schedule_Day_Availability_Min_Fields = {
+  __typename?: 'schedule_day_availability_min_fields';
+  dayIndex?: Maybe<Scalars['Int']>;
+  endTime?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+  startTime?: Maybe<Scalars['timestamptz']>;
+  status?: Maybe<Scalars['String']>;
+  weekAvailabilityId?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "schedule.day_availability" */
+export type Schedule_Day_Availability_Min_Order_By = {
+  dayIndex?: InputMaybe<Order_By>;
+  endTime?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  startTime?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  weekAvailabilityId?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "schedule.day_availability" */
+export type Schedule_Day_Availability_Mutation_Response = {
+  __typename?: 'schedule_day_availability_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Schedule_Day_Availability>;
+};
+
+/** on_conflict condition type for table "schedule.day_availability" */
+export type Schedule_Day_Availability_On_Conflict = {
+  constraint: Schedule_Day_Availability_Constraint;
+  update_columns?: Array<Schedule_Day_Availability_Update_Column>;
+  where?: InputMaybe<Schedule_Day_Availability_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "schedule.day_availability". */
+export type Schedule_Day_Availability_Order_By = {
+  dayIndex?: InputMaybe<Order_By>;
+  endTime?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  startTime?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  weekAvailabilityId?: InputMaybe<Order_By>;
+  weekAvailability_aggregate?: InputMaybe<Schedule_Week_Availability_Aggregate_Order_By>;
+};
+
+/** primary key columns input for table: schedule.day_availability */
+export type Schedule_Day_Availability_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "schedule.day_availability" */
+export enum Schedule_Day_Availability_Select_Column {
+  /** column name */
+  DayIndex = 'dayIndex',
+  /** column name */
+  EndTime = 'endTime',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  StartTime = 'startTime',
+  /** column name */
+  Status = 'status',
+  /** column name */
+  WeekAvailabilityId = 'weekAvailabilityId'
+}
+
+/** input type for updating data in table "schedule.day_availability" */
+export type Schedule_Day_Availability_Set_Input = {
+  dayIndex?: InputMaybe<Scalars['Int']>;
+  endTime?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  startTime?: InputMaybe<Scalars['timestamptz']>;
+  status?: InputMaybe<Scalars['String']>;
+  weekAvailabilityId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate stddev on columns */
+export type Schedule_Day_Availability_Stddev_Fields = {
+  __typename?: 'schedule_day_availability_stddev_fields';
+  dayIndex?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "schedule.day_availability" */
+export type Schedule_Day_Availability_Stddev_Order_By = {
+  dayIndex?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Schedule_Day_Availability_Stddev_Pop_Fields = {
+  __typename?: 'schedule_day_availability_stddev_pop_fields';
+  dayIndex?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "schedule.day_availability" */
+export type Schedule_Day_Availability_Stddev_Pop_Order_By = {
+  dayIndex?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Schedule_Day_Availability_Stddev_Samp_Fields = {
+  __typename?: 'schedule_day_availability_stddev_samp_fields';
+  dayIndex?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "schedule.day_availability" */
+export type Schedule_Day_Availability_Stddev_Samp_Order_By = {
+  dayIndex?: InputMaybe<Order_By>;
+};
+
+/** Streaming cursor of the table "schedule_day_availability" */
+export type Schedule_Day_Availability_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Schedule_Day_Availability_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Schedule_Day_Availability_Stream_Cursor_Value_Input = {
+  dayIndex?: InputMaybe<Scalars['Int']>;
+  endTime?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  startTime?: InputMaybe<Scalars['timestamptz']>;
+  status?: InputMaybe<Scalars['String']>;
+  weekAvailabilityId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate sum on columns */
+export type Schedule_Day_Availability_Sum_Fields = {
+  __typename?: 'schedule_day_availability_sum_fields';
+  dayIndex?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "schedule.day_availability" */
+export type Schedule_Day_Availability_Sum_Order_By = {
+  dayIndex?: InputMaybe<Order_By>;
+};
+
+/** update columns of table "schedule.day_availability" */
+export enum Schedule_Day_Availability_Update_Column {
+  /** column name */
+  DayIndex = 'dayIndex',
+  /** column name */
+  EndTime = 'endTime',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  StartTime = 'startTime',
+  /** column name */
+  Status = 'status',
+  /** column name */
+  WeekAvailabilityId = 'weekAvailabilityId'
+}
+
+export type Schedule_Day_Availability_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Schedule_Day_Availability_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Schedule_Day_Availability_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Schedule_Day_Availability_Bool_Exp;
+};
+
+/** aggregate var_pop on columns */
+export type Schedule_Day_Availability_Var_Pop_Fields = {
+  __typename?: 'schedule_day_availability_var_pop_fields';
+  dayIndex?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "schedule.day_availability" */
+export type Schedule_Day_Availability_Var_Pop_Order_By = {
+  dayIndex?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Schedule_Day_Availability_Var_Samp_Fields = {
+  __typename?: 'schedule_day_availability_var_samp_fields';
+  dayIndex?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "schedule.day_availability" */
+export type Schedule_Day_Availability_Var_Samp_Order_By = {
+  dayIndex?: InputMaybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Schedule_Day_Availability_Variance_Fields = {
+  __typename?: 'schedule_day_availability_variance_fields';
+  dayIndex?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "schedule.day_availability" */
+export type Schedule_Day_Availability_Variance_Order_By = {
+  dayIndex?: InputMaybe<Order_By>;
+};
+
+/** columns and relationships of "schedule.week_availability" */
+export type Schedule_Week_Availability = {
+  __typename?: 'schedule_week_availability';
+  /** An array relationship */
+  dayAvailabilities: Array<Schedule_Day_Availability>;
+  /** An aggregate relationship */
+  dayAvailabilities_aggregate: Schedule_Day_Availability_Aggregate;
+  id: Scalars['uuid'];
+  isSubmitted: Scalars['Boolean'];
+  userId: Scalars['uuid'];
+  /** An object relationship */
+  week?: Maybe<Schedule_Weeks>;
+  weekId: Scalars['uuid'];
+};
+
+
+/** columns and relationships of "schedule.week_availability" */
+export type Schedule_Week_AvailabilityDayAvailabilitiesArgs = {
+  distinct_on?: InputMaybe<Array<Schedule_Day_Availability_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Schedule_Day_Availability_Order_By>>;
+  where?: InputMaybe<Schedule_Day_Availability_Bool_Exp>;
+};
+
+
+/** columns and relationships of "schedule.week_availability" */
+export type Schedule_Week_AvailabilityDayAvailabilities_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Schedule_Day_Availability_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Schedule_Day_Availability_Order_By>>;
+  where?: InputMaybe<Schedule_Day_Availability_Bool_Exp>;
+};
+
+/** aggregated selection of "schedule.week_availability" */
+export type Schedule_Week_Availability_Aggregate = {
+  __typename?: 'schedule_week_availability_aggregate';
+  aggregate?: Maybe<Schedule_Week_Availability_Aggregate_Fields>;
+  nodes: Array<Schedule_Week_Availability>;
+};
+
+export type Schedule_Week_Availability_Aggregate_Bool_Exp = {
+  bool_and?: InputMaybe<Schedule_Week_Availability_Aggregate_Bool_Exp_Bool_And>;
+  bool_or?: InputMaybe<Schedule_Week_Availability_Aggregate_Bool_Exp_Bool_Or>;
+  count?: InputMaybe<Schedule_Week_Availability_Aggregate_Bool_Exp_Count>;
+};
+
+export type Schedule_Week_Availability_Aggregate_Bool_Exp_Bool_And = {
+  arguments: Schedule_Week_Availability_Select_Column_Schedule_Week_Availability_Aggregate_Bool_Exp_Bool_And_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Schedule_Week_Availability_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Schedule_Week_Availability_Aggregate_Bool_Exp_Bool_Or = {
+  arguments: Schedule_Week_Availability_Select_Column_Schedule_Week_Availability_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Schedule_Week_Availability_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Schedule_Week_Availability_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Schedule_Week_Availability_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Schedule_Week_Availability_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
+/** aggregate fields of "schedule.week_availability" */
+export type Schedule_Week_Availability_Aggregate_Fields = {
+  __typename?: 'schedule_week_availability_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Schedule_Week_Availability_Max_Fields>;
+  min?: Maybe<Schedule_Week_Availability_Min_Fields>;
+};
+
+
+/** aggregate fields of "schedule.week_availability" */
+export type Schedule_Week_Availability_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Schedule_Week_Availability_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "schedule.week_availability" */
+export type Schedule_Week_Availability_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Schedule_Week_Availability_Max_Order_By>;
+  min?: InputMaybe<Schedule_Week_Availability_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "schedule.week_availability" */
+export type Schedule_Week_Availability_Arr_Rel_Insert_Input = {
+  data: Array<Schedule_Week_Availability_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Schedule_Week_Availability_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "schedule.week_availability". All fields are combined with a logical 'AND'. */
+export type Schedule_Week_Availability_Bool_Exp = {
+  _and?: InputMaybe<Array<Schedule_Week_Availability_Bool_Exp>>;
+  _not?: InputMaybe<Schedule_Week_Availability_Bool_Exp>;
+  _or?: InputMaybe<Array<Schedule_Week_Availability_Bool_Exp>>;
+  dayAvailabilities?: InputMaybe<Schedule_Day_Availability_Bool_Exp>;
+  dayAvailabilities_aggregate?: InputMaybe<Schedule_Day_Availability_Aggregate_Bool_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  isSubmitted?: InputMaybe<Boolean_Comparison_Exp>;
+  userId?: InputMaybe<Uuid_Comparison_Exp>;
+  week?: InputMaybe<Schedule_Weeks_Bool_Exp>;
+  weekId?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "schedule.week_availability" */
+export enum Schedule_Week_Availability_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  WeekAvailabilityPkey = 'week_availability_pkey'
+}
+
+/** input type for inserting data into table "schedule.week_availability" */
+export type Schedule_Week_Availability_Insert_Input = {
+  dayAvailabilities?: InputMaybe<Schedule_Day_Availability_Arr_Rel_Insert_Input>;
+  id?: InputMaybe<Scalars['uuid']>;
+  isSubmitted?: InputMaybe<Scalars['Boolean']>;
+  userId?: InputMaybe<Scalars['uuid']>;
+  week?: InputMaybe<Schedule_Weeks_Obj_Rel_Insert_Input>;
+  weekId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate max on columns */
+export type Schedule_Week_Availability_Max_Fields = {
+  __typename?: 'schedule_week_availability_max_fields';
+  id?: Maybe<Scalars['uuid']>;
+  userId?: Maybe<Scalars['uuid']>;
+  weekId?: Maybe<Scalars['uuid']>;
+};
+
+/** order by max() on columns of table "schedule.week_availability" */
+export type Schedule_Week_Availability_Max_Order_By = {
+  id?: InputMaybe<Order_By>;
+  userId?: InputMaybe<Order_By>;
+  weekId?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Schedule_Week_Availability_Min_Fields = {
+  __typename?: 'schedule_week_availability_min_fields';
+  id?: Maybe<Scalars['uuid']>;
+  userId?: Maybe<Scalars['uuid']>;
+  weekId?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "schedule.week_availability" */
+export type Schedule_Week_Availability_Min_Order_By = {
+  id?: InputMaybe<Order_By>;
+  userId?: InputMaybe<Order_By>;
+  weekId?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "schedule.week_availability" */
+export type Schedule_Week_Availability_Mutation_Response = {
+  __typename?: 'schedule_week_availability_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Schedule_Week_Availability>;
+};
+
+/** on_conflict condition type for table "schedule.week_availability" */
+export type Schedule_Week_Availability_On_Conflict = {
+  constraint: Schedule_Week_Availability_Constraint;
+  update_columns?: Array<Schedule_Week_Availability_Update_Column>;
+  where?: InputMaybe<Schedule_Week_Availability_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "schedule.week_availability". */
+export type Schedule_Week_Availability_Order_By = {
+  dayAvailabilities_aggregate?: InputMaybe<Schedule_Day_Availability_Aggregate_Order_By>;
+  id?: InputMaybe<Order_By>;
+  isSubmitted?: InputMaybe<Order_By>;
+  userId?: InputMaybe<Order_By>;
+  week?: InputMaybe<Schedule_Weeks_Order_By>;
+  weekId?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: schedule.week_availability */
+export type Schedule_Week_Availability_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "schedule.week_availability" */
+export enum Schedule_Week_Availability_Select_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  IsSubmitted = 'isSubmitted',
+  /** column name */
+  UserId = 'userId',
+  /** column name */
+  WeekId = 'weekId'
+}
+
+/** select "schedule_week_availability_aggregate_bool_exp_bool_and_arguments_columns" columns of table "schedule.week_availability" */
+export enum Schedule_Week_Availability_Select_Column_Schedule_Week_Availability_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
+  /** column name */
+  IsSubmitted = 'isSubmitted'
+}
+
+/** select "schedule_week_availability_aggregate_bool_exp_bool_or_arguments_columns" columns of table "schedule.week_availability" */
+export enum Schedule_Week_Availability_Select_Column_Schedule_Week_Availability_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
+  /** column name */
+  IsSubmitted = 'isSubmitted'
+}
+
+/** input type for updating data in table "schedule.week_availability" */
+export type Schedule_Week_Availability_Set_Input = {
+  id?: InputMaybe<Scalars['uuid']>;
+  isSubmitted?: InputMaybe<Scalars['Boolean']>;
+  userId?: InputMaybe<Scalars['uuid']>;
+  weekId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** Streaming cursor of the table "schedule_week_availability" */
+export type Schedule_Week_Availability_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Schedule_Week_Availability_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Schedule_Week_Availability_Stream_Cursor_Value_Input = {
+  id?: InputMaybe<Scalars['uuid']>;
+  isSubmitted?: InputMaybe<Scalars['Boolean']>;
+  userId?: InputMaybe<Scalars['uuid']>;
+  weekId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** update columns of table "schedule.week_availability" */
+export enum Schedule_Week_Availability_Update_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  IsSubmitted = 'isSubmitted',
+  /** column name */
+  UserId = 'userId',
+  /** column name */
+  WeekId = 'weekId'
+}
+
+export type Schedule_Week_Availability_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Schedule_Week_Availability_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Schedule_Week_Availability_Bool_Exp;
+};
+
+/** columns and relationships of "schedule.weeks" */
+export type Schedule_Weeks = {
+  __typename?: 'schedule_weeks';
+  id: Scalars['uuid'];
+  index: Scalars['Int'];
+  year: Scalars['Int'];
+};
+
+/** aggregated selection of "schedule.weeks" */
+export type Schedule_Weeks_Aggregate = {
+  __typename?: 'schedule_weeks_aggregate';
+  aggregate?: Maybe<Schedule_Weeks_Aggregate_Fields>;
+  nodes: Array<Schedule_Weeks>;
+};
+
+/** aggregate fields of "schedule.weeks" */
+export type Schedule_Weeks_Aggregate_Fields = {
+  __typename?: 'schedule_weeks_aggregate_fields';
+  avg?: Maybe<Schedule_Weeks_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Schedule_Weeks_Max_Fields>;
+  min?: Maybe<Schedule_Weeks_Min_Fields>;
+  stddev?: Maybe<Schedule_Weeks_Stddev_Fields>;
+  stddev_pop?: Maybe<Schedule_Weeks_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Schedule_Weeks_Stddev_Samp_Fields>;
+  sum?: Maybe<Schedule_Weeks_Sum_Fields>;
+  var_pop?: Maybe<Schedule_Weeks_Var_Pop_Fields>;
+  var_samp?: Maybe<Schedule_Weeks_Var_Samp_Fields>;
+  variance?: Maybe<Schedule_Weeks_Variance_Fields>;
+};
+
+
+/** aggregate fields of "schedule.weeks" */
+export type Schedule_Weeks_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Schedule_Weeks_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** aggregate avg on columns */
+export type Schedule_Weeks_Avg_Fields = {
+  __typename?: 'schedule_weeks_avg_fields';
+  index?: Maybe<Scalars['Float']>;
+  year?: Maybe<Scalars['Float']>;
+};
+
+/** Boolean expression to filter rows from the table "schedule.weeks". All fields are combined with a logical 'AND'. */
+export type Schedule_Weeks_Bool_Exp = {
+  _and?: InputMaybe<Array<Schedule_Weeks_Bool_Exp>>;
+  _not?: InputMaybe<Schedule_Weeks_Bool_Exp>;
+  _or?: InputMaybe<Array<Schedule_Weeks_Bool_Exp>>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  index?: InputMaybe<Int_Comparison_Exp>;
+  year?: InputMaybe<Int_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "schedule.weeks" */
+export enum Schedule_Weeks_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  WeeksPkey = 'weeks_pkey'
+}
+
+/** input type for incrementing numeric columns in table "schedule.weeks" */
+export type Schedule_Weeks_Inc_Input = {
+  index?: InputMaybe<Scalars['Int']>;
+  year?: InputMaybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "schedule.weeks" */
+export type Schedule_Weeks_Insert_Input = {
+  id?: InputMaybe<Scalars['uuid']>;
+  index?: InputMaybe<Scalars['Int']>;
+  year?: InputMaybe<Scalars['Int']>;
+};
+
+/** aggregate max on columns */
+export type Schedule_Weeks_Max_Fields = {
+  __typename?: 'schedule_weeks_max_fields';
+  id?: Maybe<Scalars['uuid']>;
+  index?: Maybe<Scalars['Int']>;
+  year?: Maybe<Scalars['Int']>;
+};
+
+/** aggregate min on columns */
+export type Schedule_Weeks_Min_Fields = {
+  __typename?: 'schedule_weeks_min_fields';
+  id?: Maybe<Scalars['uuid']>;
+  index?: Maybe<Scalars['Int']>;
+  year?: Maybe<Scalars['Int']>;
+};
+
+/** response of any mutation on the table "schedule.weeks" */
+export type Schedule_Weeks_Mutation_Response = {
+  __typename?: 'schedule_weeks_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Schedule_Weeks>;
+};
+
+/** input type for inserting object relation for remote table "schedule.weeks" */
+export type Schedule_Weeks_Obj_Rel_Insert_Input = {
+  data: Schedule_Weeks_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Schedule_Weeks_On_Conflict>;
+};
+
+/** on_conflict condition type for table "schedule.weeks" */
+export type Schedule_Weeks_On_Conflict = {
+  constraint: Schedule_Weeks_Constraint;
+  update_columns?: Array<Schedule_Weeks_Update_Column>;
+  where?: InputMaybe<Schedule_Weeks_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "schedule.weeks". */
+export type Schedule_Weeks_Order_By = {
+  id?: InputMaybe<Order_By>;
+  index?: InputMaybe<Order_By>;
+  year?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: schedule.weeks */
+export type Schedule_Weeks_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "schedule.weeks" */
+export enum Schedule_Weeks_Select_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Index = 'index',
+  /** column name */
+  Year = 'year'
+}
+
+/** input type for updating data in table "schedule.weeks" */
+export type Schedule_Weeks_Set_Input = {
+  id?: InputMaybe<Scalars['uuid']>;
+  index?: InputMaybe<Scalars['Int']>;
+  year?: InputMaybe<Scalars['Int']>;
+};
+
+/** aggregate stddev on columns */
+export type Schedule_Weeks_Stddev_Fields = {
+  __typename?: 'schedule_weeks_stddev_fields';
+  index?: Maybe<Scalars['Float']>;
+  year?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Schedule_Weeks_Stddev_Pop_Fields = {
+  __typename?: 'schedule_weeks_stddev_pop_fields';
+  index?: Maybe<Scalars['Float']>;
+  year?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Schedule_Weeks_Stddev_Samp_Fields = {
+  __typename?: 'schedule_weeks_stddev_samp_fields';
+  index?: Maybe<Scalars['Float']>;
+  year?: Maybe<Scalars['Float']>;
+};
+
+/** Streaming cursor of the table "schedule_weeks" */
+export type Schedule_Weeks_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Schedule_Weeks_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Schedule_Weeks_Stream_Cursor_Value_Input = {
+  id?: InputMaybe<Scalars['uuid']>;
+  index?: InputMaybe<Scalars['Int']>;
+  year?: InputMaybe<Scalars['Int']>;
+};
+
+/** aggregate sum on columns */
+export type Schedule_Weeks_Sum_Fields = {
+  __typename?: 'schedule_weeks_sum_fields';
+  index?: Maybe<Scalars['Int']>;
+  year?: Maybe<Scalars['Int']>;
+};
+
+/** update columns of table "schedule.weeks" */
+export enum Schedule_Weeks_Update_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Index = 'index',
+  /** column name */
+  Year = 'year'
+}
+
+export type Schedule_Weeks_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Schedule_Weeks_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Schedule_Weeks_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Schedule_Weeks_Bool_Exp;
+};
+
+/** aggregate var_pop on columns */
+export type Schedule_Weeks_Var_Pop_Fields = {
+  __typename?: 'schedule_weeks_var_pop_fields';
+  index?: Maybe<Scalars['Float']>;
+  year?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate var_samp on columns */
+export type Schedule_Weeks_Var_Samp_Fields = {
+  __typename?: 'schedule_weeks_var_samp_fields';
+  index?: Maybe<Scalars['Float']>;
+  year?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate variance on columns */
+export type Schedule_Weeks_Variance_Fields = {
+  __typename?: 'schedule_weeks_variance_fields';
+  index?: Maybe<Scalars['Float']>;
+  year?: Maybe<Scalars['Float']>;
+};
+
+/** columns and relationships of "sketchWars.game_categories" */
+export type SketchWars_Game_Categories = {
+  __typename?: 'sketchWars_game_categories';
+  /** An object relationship */
+  category?: Maybe<Categories>;
+  categoryId: Scalars['uuid'];
+  /** An object relationship */
+  gameInformation?: Maybe<GameInformationSketchWars>;
+  gameInformationId: Scalars['uuid'];
+  id: Scalars['uuid'];
+};
+
+/** aggregated selection of "sketchWars.game_categories" */
+export type SketchWars_Game_Categories_Aggregate = {
+  __typename?: 'sketchWars_game_categories_aggregate';
+  aggregate?: Maybe<SketchWars_Game_Categories_Aggregate_Fields>;
+  nodes: Array<SketchWars_Game_Categories>;
+};
+
+export type SketchWars_Game_Categories_Aggregate_Bool_Exp = {
+  count?: InputMaybe<SketchWars_Game_Categories_Aggregate_Bool_Exp_Count>;
+};
+
+export type SketchWars_Game_Categories_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<SketchWars_Game_Categories_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<SketchWars_Game_Categories_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
+/** aggregate fields of "sketchWars.game_categories" */
+export type SketchWars_Game_Categories_Aggregate_Fields = {
+  __typename?: 'sketchWars_game_categories_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<SketchWars_Game_Categories_Max_Fields>;
+  min?: Maybe<SketchWars_Game_Categories_Min_Fields>;
+};
+
+
+/** aggregate fields of "sketchWars.game_categories" */
+export type SketchWars_Game_Categories_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<SketchWars_Game_Categories_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "sketchWars.game_categories" */
+export type SketchWars_Game_Categories_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<SketchWars_Game_Categories_Max_Order_By>;
+  min?: InputMaybe<SketchWars_Game_Categories_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "sketchWars.game_categories" */
+export type SketchWars_Game_Categories_Arr_Rel_Insert_Input = {
+  data: Array<SketchWars_Game_Categories_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<SketchWars_Game_Categories_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "sketchWars.game_categories". All fields are combined with a logical 'AND'. */
+export type SketchWars_Game_Categories_Bool_Exp = {
+  _and?: InputMaybe<Array<SketchWars_Game_Categories_Bool_Exp>>;
+  _not?: InputMaybe<SketchWars_Game_Categories_Bool_Exp>;
+  _or?: InputMaybe<Array<SketchWars_Game_Categories_Bool_Exp>>;
+  category?: InputMaybe<Categories_Bool_Exp>;
+  categoryId?: InputMaybe<Uuid_Comparison_Exp>;
+  gameInformation?: InputMaybe<GameInformationSketchWars_Bool_Exp>;
+  gameInformationId?: InputMaybe<Uuid_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "sketchWars.game_categories" */
+export enum SketchWars_Game_Categories_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  GameCategoriesPkey = 'game_categories_pkey'
+}
+
+/** input type for inserting data into table "sketchWars.game_categories" */
+export type SketchWars_Game_Categories_Insert_Input = {
+  category?: InputMaybe<Categories_Obj_Rel_Insert_Input>;
+  categoryId?: InputMaybe<Scalars['uuid']>;
+  gameInformation?: InputMaybe<GameInformationSketchWars_Obj_Rel_Insert_Input>;
+  gameInformationId?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate max on columns */
+export type SketchWars_Game_Categories_Max_Fields = {
+  __typename?: 'sketchWars_game_categories_max_fields';
+  categoryId?: Maybe<Scalars['uuid']>;
+  gameInformationId?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+};
+
+/** order by max() on columns of table "sketchWars.game_categories" */
+export type SketchWars_Game_Categories_Max_Order_By = {
+  categoryId?: InputMaybe<Order_By>;
+  gameInformationId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type SketchWars_Game_Categories_Min_Fields = {
+  __typename?: 'sketchWars_game_categories_min_fields';
+  categoryId?: Maybe<Scalars['uuid']>;
+  gameInformationId?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "sketchWars.game_categories" */
+export type SketchWars_Game_Categories_Min_Order_By = {
+  categoryId?: InputMaybe<Order_By>;
+  gameInformationId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "sketchWars.game_categories" */
+export type SketchWars_Game_Categories_Mutation_Response = {
+  __typename?: 'sketchWars_game_categories_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<SketchWars_Game_Categories>;
+};
+
+/** on_conflict condition type for table "sketchWars.game_categories" */
+export type SketchWars_Game_Categories_On_Conflict = {
+  constraint: SketchWars_Game_Categories_Constraint;
+  update_columns?: Array<SketchWars_Game_Categories_Update_Column>;
+  where?: InputMaybe<SketchWars_Game_Categories_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "sketchWars.game_categories". */
+export type SketchWars_Game_Categories_Order_By = {
+  category?: InputMaybe<Categories_Order_By>;
+  categoryId?: InputMaybe<Order_By>;
+  gameInformation?: InputMaybe<GameInformationSketchWars_Order_By>;
+  gameInformationId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: sketchWars.game_categories */
+export type SketchWars_Game_Categories_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "sketchWars.game_categories" */
+export enum SketchWars_Game_Categories_Select_Column {
+  /** column name */
+  CategoryId = 'categoryId',
+  /** column name */
+  GameInformationId = 'gameInformationId',
+  /** column name */
+  Id = 'id'
+}
+
+/** input type for updating data in table "sketchWars.game_categories" */
+export type SketchWars_Game_Categories_Set_Input = {
+  categoryId?: InputMaybe<Scalars['uuid']>;
+  gameInformationId?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+};
+
+/** Streaming cursor of the table "sketchWars_game_categories" */
+export type SketchWars_Game_Categories_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: SketchWars_Game_Categories_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type SketchWars_Game_Categories_Stream_Cursor_Value_Input = {
+  categoryId?: InputMaybe<Scalars['uuid']>;
+  gameInformationId?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+};
+
+/** update columns of table "sketchWars.game_categories" */
+export enum SketchWars_Game_Categories_Update_Column {
+  /** column name */
+  CategoryId = 'categoryId',
+  /** column name */
+  GameInformationId = 'gameInformationId',
+  /** column name */
+  Id = 'id'
+}
+
+export type SketchWars_Game_Categories_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<SketchWars_Game_Categories_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: SketchWars_Game_Categories_Bool_Exp;
+};
+
+/** columns and relationships of "sketchWars.messages" */
+export type SketchWars_Messages = {
+  __typename?: 'sketchWars_messages';
+  createdAt: Scalars['timestamptz'];
+  id: Scalars['uuid'];
+  /** An object relationship */
+  player?: Maybe<Players>;
+  playerId: Scalars['uuid'];
+  /** An object relationship */
+  round?: Maybe<SketchWars_Rounds>;
+  roundId: Scalars['uuid'];
+  text: Scalars['String'];
+  type: Scalars['String'];
+};
+
+/** aggregated selection of "sketchWars.messages" */
+export type SketchWars_Messages_Aggregate = {
+  __typename?: 'sketchWars_messages_aggregate';
+  aggregate?: Maybe<SketchWars_Messages_Aggregate_Fields>;
+  nodes: Array<SketchWars_Messages>;
+};
+
+export type SketchWars_Messages_Aggregate_Bool_Exp = {
+  count?: InputMaybe<SketchWars_Messages_Aggregate_Bool_Exp_Count>;
+};
+
+export type SketchWars_Messages_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<SketchWars_Messages_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<SketchWars_Messages_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
+/** aggregate fields of "sketchWars.messages" */
+export type SketchWars_Messages_Aggregate_Fields = {
+  __typename?: 'sketchWars_messages_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<SketchWars_Messages_Max_Fields>;
+  min?: Maybe<SketchWars_Messages_Min_Fields>;
+};
+
+
+/** aggregate fields of "sketchWars.messages" */
+export type SketchWars_Messages_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<SketchWars_Messages_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "sketchWars.messages" */
+export type SketchWars_Messages_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<SketchWars_Messages_Max_Order_By>;
+  min?: InputMaybe<SketchWars_Messages_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "sketchWars.messages" */
+export type SketchWars_Messages_Arr_Rel_Insert_Input = {
+  data: Array<SketchWars_Messages_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<SketchWars_Messages_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "sketchWars.messages". All fields are combined with a logical 'AND'. */
+export type SketchWars_Messages_Bool_Exp = {
+  _and?: InputMaybe<Array<SketchWars_Messages_Bool_Exp>>;
+  _not?: InputMaybe<SketchWars_Messages_Bool_Exp>;
+  _or?: InputMaybe<Array<SketchWars_Messages_Bool_Exp>>;
+  createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  player?: InputMaybe<Players_Bool_Exp>;
+  playerId?: InputMaybe<Uuid_Comparison_Exp>;
+  round?: InputMaybe<SketchWars_Rounds_Bool_Exp>;
+  roundId?: InputMaybe<Uuid_Comparison_Exp>;
+  text?: InputMaybe<String_Comparison_Exp>;
+  type?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "sketchWars.messages" */
+export enum SketchWars_Messages_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  MessagesPkey = 'messages_pkey'
+}
+
+/** input type for inserting data into table "sketchWars.messages" */
+export type SketchWars_Messages_Insert_Input = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  player?: InputMaybe<Players_Obj_Rel_Insert_Input>;
+  playerId?: InputMaybe<Scalars['uuid']>;
+  round?: InputMaybe<SketchWars_Rounds_Obj_Rel_Insert_Input>;
+  roundId?: InputMaybe<Scalars['uuid']>;
+  text?: InputMaybe<Scalars['String']>;
+  type?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type SketchWars_Messages_Max_Fields = {
+  __typename?: 'sketchWars_messages_max_fields';
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+  playerId?: Maybe<Scalars['uuid']>;
+  roundId?: Maybe<Scalars['uuid']>;
+  text?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
+};
+
+/** order by max() on columns of table "sketchWars.messages" */
+export type SketchWars_Messages_Max_Order_By = {
+  createdAt?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  playerId?: InputMaybe<Order_By>;
+  roundId?: InputMaybe<Order_By>;
+  text?: InputMaybe<Order_By>;
+  type?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type SketchWars_Messages_Min_Fields = {
+  __typename?: 'sketchWars_messages_min_fields';
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+  playerId?: Maybe<Scalars['uuid']>;
+  roundId?: Maybe<Scalars['uuid']>;
+  text?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
+};
+
+/** order by min() on columns of table "sketchWars.messages" */
+export type SketchWars_Messages_Min_Order_By = {
+  createdAt?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  playerId?: InputMaybe<Order_By>;
+  roundId?: InputMaybe<Order_By>;
+  text?: InputMaybe<Order_By>;
+  type?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "sketchWars.messages" */
+export type SketchWars_Messages_Mutation_Response = {
+  __typename?: 'sketchWars_messages_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<SketchWars_Messages>;
+};
+
+/** on_conflict condition type for table "sketchWars.messages" */
+export type SketchWars_Messages_On_Conflict = {
+  constraint: SketchWars_Messages_Constraint;
+  update_columns?: Array<SketchWars_Messages_Update_Column>;
+  where?: InputMaybe<SketchWars_Messages_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "sketchWars.messages". */
+export type SketchWars_Messages_Order_By = {
+  createdAt?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  player?: InputMaybe<Players_Order_By>;
+  playerId?: InputMaybe<Order_By>;
+  round?: InputMaybe<SketchWars_Rounds_Order_By>;
+  roundId?: InputMaybe<Order_By>;
+  text?: InputMaybe<Order_By>;
+  type?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: sketchWars.messages */
+export type SketchWars_Messages_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "sketchWars.messages" */
+export enum SketchWars_Messages_Select_Column {
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  PlayerId = 'playerId',
+  /** column name */
+  RoundId = 'roundId',
+  /** column name */
+  Text = 'text',
+  /** column name */
+  Type = 'type'
+}
+
+/** input type for updating data in table "sketchWars.messages" */
+export type SketchWars_Messages_Set_Input = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  playerId?: InputMaybe<Scalars['uuid']>;
+  roundId?: InputMaybe<Scalars['uuid']>;
+  text?: InputMaybe<Scalars['String']>;
+  type?: InputMaybe<Scalars['String']>;
+};
+
+/** Streaming cursor of the table "sketchWars_messages" */
+export type SketchWars_Messages_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: SketchWars_Messages_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type SketchWars_Messages_Stream_Cursor_Value_Input = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  playerId?: InputMaybe<Scalars['uuid']>;
+  roundId?: InputMaybe<Scalars['uuid']>;
+  text?: InputMaybe<Scalars['String']>;
+  type?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "sketchWars.messages" */
+export enum SketchWars_Messages_Update_Column {
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  PlayerId = 'playerId',
+  /** column name */
+  RoundId = 'roundId',
+  /** column name */
+  Text = 'text',
+  /** column name */
+  Type = 'type'
+}
+
+export type SketchWars_Messages_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<SketchWars_Messages_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: SketchWars_Messages_Bool_Exp;
+};
+
+/** columns and relationships of "sketchWars.rounds" */
+export type SketchWars_Rounds = {
+  __typename?: 'sketchWars_rounds';
+  drawAreaSize: Scalars['String'];
+  /** An object relationship */
+  drawer?: Maybe<Players>;
+  drawerId: Scalars['uuid'];
+  /** An object relationship */
+  event?: Maybe<Events>;
+  eventId: Scalars['uuid'];
+  id: Scalars['uuid'];
+  index: Scalars['Int'];
+  lines: Scalars['jsonb'];
+  /** An array relationship */
+  messages: Array<SketchWars_Messages>;
+  /** An aggregate relationship */
+  messages_aggregate: SketchWars_Messages_Aggregate;
+  startTime?: Maybe<Scalars['bigint']>;
+  status: Scalars['String'];
+  /** An object relationship */
+  team?: Maybe<Teams>;
+  teamId: Scalars['uuid'];
+  /** An object relationship */
+  word?: Maybe<Questions>;
+  wordId?: Maybe<Scalars['uuid']>;
+};
+
+
+/** columns and relationships of "sketchWars.rounds" */
+export type SketchWars_RoundsLinesArgs = {
+  path?: InputMaybe<Scalars['String']>;
+};
+
+
+/** columns and relationships of "sketchWars.rounds" */
+export type SketchWars_RoundsMessagesArgs = {
+  distinct_on?: InputMaybe<Array<SketchWars_Messages_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<SketchWars_Messages_Order_By>>;
+  where?: InputMaybe<SketchWars_Messages_Bool_Exp>;
+};
+
+
+/** columns and relationships of "sketchWars.rounds" */
+export type SketchWars_RoundsMessages_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<SketchWars_Messages_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<SketchWars_Messages_Order_By>>;
+  where?: InputMaybe<SketchWars_Messages_Bool_Exp>;
+};
+
+/** aggregated selection of "sketchWars.rounds" */
+export type SketchWars_Rounds_Aggregate = {
+  __typename?: 'sketchWars_rounds_aggregate';
+  aggregate?: Maybe<SketchWars_Rounds_Aggregate_Fields>;
+  nodes: Array<SketchWars_Rounds>;
+};
+
+export type SketchWars_Rounds_Aggregate_Bool_Exp = {
+  count?: InputMaybe<SketchWars_Rounds_Aggregate_Bool_Exp_Count>;
+};
+
+export type SketchWars_Rounds_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<SketchWars_Rounds_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<SketchWars_Rounds_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
+/** aggregate fields of "sketchWars.rounds" */
+export type SketchWars_Rounds_Aggregate_Fields = {
+  __typename?: 'sketchWars_rounds_aggregate_fields';
+  avg?: Maybe<SketchWars_Rounds_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<SketchWars_Rounds_Max_Fields>;
+  min?: Maybe<SketchWars_Rounds_Min_Fields>;
+  stddev?: Maybe<SketchWars_Rounds_Stddev_Fields>;
+  stddev_pop?: Maybe<SketchWars_Rounds_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<SketchWars_Rounds_Stddev_Samp_Fields>;
+  sum?: Maybe<SketchWars_Rounds_Sum_Fields>;
+  var_pop?: Maybe<SketchWars_Rounds_Var_Pop_Fields>;
+  var_samp?: Maybe<SketchWars_Rounds_Var_Samp_Fields>;
+  variance?: Maybe<SketchWars_Rounds_Variance_Fields>;
+};
+
+
+/** aggregate fields of "sketchWars.rounds" */
+export type SketchWars_Rounds_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<SketchWars_Rounds_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "sketchWars.rounds" */
+export type SketchWars_Rounds_Aggregate_Order_By = {
+  avg?: InputMaybe<SketchWars_Rounds_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<SketchWars_Rounds_Max_Order_By>;
+  min?: InputMaybe<SketchWars_Rounds_Min_Order_By>;
+  stddev?: InputMaybe<SketchWars_Rounds_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<SketchWars_Rounds_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<SketchWars_Rounds_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<SketchWars_Rounds_Sum_Order_By>;
+  var_pop?: InputMaybe<SketchWars_Rounds_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<SketchWars_Rounds_Var_Samp_Order_By>;
+  variance?: InputMaybe<SketchWars_Rounds_Variance_Order_By>;
+};
+
+/** append existing jsonb value of filtered columns with new jsonb value */
+export type SketchWars_Rounds_Append_Input = {
+  lines?: InputMaybe<Scalars['jsonb']>;
+};
+
+/** input type for inserting array relation for remote table "sketchWars.rounds" */
+export type SketchWars_Rounds_Arr_Rel_Insert_Input = {
+  data: Array<SketchWars_Rounds_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<SketchWars_Rounds_On_Conflict>;
+};
+
+/** aggregate avg on columns */
+export type SketchWars_Rounds_Avg_Fields = {
+  __typename?: 'sketchWars_rounds_avg_fields';
+  index?: Maybe<Scalars['Float']>;
+  startTime?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "sketchWars.rounds" */
+export type SketchWars_Rounds_Avg_Order_By = {
+  index?: InputMaybe<Order_By>;
+  startTime?: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "sketchWars.rounds". All fields are combined with a logical 'AND'. */
+export type SketchWars_Rounds_Bool_Exp = {
+  _and?: InputMaybe<Array<SketchWars_Rounds_Bool_Exp>>;
+  _not?: InputMaybe<SketchWars_Rounds_Bool_Exp>;
+  _or?: InputMaybe<Array<SketchWars_Rounds_Bool_Exp>>;
+  drawAreaSize?: InputMaybe<String_Comparison_Exp>;
+  drawer?: InputMaybe<Players_Bool_Exp>;
+  drawerId?: InputMaybe<Uuid_Comparison_Exp>;
+  event?: InputMaybe<Events_Bool_Exp>;
+  eventId?: InputMaybe<Uuid_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  index?: InputMaybe<Int_Comparison_Exp>;
+  lines?: InputMaybe<Jsonb_Comparison_Exp>;
+  messages?: InputMaybe<SketchWars_Messages_Bool_Exp>;
+  messages_aggregate?: InputMaybe<SketchWars_Messages_Aggregate_Bool_Exp>;
+  startTime?: InputMaybe<Bigint_Comparison_Exp>;
+  status?: InputMaybe<String_Comparison_Exp>;
+  team?: InputMaybe<Teams_Bool_Exp>;
+  teamId?: InputMaybe<Uuid_Comparison_Exp>;
+  word?: InputMaybe<Questions_Bool_Exp>;
+  wordId?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "sketchWars.rounds" */
+export enum SketchWars_Rounds_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  RoundsPkey = 'rounds_pkey'
+}
+
+/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+export type SketchWars_Rounds_Delete_At_Path_Input = {
+  lines?: InputMaybe<Array<Scalars['String']>>;
+};
+
+/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+export type SketchWars_Rounds_Delete_Elem_Input = {
+  lines?: InputMaybe<Scalars['Int']>;
+};
+
+/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+export type SketchWars_Rounds_Delete_Key_Input = {
+  lines?: InputMaybe<Scalars['String']>;
+};
+
+/** input type for incrementing numeric columns in table "sketchWars.rounds" */
+export type SketchWars_Rounds_Inc_Input = {
+  index?: InputMaybe<Scalars['Int']>;
+  startTime?: InputMaybe<Scalars['bigint']>;
+};
+
+/** input type for inserting data into table "sketchWars.rounds" */
+export type SketchWars_Rounds_Insert_Input = {
+  drawAreaSize?: InputMaybe<Scalars['String']>;
+  drawer?: InputMaybe<Players_Obj_Rel_Insert_Input>;
+  drawerId?: InputMaybe<Scalars['uuid']>;
+  event?: InputMaybe<Events_Obj_Rel_Insert_Input>;
+  eventId?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  index?: InputMaybe<Scalars['Int']>;
+  lines?: InputMaybe<Scalars['jsonb']>;
+  messages?: InputMaybe<SketchWars_Messages_Arr_Rel_Insert_Input>;
+  startTime?: InputMaybe<Scalars['bigint']>;
+  status?: InputMaybe<Scalars['String']>;
+  team?: InputMaybe<Teams_Obj_Rel_Insert_Input>;
+  teamId?: InputMaybe<Scalars['uuid']>;
+  word?: InputMaybe<Questions_Obj_Rel_Insert_Input>;
+  wordId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate max on columns */
+export type SketchWars_Rounds_Max_Fields = {
+  __typename?: 'sketchWars_rounds_max_fields';
+  drawAreaSize?: Maybe<Scalars['String']>;
+  drawerId?: Maybe<Scalars['uuid']>;
+  eventId?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  index?: Maybe<Scalars['Int']>;
+  startTime?: Maybe<Scalars['bigint']>;
+  status?: Maybe<Scalars['String']>;
+  teamId?: Maybe<Scalars['uuid']>;
+  wordId?: Maybe<Scalars['uuid']>;
+};
+
+/** order by max() on columns of table "sketchWars.rounds" */
+export type SketchWars_Rounds_Max_Order_By = {
+  drawAreaSize?: InputMaybe<Order_By>;
+  drawerId?: InputMaybe<Order_By>;
+  eventId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  index?: InputMaybe<Order_By>;
+  startTime?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  teamId?: InputMaybe<Order_By>;
+  wordId?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type SketchWars_Rounds_Min_Fields = {
+  __typename?: 'sketchWars_rounds_min_fields';
+  drawAreaSize?: Maybe<Scalars['String']>;
+  drawerId?: Maybe<Scalars['uuid']>;
+  eventId?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  index?: Maybe<Scalars['Int']>;
+  startTime?: Maybe<Scalars['bigint']>;
+  status?: Maybe<Scalars['String']>;
+  teamId?: Maybe<Scalars['uuid']>;
+  wordId?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "sketchWars.rounds" */
+export type SketchWars_Rounds_Min_Order_By = {
+  drawAreaSize?: InputMaybe<Order_By>;
+  drawerId?: InputMaybe<Order_By>;
+  eventId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  index?: InputMaybe<Order_By>;
+  startTime?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  teamId?: InputMaybe<Order_By>;
+  wordId?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "sketchWars.rounds" */
+export type SketchWars_Rounds_Mutation_Response = {
+  __typename?: 'sketchWars_rounds_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<SketchWars_Rounds>;
+};
+
+/** input type for inserting object relation for remote table "sketchWars.rounds" */
+export type SketchWars_Rounds_Obj_Rel_Insert_Input = {
+  data: SketchWars_Rounds_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<SketchWars_Rounds_On_Conflict>;
+};
+
+/** on_conflict condition type for table "sketchWars.rounds" */
+export type SketchWars_Rounds_On_Conflict = {
+  constraint: SketchWars_Rounds_Constraint;
+  update_columns?: Array<SketchWars_Rounds_Update_Column>;
+  where?: InputMaybe<SketchWars_Rounds_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "sketchWars.rounds". */
+export type SketchWars_Rounds_Order_By = {
+  drawAreaSize?: InputMaybe<Order_By>;
+  drawer?: InputMaybe<Players_Order_By>;
+  drawerId?: InputMaybe<Order_By>;
+  event?: InputMaybe<Events_Order_By>;
+  eventId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  index?: InputMaybe<Order_By>;
+  lines?: InputMaybe<Order_By>;
+  messages_aggregate?: InputMaybe<SketchWars_Messages_Aggregate_Order_By>;
+  startTime?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  team?: InputMaybe<Teams_Order_By>;
+  teamId?: InputMaybe<Order_By>;
+  word?: InputMaybe<Questions_Order_By>;
+  wordId?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: sketchWars.rounds */
+export type SketchWars_Rounds_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** prepend existing jsonb value of filtered columns with new jsonb value */
+export type SketchWars_Rounds_Prepend_Input = {
+  lines?: InputMaybe<Scalars['jsonb']>;
+};
+
+/** select columns of table "sketchWars.rounds" */
+export enum SketchWars_Rounds_Select_Column {
+  /** column name */
+  DrawAreaSize = 'drawAreaSize',
+  /** column name */
+  DrawerId = 'drawerId',
+  /** column name */
+  EventId = 'eventId',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Index = 'index',
+  /** column name */
+  Lines = 'lines',
+  /** column name */
+  StartTime = 'startTime',
+  /** column name */
+  Status = 'status',
+  /** column name */
+  TeamId = 'teamId',
+  /** column name */
+  WordId = 'wordId'
+}
+
+/** input type for updating data in table "sketchWars.rounds" */
+export type SketchWars_Rounds_Set_Input = {
+  drawAreaSize?: InputMaybe<Scalars['String']>;
+  drawerId?: InputMaybe<Scalars['uuid']>;
+  eventId?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  index?: InputMaybe<Scalars['Int']>;
+  lines?: InputMaybe<Scalars['jsonb']>;
+  startTime?: InputMaybe<Scalars['bigint']>;
+  status?: InputMaybe<Scalars['String']>;
+  teamId?: InputMaybe<Scalars['uuid']>;
+  wordId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate stddev on columns */
+export type SketchWars_Rounds_Stddev_Fields = {
+  __typename?: 'sketchWars_rounds_stddev_fields';
+  index?: Maybe<Scalars['Float']>;
+  startTime?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "sketchWars.rounds" */
+export type SketchWars_Rounds_Stddev_Order_By = {
+  index?: InputMaybe<Order_By>;
+  startTime?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type SketchWars_Rounds_Stddev_Pop_Fields = {
+  __typename?: 'sketchWars_rounds_stddev_pop_fields';
+  index?: Maybe<Scalars['Float']>;
+  startTime?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "sketchWars.rounds" */
+export type SketchWars_Rounds_Stddev_Pop_Order_By = {
+  index?: InputMaybe<Order_By>;
+  startTime?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type SketchWars_Rounds_Stddev_Samp_Fields = {
+  __typename?: 'sketchWars_rounds_stddev_samp_fields';
+  index?: Maybe<Scalars['Float']>;
+  startTime?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "sketchWars.rounds" */
+export type SketchWars_Rounds_Stddev_Samp_Order_By = {
+  index?: InputMaybe<Order_By>;
+  startTime?: InputMaybe<Order_By>;
+};
+
+/** Streaming cursor of the table "sketchWars_rounds" */
+export type SketchWars_Rounds_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: SketchWars_Rounds_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type SketchWars_Rounds_Stream_Cursor_Value_Input = {
+  drawAreaSize?: InputMaybe<Scalars['String']>;
+  drawerId?: InputMaybe<Scalars['uuid']>;
+  eventId?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  index?: InputMaybe<Scalars['Int']>;
+  lines?: InputMaybe<Scalars['jsonb']>;
+  startTime?: InputMaybe<Scalars['bigint']>;
+  status?: InputMaybe<Scalars['String']>;
+  teamId?: InputMaybe<Scalars['uuid']>;
+  wordId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate sum on columns */
+export type SketchWars_Rounds_Sum_Fields = {
+  __typename?: 'sketchWars_rounds_sum_fields';
+  index?: Maybe<Scalars['Int']>;
+  startTime?: Maybe<Scalars['bigint']>;
+};
+
+/** order by sum() on columns of table "sketchWars.rounds" */
+export type SketchWars_Rounds_Sum_Order_By = {
+  index?: InputMaybe<Order_By>;
+  startTime?: InputMaybe<Order_By>;
+};
+
+/** update columns of table "sketchWars.rounds" */
+export enum SketchWars_Rounds_Update_Column {
+  /** column name */
+  DrawAreaSize = 'drawAreaSize',
+  /** column name */
+  DrawerId = 'drawerId',
+  /** column name */
+  EventId = 'eventId',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Index = 'index',
+  /** column name */
+  Lines = 'lines',
+  /** column name */
+  StartTime = 'startTime',
+  /** column name */
+  Status = 'status',
+  /** column name */
+  TeamId = 'teamId',
+  /** column name */
+  WordId = 'wordId'
+}
+
+export type SketchWars_Rounds_Updates = {
+  /** append existing jsonb value of filtered columns with new jsonb value */
+  _append?: InputMaybe<SketchWars_Rounds_Append_Input>;
+  /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+  _delete_at_path?: InputMaybe<SketchWars_Rounds_Delete_At_Path_Input>;
+  /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+  _delete_elem?: InputMaybe<SketchWars_Rounds_Delete_Elem_Input>;
+  /** delete key/value pair or string element. key/value pairs are matched based on their key value */
+  _delete_key?: InputMaybe<SketchWars_Rounds_Delete_Key_Input>;
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<SketchWars_Rounds_Inc_Input>;
+  /** prepend existing jsonb value of filtered columns with new jsonb value */
+  _prepend?: InputMaybe<SketchWars_Rounds_Prepend_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<SketchWars_Rounds_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: SketchWars_Rounds_Bool_Exp;
+};
+
+/** aggregate var_pop on columns */
+export type SketchWars_Rounds_Var_Pop_Fields = {
+  __typename?: 'sketchWars_rounds_var_pop_fields';
+  index?: Maybe<Scalars['Float']>;
+  startTime?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "sketchWars.rounds" */
+export type SketchWars_Rounds_Var_Pop_Order_By = {
+  index?: InputMaybe<Order_By>;
+  startTime?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type SketchWars_Rounds_Var_Samp_Fields = {
+  __typename?: 'sketchWars_rounds_var_samp_fields';
+  index?: Maybe<Scalars['Float']>;
+  startTime?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "sketchWars.rounds" */
+export type SketchWars_Rounds_Var_Samp_Order_By = {
+  index?: InputMaybe<Order_By>;
+  startTime?: InputMaybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type SketchWars_Rounds_Variance_Fields = {
+  __typename?: 'sketchWars_rounds_variance_fields';
+  index?: Maybe<Scalars['Float']>;
+  startTime?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "sketchWars.rounds" */
+export type SketchWars_Rounds_Variance_Order_By = {
+  index?: InputMaybe<Order_By>;
+  startTime?: InputMaybe<Order_By>;
+};
+
 /** columns and relationships of "sources" */
 export type Sources = {
   __typename?: 'sources';
@@ -16561,6 +22767,14 @@ export type Subscription_Root = {
   events_by_pk?: Maybe<Events>;
   /** fetch data from the table in a streaming manner: "events" */
   events_stream: Array<Events>;
+  /** fetch data from the table: "feud_old.game_out_questions" */
+  feud_old_game_out_questions: Array<Feud_Old_Game_Out_Questions>;
+  /** fetch aggregated fields from the table: "feud_old.game_out_questions" */
+  feud_old_game_out_questions_aggregate: Feud_Old_Game_Out_Questions_Aggregate;
+  /** fetch data from the table: "feud_old.game_out_questions" using primary key columns */
+  feud_old_game_out_questions_by_pk?: Maybe<Feud_Old_Game_Out_Questions>;
+  /** fetch data from the table in a streaming manner: "feud_old.game_out_questions" */
+  feud_old_game_out_questions_stream: Array<Feud_Old_Game_Out_Questions>;
   /** fetch data from the table: "feud_old.game_room_rounds" */
   feud_old_game_room_rounds: Array<Feud_Old_Game_Room_Rounds>;
   /** fetch aggregated fields from the table: "feud_old.game_room_rounds" */
@@ -16577,6 +22791,14 @@ export type Subscription_Root = {
   feud_old_game_rooms_by_pk?: Maybe<Feud_Old_Game_Rooms>;
   /** fetch data from the table in a streaming manner: "feud_old.game_rooms" */
   feud_old_game_rooms_stream: Array<Feud_Old_Game_Rooms>;
+  /** fetch data from the table: "feud_old.game_times" */
+  feud_old_game_times: Array<Feud_Old_Game_Times>;
+  /** fetch aggregated fields from the table: "feud_old.game_times" */
+  feud_old_game_times_aggregate: Feud_Old_Game_Times_Aggregate;
+  /** fetch data from the table: "feud_old.game_times" using primary key columns */
+  feud_old_game_times_by_pk?: Maybe<Feud_Old_Game_Times>;
+  /** fetch data from the table in a streaming manner: "feud_old.game_times" */
+  feud_old_game_times_stream: Array<Feud_Old_Game_Times>;
   /** fetch data from the table: "feud_old.games_old" */
   feud_old_games_old: Array<Feud_Old_Games_Old>;
   /** fetch aggregated fields from the table: "feud_old.games_old" */
@@ -16593,9 +22815,9 @@ export type Subscription_Root = {
   filesAggregate: Files_Aggregate;
   /** fetch data from the table in a streaming manner: "storage.files" */
   files_stream: Array<Files>;
-  /** fetch data from the table: "sketchWars.game_information_collections" */
+  /** An array relationship */
   gameInformationCollections: Array<GameInformationCollections>;
-  /** fetch aggregated fields from the table: "sketchWars.game_information_collections" */
+  /** An aggregate relationship */
   gameInformationCollections_aggregate: GameInformationCollections_Aggregate;
   /** fetch data from the table: "sketchWars.game_information_collections" using primary key columns */
   gameInformationCollections_by_pk?: Maybe<GameInformationCollections>;
@@ -16689,6 +22911,62 @@ export type Subscription_Root = {
   olympics_event_stages_by_pk?: Maybe<Olympics_Event_Stages>;
   /** fetch data from the table in a streaming manner: "olympics.event_stages" */
   olympics_event_stages_stream: Array<Olympics_Event_Stages>;
+  /** fetch data from the table: "payroll.business_info" */
+  payroll_business_info: Array<Payroll_Business_Info>;
+  /** fetch aggregated fields from the table: "payroll.business_info" */
+  payroll_business_info_aggregate: Payroll_Business_Info_Aggregate;
+  /** fetch data from the table: "payroll.business_info" using primary key columns */
+  payroll_business_info_by_pk?: Maybe<Payroll_Business_Info>;
+  /** fetch data from the table in a streaming manner: "payroll.business_info" */
+  payroll_business_info_stream: Array<Payroll_Business_Info>;
+  /** fetch data from the table: "payroll.game_pay_grades" */
+  payroll_game_pay_grades: Array<Payroll_Game_Pay_Grades>;
+  /** fetch aggregated fields from the table: "payroll.game_pay_grades" */
+  payroll_game_pay_grades_aggregate: Payroll_Game_Pay_Grades_Aggregate;
+  /** fetch data from the table: "payroll.game_pay_grades" using primary key columns */
+  payroll_game_pay_grades_by_pk?: Maybe<Payroll_Game_Pay_Grades>;
+  /** fetch data from the table in a streaming manner: "payroll.game_pay_grades" */
+  payroll_game_pay_grades_stream: Array<Payroll_Game_Pay_Grades>;
+  /** fetch data from the table: "payroll.grade_bonuses" */
+  payroll_grade_bonuses: Array<Payroll_Grade_Bonuses>;
+  /** fetch aggregated fields from the table: "payroll.grade_bonuses" */
+  payroll_grade_bonuses_aggregate: Payroll_Grade_Bonuses_Aggregate;
+  /** fetch data from the table: "payroll.grade_bonuses" using primary key columns */
+  payroll_grade_bonuses_by_pk?: Maybe<Payroll_Grade_Bonuses>;
+  /** fetch data from the table in a streaming manner: "payroll.grade_bonuses" */
+  payroll_grade_bonuses_stream: Array<Payroll_Grade_Bonuses>;
+  /** fetch data from the table: "payroll.host_rating_calculation_ranges" */
+  payroll_host_rating_calculation_ranges: Array<Payroll_Host_Rating_Calculation_Ranges>;
+  /** fetch aggregated fields from the table: "payroll.host_rating_calculation_ranges" */
+  payroll_host_rating_calculation_ranges_aggregate: Payroll_Host_Rating_Calculation_Ranges_Aggregate;
+  /** fetch data from the table: "payroll.host_rating_calculation_ranges" using primary key columns */
+  payroll_host_rating_calculation_ranges_by_pk?: Maybe<Payroll_Host_Rating_Calculation_Ranges>;
+  /** fetch data from the table in a streaming manner: "payroll.host_rating_calculation_ranges" */
+  payroll_host_rating_calculation_ranges_stream: Array<Payroll_Host_Rating_Calculation_Ranges>;
+  /** fetch data from the table: "payroll.paid_data" */
+  payroll_paid_data: Array<Payroll_Paid_Data>;
+  /** fetch aggregated fields from the table: "payroll.paid_data" */
+  payroll_paid_data_aggregate: Payroll_Paid_Data_Aggregate;
+  /** fetch data from the table: "payroll.paid_data" using primary key columns */
+  payroll_paid_data_by_pk?: Maybe<Payroll_Paid_Data>;
+  /** fetch data from the table in a streaming manner: "payroll.paid_data" */
+  payroll_paid_data_stream: Array<Payroll_Paid_Data>;
+  /** fetch data from the table: "payroll.pay_grades" */
+  payroll_pay_grades: Array<Payroll_Pay_Grades>;
+  /** fetch aggregated fields from the table: "payroll.pay_grades" */
+  payroll_pay_grades_aggregate: Payroll_Pay_Grades_Aggregate;
+  /** fetch data from the table: "payroll.pay_grades" using primary key columns */
+  payroll_pay_grades_by_pk?: Maybe<Payroll_Pay_Grades>;
+  /** fetch data from the table: "payroll.pay_grades_group" */
+  payroll_pay_grades_group: Array<Payroll_Pay_Grades_Group>;
+  /** fetch aggregated fields from the table: "payroll.pay_grades_group" */
+  payroll_pay_grades_group_aggregate: Payroll_Pay_Grades_Group_Aggregate;
+  /** fetch data from the table: "payroll.pay_grades_group" using primary key columns */
+  payroll_pay_grades_group_by_pk?: Maybe<Payroll_Pay_Grades_Group>;
+  /** fetch data from the table in a streaming manner: "payroll.pay_grades_group" */
+  payroll_pay_grades_group_stream: Array<Payroll_Pay_Grades_Group>;
+  /** fetch data from the table in a streaming manner: "payroll.pay_grades" */
+  payroll_pay_grades_stream: Array<Payroll_Pay_Grades>;
   /** An array relationship */
   players: Array<Players>;
   /** An aggregate relationship */
@@ -16745,6 +23023,54 @@ export type Subscription_Root = {
   reviews_by_pk?: Maybe<Reviews>;
   /** fetch data from the table in a streaming manner: "reviews" */
   reviews_stream: Array<Reviews>;
+  /** fetch data from the table: "schedule.day_availability" */
+  schedule_day_availability: Array<Schedule_Day_Availability>;
+  /** fetch aggregated fields from the table: "schedule.day_availability" */
+  schedule_day_availability_aggregate: Schedule_Day_Availability_Aggregate;
+  /** fetch data from the table: "schedule.day_availability" using primary key columns */
+  schedule_day_availability_by_pk?: Maybe<Schedule_Day_Availability>;
+  /** fetch data from the table in a streaming manner: "schedule.day_availability" */
+  schedule_day_availability_stream: Array<Schedule_Day_Availability>;
+  /** fetch data from the table: "schedule.week_availability" */
+  schedule_week_availability: Array<Schedule_Week_Availability>;
+  /** fetch aggregated fields from the table: "schedule.week_availability" */
+  schedule_week_availability_aggregate: Schedule_Week_Availability_Aggregate;
+  /** fetch data from the table: "schedule.week_availability" using primary key columns */
+  schedule_week_availability_by_pk?: Maybe<Schedule_Week_Availability>;
+  /** fetch data from the table in a streaming manner: "schedule.week_availability" */
+  schedule_week_availability_stream: Array<Schedule_Week_Availability>;
+  /** fetch data from the table: "schedule.weeks" */
+  schedule_weeks: Array<Schedule_Weeks>;
+  /** fetch aggregated fields from the table: "schedule.weeks" */
+  schedule_weeks_aggregate: Schedule_Weeks_Aggregate;
+  /** fetch data from the table: "schedule.weeks" using primary key columns */
+  schedule_weeks_by_pk?: Maybe<Schedule_Weeks>;
+  /** fetch data from the table in a streaming manner: "schedule.weeks" */
+  schedule_weeks_stream: Array<Schedule_Weeks>;
+  /** fetch data from the table: "sketchWars.game_categories" */
+  sketchWars_game_categories: Array<SketchWars_Game_Categories>;
+  /** fetch aggregated fields from the table: "sketchWars.game_categories" */
+  sketchWars_game_categories_aggregate: SketchWars_Game_Categories_Aggregate;
+  /** fetch data from the table: "sketchWars.game_categories" using primary key columns */
+  sketchWars_game_categories_by_pk?: Maybe<SketchWars_Game_Categories>;
+  /** fetch data from the table in a streaming manner: "sketchWars.game_categories" */
+  sketchWars_game_categories_stream: Array<SketchWars_Game_Categories>;
+  /** fetch data from the table: "sketchWars.messages" */
+  sketchWars_messages: Array<SketchWars_Messages>;
+  /** fetch aggregated fields from the table: "sketchWars.messages" */
+  sketchWars_messages_aggregate: SketchWars_Messages_Aggregate;
+  /** fetch data from the table: "sketchWars.messages" using primary key columns */
+  sketchWars_messages_by_pk?: Maybe<SketchWars_Messages>;
+  /** fetch data from the table in a streaming manner: "sketchWars.messages" */
+  sketchWars_messages_stream: Array<SketchWars_Messages>;
+  /** fetch data from the table: "sketchWars.rounds" */
+  sketchWars_rounds: Array<SketchWars_Rounds>;
+  /** fetch aggregated fields from the table: "sketchWars.rounds" */
+  sketchWars_rounds_aggregate: SketchWars_Rounds_Aggregate;
+  /** fetch data from the table: "sketchWars.rounds" using primary key columns */
+  sketchWars_rounds_by_pk?: Maybe<SketchWars_Rounds>;
+  /** fetch data from the table in a streaming manner: "sketchWars.rounds" */
+  sketchWars_rounds_stream: Array<SketchWars_Rounds>;
   /** fetch data from the table: "sources" */
   sources: Array<Sources>;
   /** fetch aggregated fields from the table: "sources" */
@@ -16785,6 +23111,26 @@ export type Subscription_Root = {
   usersAggregate: Users_Aggregate;
   /** fetch data from the table in a streaming manner: "auth.users" */
   users_stream: Array<Users>;
+  /** fetch data from the table: "witw.attempts" */
+  witwCoordinateAttempts: Array<WitwCoordinateAttempts>;
+  /** fetch aggregated fields from the table: "witw.attempts" */
+  witwCoordinateAttempts_aggregate: WitwCoordinateAttempts_Aggregate;
+  /** fetch data from the table: "witw.attempts" using primary key columns */
+  witwCoordinateAttempts_by_pk?: Maybe<WitwCoordinateAttempts>;
+  /** fetch data from the table in a streaming manner: "witw.attempts" */
+  witwCoordinateAttempts_stream: Array<WitwCoordinateAttempts>;
+  /** fetch data from the table: "witw.coordinates" */
+  witwCoordinates: Array<WitwCoordinates>;
+  /** fetch aggregated fields from the table: "witw.coordinates" */
+  witwCoordinates_aggregate: WitwCoordinates_Aggregate;
+  /** fetch data from the table: "witw.coordinates" using primary key columns */
+  witwCoordinates_by_pk?: Maybe<WitwCoordinates>;
+  /** fetch data from the table in a streaming manner: "witw.coordinates" */
+  witwCoordinates_stream: Array<WitwCoordinates>;
+  /** execute function "witw.getrandomcoordinates" which returns "witw.coordinates" */
+  witw_getrandomcoordinates: Array<WitwCoordinates>;
+  /** execute function "witw.getrandomcoordinates" and query aggregates on result of table type "witw.coordinates" */
+  witw_getrandomcoordinates_aggregate: WitwCoordinates_Aggregate;
 };
 
 
@@ -17332,6 +23678,36 @@ export type Subscription_RootEvents_StreamArgs = {
 };
 
 
+export type Subscription_RootFeud_Old_Game_Out_QuestionsArgs = {
+  distinct_on?: InputMaybe<Array<Feud_Old_Game_Out_Questions_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Feud_Old_Game_Out_Questions_Order_By>>;
+  where?: InputMaybe<Feud_Old_Game_Out_Questions_Bool_Exp>;
+};
+
+
+export type Subscription_RootFeud_Old_Game_Out_Questions_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Feud_Old_Game_Out_Questions_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Feud_Old_Game_Out_Questions_Order_By>>;
+  where?: InputMaybe<Feud_Old_Game_Out_Questions_Bool_Exp>;
+};
+
+
+export type Subscription_RootFeud_Old_Game_Out_Questions_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type Subscription_RootFeud_Old_Game_Out_Questions_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Feud_Old_Game_Out_Questions_Stream_Cursor_Input>>;
+  where?: InputMaybe<Feud_Old_Game_Out_Questions_Bool_Exp>;
+};
+
+
 export type Subscription_RootFeud_Old_Game_Room_RoundsArgs = {
   distinct_on?: InputMaybe<Array<Feud_Old_Game_Room_Rounds_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -17389,6 +23765,36 @@ export type Subscription_RootFeud_Old_Game_Rooms_StreamArgs = {
   batch_size: Scalars['Int'];
   cursor: Array<InputMaybe<Feud_Old_Game_Rooms_Stream_Cursor_Input>>;
   where?: InputMaybe<Feud_Old_Game_Rooms_Bool_Exp>;
+};
+
+
+export type Subscription_RootFeud_Old_Game_TimesArgs = {
+  distinct_on?: InputMaybe<Array<Feud_Old_Game_Times_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Feud_Old_Game_Times_Order_By>>;
+  where?: InputMaybe<Feud_Old_Game_Times_Bool_Exp>;
+};
+
+
+export type Subscription_RootFeud_Old_Game_Times_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Feud_Old_Game_Times_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Feud_Old_Game_Times_Order_By>>;
+  where?: InputMaybe<Feud_Old_Game_Times_Bool_Exp>;
+};
+
+
+export type Subscription_RootFeud_Old_Game_Times_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootFeud_Old_Game_Times_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Feud_Old_Game_Times_Stream_Cursor_Input>>;
+  where?: InputMaybe<Feud_Old_Game_Times_Bool_Exp>;
 };
 
 
@@ -17813,6 +24219,216 @@ export type Subscription_RootOlympics_Event_Stages_StreamArgs = {
 };
 
 
+export type Subscription_RootPayroll_Business_InfoArgs = {
+  distinct_on?: InputMaybe<Array<Payroll_Business_Info_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Payroll_Business_Info_Order_By>>;
+  where?: InputMaybe<Payroll_Business_Info_Bool_Exp>;
+};
+
+
+export type Subscription_RootPayroll_Business_Info_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Payroll_Business_Info_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Payroll_Business_Info_Order_By>>;
+  where?: InputMaybe<Payroll_Business_Info_Bool_Exp>;
+};
+
+
+export type Subscription_RootPayroll_Business_Info_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootPayroll_Business_Info_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Payroll_Business_Info_Stream_Cursor_Input>>;
+  where?: InputMaybe<Payroll_Business_Info_Bool_Exp>;
+};
+
+
+export type Subscription_RootPayroll_Game_Pay_GradesArgs = {
+  distinct_on?: InputMaybe<Array<Payroll_Game_Pay_Grades_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Payroll_Game_Pay_Grades_Order_By>>;
+  where?: InputMaybe<Payroll_Game_Pay_Grades_Bool_Exp>;
+};
+
+
+export type Subscription_RootPayroll_Game_Pay_Grades_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Payroll_Game_Pay_Grades_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Payroll_Game_Pay_Grades_Order_By>>;
+  where?: InputMaybe<Payroll_Game_Pay_Grades_Bool_Exp>;
+};
+
+
+export type Subscription_RootPayroll_Game_Pay_Grades_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootPayroll_Game_Pay_Grades_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Payroll_Game_Pay_Grades_Stream_Cursor_Input>>;
+  where?: InputMaybe<Payroll_Game_Pay_Grades_Bool_Exp>;
+};
+
+
+export type Subscription_RootPayroll_Grade_BonusesArgs = {
+  distinct_on?: InputMaybe<Array<Payroll_Grade_Bonuses_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Payroll_Grade_Bonuses_Order_By>>;
+  where?: InputMaybe<Payroll_Grade_Bonuses_Bool_Exp>;
+};
+
+
+export type Subscription_RootPayroll_Grade_Bonuses_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Payroll_Grade_Bonuses_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Payroll_Grade_Bonuses_Order_By>>;
+  where?: InputMaybe<Payroll_Grade_Bonuses_Bool_Exp>;
+};
+
+
+export type Subscription_RootPayroll_Grade_Bonuses_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootPayroll_Grade_Bonuses_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Payroll_Grade_Bonuses_Stream_Cursor_Input>>;
+  where?: InputMaybe<Payroll_Grade_Bonuses_Bool_Exp>;
+};
+
+
+export type Subscription_RootPayroll_Host_Rating_Calculation_RangesArgs = {
+  distinct_on?: InputMaybe<Array<Payroll_Host_Rating_Calculation_Ranges_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Payroll_Host_Rating_Calculation_Ranges_Order_By>>;
+  where?: InputMaybe<Payroll_Host_Rating_Calculation_Ranges_Bool_Exp>;
+};
+
+
+export type Subscription_RootPayroll_Host_Rating_Calculation_Ranges_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Payroll_Host_Rating_Calculation_Ranges_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Payroll_Host_Rating_Calculation_Ranges_Order_By>>;
+  where?: InputMaybe<Payroll_Host_Rating_Calculation_Ranges_Bool_Exp>;
+};
+
+
+export type Subscription_RootPayroll_Host_Rating_Calculation_Ranges_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootPayroll_Host_Rating_Calculation_Ranges_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Payroll_Host_Rating_Calculation_Ranges_Stream_Cursor_Input>>;
+  where?: InputMaybe<Payroll_Host_Rating_Calculation_Ranges_Bool_Exp>;
+};
+
+
+export type Subscription_RootPayroll_Paid_DataArgs = {
+  distinct_on?: InputMaybe<Array<Payroll_Paid_Data_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Payroll_Paid_Data_Order_By>>;
+  where?: InputMaybe<Payroll_Paid_Data_Bool_Exp>;
+};
+
+
+export type Subscription_RootPayroll_Paid_Data_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Payroll_Paid_Data_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Payroll_Paid_Data_Order_By>>;
+  where?: InputMaybe<Payroll_Paid_Data_Bool_Exp>;
+};
+
+
+export type Subscription_RootPayroll_Paid_Data_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootPayroll_Paid_Data_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Payroll_Paid_Data_Stream_Cursor_Input>>;
+  where?: InputMaybe<Payroll_Paid_Data_Bool_Exp>;
+};
+
+
+export type Subscription_RootPayroll_Pay_GradesArgs = {
+  distinct_on?: InputMaybe<Array<Payroll_Pay_Grades_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Payroll_Pay_Grades_Order_By>>;
+  where?: InputMaybe<Payroll_Pay_Grades_Bool_Exp>;
+};
+
+
+export type Subscription_RootPayroll_Pay_Grades_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Payroll_Pay_Grades_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Payroll_Pay_Grades_Order_By>>;
+  where?: InputMaybe<Payroll_Pay_Grades_Bool_Exp>;
+};
+
+
+export type Subscription_RootPayroll_Pay_Grades_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootPayroll_Pay_Grades_GroupArgs = {
+  distinct_on?: InputMaybe<Array<Payroll_Pay_Grades_Group_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Payroll_Pay_Grades_Group_Order_By>>;
+  where?: InputMaybe<Payroll_Pay_Grades_Group_Bool_Exp>;
+};
+
+
+export type Subscription_RootPayroll_Pay_Grades_Group_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Payroll_Pay_Grades_Group_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Payroll_Pay_Grades_Group_Order_By>>;
+  where?: InputMaybe<Payroll_Pay_Grades_Group_Bool_Exp>;
+};
+
+
+export type Subscription_RootPayroll_Pay_Grades_Group_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootPayroll_Pay_Grades_Group_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Payroll_Pay_Grades_Group_Stream_Cursor_Input>>;
+  where?: InputMaybe<Payroll_Pay_Grades_Group_Bool_Exp>;
+};
+
+
+export type Subscription_RootPayroll_Pay_Grades_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Payroll_Pay_Grades_Stream_Cursor_Input>>;
+  where?: InputMaybe<Payroll_Pay_Grades_Bool_Exp>;
+};
+
+
 export type Subscription_RootPlayersArgs = {
   distinct_on?: InputMaybe<Array<Players_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -18023,6 +24639,186 @@ export type Subscription_RootReviews_StreamArgs = {
 };
 
 
+export type Subscription_RootSchedule_Day_AvailabilityArgs = {
+  distinct_on?: InputMaybe<Array<Schedule_Day_Availability_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Schedule_Day_Availability_Order_By>>;
+  where?: InputMaybe<Schedule_Day_Availability_Bool_Exp>;
+};
+
+
+export type Subscription_RootSchedule_Day_Availability_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Schedule_Day_Availability_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Schedule_Day_Availability_Order_By>>;
+  where?: InputMaybe<Schedule_Day_Availability_Bool_Exp>;
+};
+
+
+export type Subscription_RootSchedule_Day_Availability_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootSchedule_Day_Availability_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Schedule_Day_Availability_Stream_Cursor_Input>>;
+  where?: InputMaybe<Schedule_Day_Availability_Bool_Exp>;
+};
+
+
+export type Subscription_RootSchedule_Week_AvailabilityArgs = {
+  distinct_on?: InputMaybe<Array<Schedule_Week_Availability_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Schedule_Week_Availability_Order_By>>;
+  where?: InputMaybe<Schedule_Week_Availability_Bool_Exp>;
+};
+
+
+export type Subscription_RootSchedule_Week_Availability_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Schedule_Week_Availability_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Schedule_Week_Availability_Order_By>>;
+  where?: InputMaybe<Schedule_Week_Availability_Bool_Exp>;
+};
+
+
+export type Subscription_RootSchedule_Week_Availability_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootSchedule_Week_Availability_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Schedule_Week_Availability_Stream_Cursor_Input>>;
+  where?: InputMaybe<Schedule_Week_Availability_Bool_Exp>;
+};
+
+
+export type Subscription_RootSchedule_WeeksArgs = {
+  distinct_on?: InputMaybe<Array<Schedule_Weeks_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Schedule_Weeks_Order_By>>;
+  where?: InputMaybe<Schedule_Weeks_Bool_Exp>;
+};
+
+
+export type Subscription_RootSchedule_Weeks_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Schedule_Weeks_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Schedule_Weeks_Order_By>>;
+  where?: InputMaybe<Schedule_Weeks_Bool_Exp>;
+};
+
+
+export type Subscription_RootSchedule_Weeks_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootSchedule_Weeks_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Schedule_Weeks_Stream_Cursor_Input>>;
+  where?: InputMaybe<Schedule_Weeks_Bool_Exp>;
+};
+
+
+export type Subscription_RootSketchWars_Game_CategoriesArgs = {
+  distinct_on?: InputMaybe<Array<SketchWars_Game_Categories_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<SketchWars_Game_Categories_Order_By>>;
+  where?: InputMaybe<SketchWars_Game_Categories_Bool_Exp>;
+};
+
+
+export type Subscription_RootSketchWars_Game_Categories_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<SketchWars_Game_Categories_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<SketchWars_Game_Categories_Order_By>>;
+  where?: InputMaybe<SketchWars_Game_Categories_Bool_Exp>;
+};
+
+
+export type Subscription_RootSketchWars_Game_Categories_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootSketchWars_Game_Categories_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<SketchWars_Game_Categories_Stream_Cursor_Input>>;
+  where?: InputMaybe<SketchWars_Game_Categories_Bool_Exp>;
+};
+
+
+export type Subscription_RootSketchWars_MessagesArgs = {
+  distinct_on?: InputMaybe<Array<SketchWars_Messages_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<SketchWars_Messages_Order_By>>;
+  where?: InputMaybe<SketchWars_Messages_Bool_Exp>;
+};
+
+
+export type Subscription_RootSketchWars_Messages_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<SketchWars_Messages_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<SketchWars_Messages_Order_By>>;
+  where?: InputMaybe<SketchWars_Messages_Bool_Exp>;
+};
+
+
+export type Subscription_RootSketchWars_Messages_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootSketchWars_Messages_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<SketchWars_Messages_Stream_Cursor_Input>>;
+  where?: InputMaybe<SketchWars_Messages_Bool_Exp>;
+};
+
+
+export type Subscription_RootSketchWars_RoundsArgs = {
+  distinct_on?: InputMaybe<Array<SketchWars_Rounds_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<SketchWars_Rounds_Order_By>>;
+  where?: InputMaybe<SketchWars_Rounds_Bool_Exp>;
+};
+
+
+export type Subscription_RootSketchWars_Rounds_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<SketchWars_Rounds_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<SketchWars_Rounds_Order_By>>;
+  where?: InputMaybe<SketchWars_Rounds_Bool_Exp>;
+};
+
+
+export type Subscription_RootSketchWars_Rounds_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootSketchWars_Rounds_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<SketchWars_Rounds_Stream_Cursor_Input>>;
+  where?: InputMaybe<SketchWars_Rounds_Bool_Exp>;
+};
+
+
 export type Subscription_RootSourcesArgs = {
   distinct_on?: InputMaybe<Array<Sources_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -18172,6 +24968,84 @@ export type Subscription_RootUsers_StreamArgs = {
   where?: InputMaybe<Users_Bool_Exp>;
 };
 
+
+export type Subscription_RootWitwCoordinateAttemptsArgs = {
+  distinct_on?: InputMaybe<Array<WitwCoordinateAttempts_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<WitwCoordinateAttempts_Order_By>>;
+  where?: InputMaybe<WitwCoordinateAttempts_Bool_Exp>;
+};
+
+
+export type Subscription_RootWitwCoordinateAttempts_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<WitwCoordinateAttempts_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<WitwCoordinateAttempts_Order_By>>;
+  where?: InputMaybe<WitwCoordinateAttempts_Bool_Exp>;
+};
+
+
+export type Subscription_RootWitwCoordinateAttempts_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootWitwCoordinateAttempts_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<WitwCoordinateAttempts_Stream_Cursor_Input>>;
+  where?: InputMaybe<WitwCoordinateAttempts_Bool_Exp>;
+};
+
+
+export type Subscription_RootWitwCoordinatesArgs = {
+  distinct_on?: InputMaybe<Array<WitwCoordinates_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<WitwCoordinates_Order_By>>;
+  where?: InputMaybe<WitwCoordinates_Bool_Exp>;
+};
+
+
+export type Subscription_RootWitwCoordinates_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<WitwCoordinates_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<WitwCoordinates_Order_By>>;
+  where?: InputMaybe<WitwCoordinates_Bool_Exp>;
+};
+
+
+export type Subscription_RootWitwCoordinates_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootWitwCoordinates_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<WitwCoordinates_Stream_Cursor_Input>>;
+  where?: InputMaybe<WitwCoordinates_Bool_Exp>;
+};
+
+
+export type Subscription_RootWitw_GetrandomcoordinatesArgs = {
+  distinct_on?: InputMaybe<Array<WitwCoordinates_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<WitwCoordinates_Order_By>>;
+  where?: InputMaybe<WitwCoordinates_Bool_Exp>;
+};
+
+
+export type Subscription_RootWitw_Getrandomcoordinates_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<WitwCoordinates_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<WitwCoordinates_Order_By>>;
+  where?: InputMaybe<WitwCoordinates_Bool_Exp>;
+};
+
 /** columns and relationships of "teams" */
 export type Teams = {
   __typename?: 'teams';
@@ -18180,8 +25054,12 @@ export type Teams = {
   coHostId?: Maybe<Scalars['uuid']>;
   createdAt?: Maybe<Scalars['timestamptz']>;
   /** An object relationship */
+  drawImage?: Maybe<Files>;
+  drawImageId?: Maybe<Scalars['uuid']>;
+  /** An object relationship */
   event: Events;
   eventId: Scalars['uuid'];
+  gameCode?: Maybe<Scalars['String']>;
   /** An object relationship */
   host?: Maybe<UserMetadata>;
   hostId?: Maybe<Scalars['uuid']>;
@@ -18190,6 +25068,7 @@ export type Teams = {
   image?: Maybe<Files>;
   imageId?: Maybe<Scalars['uuid']>;
   index: Scalars['Int'];
+  isFinished: Scalars['Boolean'];
   /** An array relationship */
   leaderBoards: Array<EventLeaderBoard>;
   /** An aggregate relationship */
@@ -18200,6 +25079,10 @@ export type Teams = {
   /** An aggregate relationship */
   players_aggregate: Players_Aggregate;
   ranking?: Maybe<Scalars['Int']>;
+  /** An array relationship */
+  rounds: Array<SketchWars_Rounds>;
+  /** An aggregate relationship */
+  rounds_aggregate: SketchWars_Rounds_Aggregate;
   totalScore: Scalars['Int'];
 };
 
@@ -18243,6 +25126,26 @@ export type TeamsPlayers_AggregateArgs = {
   where?: InputMaybe<Players_Bool_Exp>;
 };
 
+
+/** columns and relationships of "teams" */
+export type TeamsRoundsArgs = {
+  distinct_on?: InputMaybe<Array<SketchWars_Rounds_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<SketchWars_Rounds_Order_By>>;
+  where?: InputMaybe<SketchWars_Rounds_Bool_Exp>;
+};
+
+
+/** columns and relationships of "teams" */
+export type TeamsRounds_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<SketchWars_Rounds_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<SketchWars_Rounds_Order_By>>;
+  where?: InputMaybe<SketchWars_Rounds_Bool_Exp>;
+};
+
 /** aggregated selection of "teams" */
 export type Teams_Aggregate = {
   __typename?: 'teams_aggregate';
@@ -18251,7 +25154,23 @@ export type Teams_Aggregate = {
 };
 
 export type Teams_Aggregate_Bool_Exp = {
+  bool_and?: InputMaybe<Teams_Aggregate_Bool_Exp_Bool_And>;
+  bool_or?: InputMaybe<Teams_Aggregate_Bool_Exp_Bool_Or>;
   count?: InputMaybe<Teams_Aggregate_Bool_Exp_Count>;
+};
+
+export type Teams_Aggregate_Bool_Exp_Bool_And = {
+  arguments: Teams_Select_Column_Teams_Aggregate_Bool_Exp_Bool_And_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Teams_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Teams_Aggregate_Bool_Exp_Bool_Or = {
+  arguments: Teams_Select_Column_Teams_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Teams_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
 };
 
 export type Teams_Aggregate_Bool_Exp_Count = {
@@ -18329,20 +25248,26 @@ export type Teams_Bool_Exp = {
   coHost?: InputMaybe<UserMetadata_Bool_Exp>;
   coHostId?: InputMaybe<Uuid_Comparison_Exp>;
   createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+  drawImage?: InputMaybe<Files_Bool_Exp>;
+  drawImageId?: InputMaybe<Uuid_Comparison_Exp>;
   event?: InputMaybe<Events_Bool_Exp>;
   eventId?: InputMaybe<Uuid_Comparison_Exp>;
+  gameCode?: InputMaybe<String_Comparison_Exp>;
   host?: InputMaybe<UserMetadata_Bool_Exp>;
   hostId?: InputMaybe<Uuid_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   image?: InputMaybe<Files_Bool_Exp>;
   imageId?: InputMaybe<Uuid_Comparison_Exp>;
   index?: InputMaybe<Int_Comparison_Exp>;
+  isFinished?: InputMaybe<Boolean_Comparison_Exp>;
   leaderBoards?: InputMaybe<EventLeaderBoard_Bool_Exp>;
   leaderBoards_aggregate?: InputMaybe<EventLeaderBoard_Aggregate_Bool_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   players?: InputMaybe<Players_Bool_Exp>;
   players_aggregate?: InputMaybe<Players_Aggregate_Bool_Exp>;
   ranking?: InputMaybe<Int_Comparison_Exp>;
+  rounds?: InputMaybe<SketchWars_Rounds_Bool_Exp>;
+  rounds_aggregate?: InputMaybe<SketchWars_Rounds_Aggregate_Bool_Exp>;
   totalScore?: InputMaybe<Int_Comparison_Exp>;
 };
 
@@ -18364,18 +25289,23 @@ export type Teams_Insert_Input = {
   coHost?: InputMaybe<UserMetadata_Obj_Rel_Insert_Input>;
   coHostId?: InputMaybe<Scalars['uuid']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
+  drawImage?: InputMaybe<Files_Obj_Rel_Insert_Input>;
+  drawImageId?: InputMaybe<Scalars['uuid']>;
   event?: InputMaybe<Events_Obj_Rel_Insert_Input>;
   eventId?: InputMaybe<Scalars['uuid']>;
+  gameCode?: InputMaybe<Scalars['String']>;
   host?: InputMaybe<UserMetadata_Obj_Rel_Insert_Input>;
   hostId?: InputMaybe<Scalars['uuid']>;
   id?: InputMaybe<Scalars['uuid']>;
   image?: InputMaybe<Files_Obj_Rel_Insert_Input>;
   imageId?: InputMaybe<Scalars['uuid']>;
   index?: InputMaybe<Scalars['Int']>;
+  isFinished?: InputMaybe<Scalars['Boolean']>;
   leaderBoards?: InputMaybe<EventLeaderBoard_Arr_Rel_Insert_Input>;
   name?: InputMaybe<Scalars['String']>;
   players?: InputMaybe<Players_Arr_Rel_Insert_Input>;
   ranking?: InputMaybe<Scalars['Int']>;
+  rounds?: InputMaybe<SketchWars_Rounds_Arr_Rel_Insert_Input>;
   totalScore?: InputMaybe<Scalars['Int']>;
 };
 
@@ -18384,7 +25314,9 @@ export type Teams_Max_Fields = {
   __typename?: 'teams_max_fields';
   coHostId?: Maybe<Scalars['uuid']>;
   createdAt?: Maybe<Scalars['timestamptz']>;
+  drawImageId?: Maybe<Scalars['uuid']>;
   eventId?: Maybe<Scalars['uuid']>;
+  gameCode?: Maybe<Scalars['String']>;
   hostId?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['uuid']>;
   imageId?: Maybe<Scalars['uuid']>;
@@ -18398,7 +25330,9 @@ export type Teams_Max_Fields = {
 export type Teams_Max_Order_By = {
   coHostId?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
+  drawImageId?: InputMaybe<Order_By>;
   eventId?: InputMaybe<Order_By>;
+  gameCode?: InputMaybe<Order_By>;
   hostId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   imageId?: InputMaybe<Order_By>;
@@ -18413,7 +25347,9 @@ export type Teams_Min_Fields = {
   __typename?: 'teams_min_fields';
   coHostId?: Maybe<Scalars['uuid']>;
   createdAt?: Maybe<Scalars['timestamptz']>;
+  drawImageId?: Maybe<Scalars['uuid']>;
   eventId?: Maybe<Scalars['uuid']>;
+  gameCode?: Maybe<Scalars['String']>;
   hostId?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['uuid']>;
   imageId?: Maybe<Scalars['uuid']>;
@@ -18427,7 +25363,9 @@ export type Teams_Min_Fields = {
 export type Teams_Min_Order_By = {
   coHostId?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
+  drawImageId?: InputMaybe<Order_By>;
   eventId?: InputMaybe<Order_By>;
+  gameCode?: InputMaybe<Order_By>;
   hostId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   imageId?: InputMaybe<Order_By>;
@@ -18465,18 +25403,23 @@ export type Teams_Order_By = {
   coHost?: InputMaybe<UserMetadata_Order_By>;
   coHostId?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
+  drawImage?: InputMaybe<Files_Order_By>;
+  drawImageId?: InputMaybe<Order_By>;
   event?: InputMaybe<Events_Order_By>;
   eventId?: InputMaybe<Order_By>;
+  gameCode?: InputMaybe<Order_By>;
   host?: InputMaybe<UserMetadata_Order_By>;
   hostId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   image?: InputMaybe<Files_Order_By>;
   imageId?: InputMaybe<Order_By>;
   index?: InputMaybe<Order_By>;
+  isFinished?: InputMaybe<Order_By>;
   leaderBoards_aggregate?: InputMaybe<EventLeaderBoard_Aggregate_Order_By>;
   name?: InputMaybe<Order_By>;
   players_aggregate?: InputMaybe<Players_Aggregate_Order_By>;
   ranking?: InputMaybe<Order_By>;
+  rounds_aggregate?: InputMaybe<SketchWars_Rounds_Aggregate_Order_By>;
   totalScore?: InputMaybe<Order_By>;
 };
 
@@ -18492,7 +25435,11 @@ export enum Teams_Select_Column {
   /** column name */
   CreatedAt = 'createdAt',
   /** column name */
+  DrawImageId = 'drawImageId',
+  /** column name */
   EventId = 'eventId',
+  /** column name */
+  GameCode = 'gameCode',
   /** column name */
   HostId = 'hostId',
   /** column name */
@@ -18502,6 +25449,8 @@ export enum Teams_Select_Column {
   /** column name */
   Index = 'index',
   /** column name */
+  IsFinished = 'isFinished',
+  /** column name */
   Name = 'name',
   /** column name */
   Ranking = 'ranking',
@@ -18509,15 +25458,30 @@ export enum Teams_Select_Column {
   TotalScore = 'totalScore'
 }
 
+/** select "teams_aggregate_bool_exp_bool_and_arguments_columns" columns of table "teams" */
+export enum Teams_Select_Column_Teams_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
+  /** column name */
+  IsFinished = 'isFinished'
+}
+
+/** select "teams_aggregate_bool_exp_bool_or_arguments_columns" columns of table "teams" */
+export enum Teams_Select_Column_Teams_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
+  /** column name */
+  IsFinished = 'isFinished'
+}
+
 /** input type for updating data in table "teams" */
 export type Teams_Set_Input = {
   coHostId?: InputMaybe<Scalars['uuid']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
+  drawImageId?: InputMaybe<Scalars['uuid']>;
   eventId?: InputMaybe<Scalars['uuid']>;
+  gameCode?: InputMaybe<Scalars['String']>;
   hostId?: InputMaybe<Scalars['uuid']>;
   id?: InputMaybe<Scalars['uuid']>;
   imageId?: InputMaybe<Scalars['uuid']>;
   index?: InputMaybe<Scalars['Int']>;
+  isFinished?: InputMaybe<Scalars['Boolean']>;
   name?: InputMaybe<Scalars['String']>;
   ranking?: InputMaybe<Scalars['Int']>;
   totalScore?: InputMaybe<Scalars['Int']>;
@@ -18580,11 +25544,14 @@ export type Teams_Stream_Cursor_Input = {
 export type Teams_Stream_Cursor_Value_Input = {
   coHostId?: InputMaybe<Scalars['uuid']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
+  drawImageId?: InputMaybe<Scalars['uuid']>;
   eventId?: InputMaybe<Scalars['uuid']>;
+  gameCode?: InputMaybe<Scalars['String']>;
   hostId?: InputMaybe<Scalars['uuid']>;
   id?: InputMaybe<Scalars['uuid']>;
   imageId?: InputMaybe<Scalars['uuid']>;
   index?: InputMaybe<Scalars['Int']>;
+  isFinished?: InputMaybe<Scalars['Boolean']>;
   name?: InputMaybe<Scalars['String']>;
   ranking?: InputMaybe<Scalars['Int']>;
   totalScore?: InputMaybe<Scalars['Int']>;
@@ -18612,7 +25579,11 @@ export enum Teams_Update_Column {
   /** column name */
   CreatedAt = 'createdAt',
   /** column name */
+  DrawImageId = 'drawImageId',
+  /** column name */
   EventId = 'eventId',
+  /** column name */
+  GameCode = 'gameCode',
   /** column name */
   HostId = 'hostId',
   /** column name */
@@ -18621,6 +25592,8 @@ export enum Teams_Update_Column {
   ImageId = 'imageId',
   /** column name */
   Index = 'index',
+  /** column name */
+  IsFinished = 'isFinished',
   /** column name */
   Name = 'name',
   /** column name */
@@ -18883,15 +25856,24 @@ export type UserMetadata = {
   gamePermissions: Array<GamePermissions>;
   /** An aggregate relationship */
   gamePermissions_aggregate: GamePermissions_Aggregate;
+  /** An object relationship */
+  gradeGroup?: Maybe<Payroll_Pay_Grades_Group>;
+  gradeGroupId?: Maybe<Scalars['uuid']>;
   id: Scalars['uuid'];
   isActiveHost: Scalars['Boolean'];
   joinDate?: Maybe<Scalars['date']>;
   lastName: Scalars['String'];
+  nextItemId?: Maybe<Scalars['uuid']>;
   phoneNumber?: Maybe<Scalars['String']>;
+  prevItemId?: Maybe<Scalars['uuid']>;
   role: Scalars['String'];
   timezone?: Maybe<Scalars['String']>;
   token: Scalars['String'];
   updatedAt?: Maybe<Scalars['timestamptz']>;
+  /** An array relationship */
+  weekAvailabilities: Array<Schedule_Week_Availability>;
+  /** An aggregate relationship */
+  weekAvailabilities_aggregate: Schedule_Week_Availability_Aggregate;
 };
 
 
@@ -18934,6 +25916,26 @@ export type UserMetadataGamePermissions_AggregateArgs = {
   where?: InputMaybe<GamePermissions_Bool_Exp>;
 };
 
+
+/** columns and relationships of "user_metadata" */
+export type UserMetadataWeekAvailabilitiesArgs = {
+  distinct_on?: InputMaybe<Array<Schedule_Week_Availability_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Schedule_Week_Availability_Order_By>>;
+  where?: InputMaybe<Schedule_Week_Availability_Bool_Exp>;
+};
+
+
+/** columns and relationships of "user_metadata" */
+export type UserMetadataWeekAvailabilities_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Schedule_Week_Availability_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Schedule_Week_Availability_Order_By>>;
+  where?: InputMaybe<Schedule_Week_Availability_Bool_Exp>;
+};
+
 /** aggregated selection of "user_metadata" */
 export type UserMetadata_Aggregate = {
   __typename?: 'userMetadata_aggregate';
@@ -18974,15 +25976,21 @@ export type UserMetadata_Bool_Exp = {
   firstName?: InputMaybe<String_Comparison_Exp>;
   gamePermissions?: InputMaybe<GamePermissions_Bool_Exp>;
   gamePermissions_aggregate?: InputMaybe<GamePermissions_Aggregate_Bool_Exp>;
+  gradeGroup?: InputMaybe<Payroll_Pay_Grades_Group_Bool_Exp>;
+  gradeGroupId?: InputMaybe<Uuid_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   isActiveHost?: InputMaybe<Boolean_Comparison_Exp>;
   joinDate?: InputMaybe<Date_Comparison_Exp>;
   lastName?: InputMaybe<String_Comparison_Exp>;
+  nextItemId?: InputMaybe<Uuid_Comparison_Exp>;
   phoneNumber?: InputMaybe<String_Comparison_Exp>;
+  prevItemId?: InputMaybe<Uuid_Comparison_Exp>;
   role?: InputMaybe<String_Comparison_Exp>;
   timezone?: InputMaybe<String_Comparison_Exp>;
   token?: InputMaybe<String_Comparison_Exp>;
   updatedAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+  weekAvailabilities?: InputMaybe<Schedule_Week_Availability_Bool_Exp>;
+  weekAvailabilities_aggregate?: InputMaybe<Schedule_Week_Availability_Aggregate_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "user_metadata" */
@@ -19004,15 +26012,20 @@ export type UserMetadata_Insert_Input = {
   eventHosts?: InputMaybe<EventHosts_Arr_Rel_Insert_Input>;
   firstName?: InputMaybe<Scalars['String']>;
   gamePermissions?: InputMaybe<GamePermissions_Arr_Rel_Insert_Input>;
+  gradeGroup?: InputMaybe<Payroll_Pay_Grades_Group_Obj_Rel_Insert_Input>;
+  gradeGroupId?: InputMaybe<Scalars['uuid']>;
   id?: InputMaybe<Scalars['uuid']>;
   isActiveHost?: InputMaybe<Scalars['Boolean']>;
   joinDate?: InputMaybe<Scalars['date']>;
   lastName?: InputMaybe<Scalars['String']>;
+  nextItemId?: InputMaybe<Scalars['uuid']>;
   phoneNumber?: InputMaybe<Scalars['String']>;
+  prevItemId?: InputMaybe<Scalars['uuid']>;
   role?: InputMaybe<Scalars['String']>;
   timezone?: InputMaybe<Scalars['String']>;
   token?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['timestamptz']>;
+  weekAvailabilities?: InputMaybe<Schedule_Week_Availability_Arr_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -19025,10 +26038,13 @@ export type UserMetadata_Max_Fields = {
   deletedAt?: Maybe<Scalars['timestamptz']>;
   email?: Maybe<Scalars['String']>;
   firstName?: Maybe<Scalars['String']>;
+  gradeGroupId?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['uuid']>;
   joinDate?: Maybe<Scalars['date']>;
   lastName?: Maybe<Scalars['String']>;
+  nextItemId?: Maybe<Scalars['uuid']>;
   phoneNumber?: Maybe<Scalars['String']>;
+  prevItemId?: Maybe<Scalars['uuid']>;
   role?: Maybe<Scalars['String']>;
   timezone?: Maybe<Scalars['String']>;
   token?: Maybe<Scalars['String']>;
@@ -19045,10 +26061,13 @@ export type UserMetadata_Min_Fields = {
   deletedAt?: Maybe<Scalars['timestamptz']>;
   email?: Maybe<Scalars['String']>;
   firstName?: Maybe<Scalars['String']>;
+  gradeGroupId?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['uuid']>;
   joinDate?: Maybe<Scalars['date']>;
   lastName?: Maybe<Scalars['String']>;
+  nextItemId?: Maybe<Scalars['uuid']>;
   phoneNumber?: Maybe<Scalars['String']>;
+  prevItemId?: Maybe<Scalars['uuid']>;
   role?: Maybe<Scalars['String']>;
   timezone?: Maybe<Scalars['String']>;
   token?: Maybe<Scalars['String']>;
@@ -19091,15 +26110,20 @@ export type UserMetadata_Order_By = {
   eventHosts_aggregate?: InputMaybe<EventHosts_Aggregate_Order_By>;
   firstName?: InputMaybe<Order_By>;
   gamePermissions_aggregate?: InputMaybe<GamePermissions_Aggregate_Order_By>;
+  gradeGroup?: InputMaybe<Payroll_Pay_Grades_Group_Order_By>;
+  gradeGroupId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   isActiveHost?: InputMaybe<Order_By>;
   joinDate?: InputMaybe<Order_By>;
   lastName?: InputMaybe<Order_By>;
+  nextItemId?: InputMaybe<Order_By>;
   phoneNumber?: InputMaybe<Order_By>;
+  prevItemId?: InputMaybe<Order_By>;
   role?: InputMaybe<Order_By>;
   timezone?: InputMaybe<Order_By>;
   token?: InputMaybe<Order_By>;
   updatedAt?: InputMaybe<Order_By>;
+  weekAvailabilities_aggregate?: InputMaybe<Schedule_Week_Availability_Aggregate_Order_By>;
 };
 
 /** primary key columns input for table: user_metadata */
@@ -19126,6 +26150,8 @@ export enum UserMetadata_Select_Column {
   /** column name */
   FirstName = 'firstName',
   /** column name */
+  GradeGroupId = 'gradeGroupId',
+  /** column name */
   Id = 'id',
   /** column name */
   IsActiveHost = 'isActiveHost',
@@ -19134,7 +26160,11 @@ export enum UserMetadata_Select_Column {
   /** column name */
   LastName = 'lastName',
   /** column name */
+  NextItemId = 'nextItemId',
+  /** column name */
   PhoneNumber = 'phoneNumber',
+  /** column name */
+  PrevItemId = 'prevItemId',
   /** column name */
   Role = 'role',
   /** column name */
@@ -19155,11 +26185,14 @@ export type UserMetadata_Set_Input = {
   disabled?: InputMaybe<Scalars['Boolean']>;
   email?: InputMaybe<Scalars['String']>;
   firstName?: InputMaybe<Scalars['String']>;
+  gradeGroupId?: InputMaybe<Scalars['uuid']>;
   id?: InputMaybe<Scalars['uuid']>;
   isActiveHost?: InputMaybe<Scalars['Boolean']>;
   joinDate?: InputMaybe<Scalars['date']>;
   lastName?: InputMaybe<Scalars['String']>;
+  nextItemId?: InputMaybe<Scalars['uuid']>;
   phoneNumber?: InputMaybe<Scalars['String']>;
+  prevItemId?: InputMaybe<Scalars['uuid']>;
   role?: InputMaybe<Scalars['String']>;
   timezone?: InputMaybe<Scalars['String']>;
   token?: InputMaybe<Scalars['String']>;
@@ -19184,11 +26217,14 @@ export type UserMetadata_Stream_Cursor_Value_Input = {
   disabled?: InputMaybe<Scalars['Boolean']>;
   email?: InputMaybe<Scalars['String']>;
   firstName?: InputMaybe<Scalars['String']>;
+  gradeGroupId?: InputMaybe<Scalars['uuid']>;
   id?: InputMaybe<Scalars['uuid']>;
   isActiveHost?: InputMaybe<Scalars['Boolean']>;
   joinDate?: InputMaybe<Scalars['date']>;
   lastName?: InputMaybe<Scalars['String']>;
+  nextItemId?: InputMaybe<Scalars['uuid']>;
   phoneNumber?: InputMaybe<Scalars['String']>;
+  prevItemId?: InputMaybe<Scalars['uuid']>;
   role?: InputMaybe<Scalars['String']>;
   timezone?: InputMaybe<Scalars['String']>;
   token?: InputMaybe<Scalars['String']>;
@@ -19214,6 +26250,8 @@ export enum UserMetadata_Update_Column {
   /** column name */
   FirstName = 'firstName',
   /** column name */
+  GradeGroupId = 'gradeGroupId',
+  /** column name */
   Id = 'id',
   /** column name */
   IsActiveHost = 'isActiveHost',
@@ -19222,7 +26260,11 @@ export enum UserMetadata_Update_Column {
   /** column name */
   LastName = 'lastName',
   /** column name */
+  NextItemId = 'nextItemId',
+  /** column name */
   PhoneNumber = 'phoneNumber',
+  /** column name */
+  PrevItemId = 'prevItemId',
   /** column name */
   Role = 'role',
   /** column name */
@@ -19933,6 +26975,464 @@ export type Uuid_Comparison_Exp = {
   _lte?: InputMaybe<Scalars['uuid']>;
   _neq?: InputMaybe<Scalars['uuid']>;
   _nin?: InputMaybe<Array<Scalars['uuid']>>;
+};
+
+/** columns and relationships of "witw.attempts" */
+export type WitwCoordinateAttempts = {
+  __typename?: 'witwCoordinateAttempts';
+  coordinateId: Scalars['uuid'];
+  id: Scalars['uuid'];
+  score: Scalars['Int'];
+};
+
+/** aggregated selection of "witw.attempts" */
+export type WitwCoordinateAttempts_Aggregate = {
+  __typename?: 'witwCoordinateAttempts_aggregate';
+  aggregate?: Maybe<WitwCoordinateAttempts_Aggregate_Fields>;
+  nodes: Array<WitwCoordinateAttempts>;
+};
+
+export type WitwCoordinateAttempts_Aggregate_Bool_Exp = {
+  count?: InputMaybe<WitwCoordinateAttempts_Aggregate_Bool_Exp_Count>;
+};
+
+export type WitwCoordinateAttempts_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<WitwCoordinateAttempts_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<WitwCoordinateAttempts_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
+/** aggregate fields of "witw.attempts" */
+export type WitwCoordinateAttempts_Aggregate_Fields = {
+  __typename?: 'witwCoordinateAttempts_aggregate_fields';
+  avg?: Maybe<WitwCoordinateAttempts_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<WitwCoordinateAttempts_Max_Fields>;
+  min?: Maybe<WitwCoordinateAttempts_Min_Fields>;
+  stddev?: Maybe<WitwCoordinateAttempts_Stddev_Fields>;
+  stddev_pop?: Maybe<WitwCoordinateAttempts_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<WitwCoordinateAttempts_Stddev_Samp_Fields>;
+  sum?: Maybe<WitwCoordinateAttempts_Sum_Fields>;
+  var_pop?: Maybe<WitwCoordinateAttempts_Var_Pop_Fields>;
+  var_samp?: Maybe<WitwCoordinateAttempts_Var_Samp_Fields>;
+  variance?: Maybe<WitwCoordinateAttempts_Variance_Fields>;
+};
+
+
+/** aggregate fields of "witw.attempts" */
+export type WitwCoordinateAttempts_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<WitwCoordinateAttempts_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "witw.attempts" */
+export type WitwCoordinateAttempts_Aggregate_Order_By = {
+  avg?: InputMaybe<WitwCoordinateAttempts_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<WitwCoordinateAttempts_Max_Order_By>;
+  min?: InputMaybe<WitwCoordinateAttempts_Min_Order_By>;
+  stddev?: InputMaybe<WitwCoordinateAttempts_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<WitwCoordinateAttempts_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<WitwCoordinateAttempts_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<WitwCoordinateAttempts_Sum_Order_By>;
+  var_pop?: InputMaybe<WitwCoordinateAttempts_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<WitwCoordinateAttempts_Var_Samp_Order_By>;
+  variance?: InputMaybe<WitwCoordinateAttempts_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "witw.attempts" */
+export type WitwCoordinateAttempts_Arr_Rel_Insert_Input = {
+  data: Array<WitwCoordinateAttempts_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<WitwCoordinateAttempts_On_Conflict>;
+};
+
+/** aggregate avg on columns */
+export type WitwCoordinateAttempts_Avg_Fields = {
+  __typename?: 'witwCoordinateAttempts_avg_fields';
+  score?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "witw.attempts" */
+export type WitwCoordinateAttempts_Avg_Order_By = {
+  score?: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "witw.attempts". All fields are combined with a logical 'AND'. */
+export type WitwCoordinateAttempts_Bool_Exp = {
+  _and?: InputMaybe<Array<WitwCoordinateAttempts_Bool_Exp>>;
+  _not?: InputMaybe<WitwCoordinateAttempts_Bool_Exp>;
+  _or?: InputMaybe<Array<WitwCoordinateAttempts_Bool_Exp>>;
+  coordinateId?: InputMaybe<Uuid_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  score?: InputMaybe<Int_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "witw.attempts" */
+export enum WitwCoordinateAttempts_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  AttemptsPkey = 'attempts_pkey'
+}
+
+/** input type for incrementing numeric columns in table "witw.attempts" */
+export type WitwCoordinateAttempts_Inc_Input = {
+  score?: InputMaybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "witw.attempts" */
+export type WitwCoordinateAttempts_Insert_Input = {
+  coordinateId?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  score?: InputMaybe<Scalars['Int']>;
+};
+
+/** aggregate max on columns */
+export type WitwCoordinateAttempts_Max_Fields = {
+  __typename?: 'witwCoordinateAttempts_max_fields';
+  coordinateId?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  score?: Maybe<Scalars['Int']>;
+};
+
+/** order by max() on columns of table "witw.attempts" */
+export type WitwCoordinateAttempts_Max_Order_By = {
+  coordinateId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  score?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type WitwCoordinateAttempts_Min_Fields = {
+  __typename?: 'witwCoordinateAttempts_min_fields';
+  coordinateId?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  score?: Maybe<Scalars['Int']>;
+};
+
+/** order by min() on columns of table "witw.attempts" */
+export type WitwCoordinateAttempts_Min_Order_By = {
+  coordinateId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  score?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "witw.attempts" */
+export type WitwCoordinateAttempts_Mutation_Response = {
+  __typename?: 'witwCoordinateAttempts_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<WitwCoordinateAttempts>;
+};
+
+/** on_conflict condition type for table "witw.attempts" */
+export type WitwCoordinateAttempts_On_Conflict = {
+  constraint: WitwCoordinateAttempts_Constraint;
+  update_columns?: Array<WitwCoordinateAttempts_Update_Column>;
+  where?: InputMaybe<WitwCoordinateAttempts_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "witw.attempts". */
+export type WitwCoordinateAttempts_Order_By = {
+  coordinateId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  score?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: witw.attempts */
+export type WitwCoordinateAttempts_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "witw.attempts" */
+export enum WitwCoordinateAttempts_Select_Column {
+  /** column name */
+  CoordinateId = 'coordinateId',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Score = 'score'
+}
+
+/** input type for updating data in table "witw.attempts" */
+export type WitwCoordinateAttempts_Set_Input = {
+  coordinateId?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  score?: InputMaybe<Scalars['Int']>;
+};
+
+/** aggregate stddev on columns */
+export type WitwCoordinateAttempts_Stddev_Fields = {
+  __typename?: 'witwCoordinateAttempts_stddev_fields';
+  score?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "witw.attempts" */
+export type WitwCoordinateAttempts_Stddev_Order_By = {
+  score?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type WitwCoordinateAttempts_Stddev_Pop_Fields = {
+  __typename?: 'witwCoordinateAttempts_stddev_pop_fields';
+  score?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "witw.attempts" */
+export type WitwCoordinateAttempts_Stddev_Pop_Order_By = {
+  score?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type WitwCoordinateAttempts_Stddev_Samp_Fields = {
+  __typename?: 'witwCoordinateAttempts_stddev_samp_fields';
+  score?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "witw.attempts" */
+export type WitwCoordinateAttempts_Stddev_Samp_Order_By = {
+  score?: InputMaybe<Order_By>;
+};
+
+/** Streaming cursor of the table "witwCoordinateAttempts" */
+export type WitwCoordinateAttempts_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: WitwCoordinateAttempts_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type WitwCoordinateAttempts_Stream_Cursor_Value_Input = {
+  coordinateId?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  score?: InputMaybe<Scalars['Int']>;
+};
+
+/** aggregate sum on columns */
+export type WitwCoordinateAttempts_Sum_Fields = {
+  __typename?: 'witwCoordinateAttempts_sum_fields';
+  score?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "witw.attempts" */
+export type WitwCoordinateAttempts_Sum_Order_By = {
+  score?: InputMaybe<Order_By>;
+};
+
+/** update columns of table "witw.attempts" */
+export enum WitwCoordinateAttempts_Update_Column {
+  /** column name */
+  CoordinateId = 'coordinateId',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Score = 'score'
+}
+
+export type WitwCoordinateAttempts_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<WitwCoordinateAttempts_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<WitwCoordinateAttempts_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: WitwCoordinateAttempts_Bool_Exp;
+};
+
+/** aggregate var_pop on columns */
+export type WitwCoordinateAttempts_Var_Pop_Fields = {
+  __typename?: 'witwCoordinateAttempts_var_pop_fields';
+  score?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "witw.attempts" */
+export type WitwCoordinateAttempts_Var_Pop_Order_By = {
+  score?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type WitwCoordinateAttempts_Var_Samp_Fields = {
+  __typename?: 'witwCoordinateAttempts_var_samp_fields';
+  score?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "witw.attempts" */
+export type WitwCoordinateAttempts_Var_Samp_Order_By = {
+  score?: InputMaybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type WitwCoordinateAttempts_Variance_Fields = {
+  __typename?: 'witwCoordinateAttempts_variance_fields';
+  score?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "witw.attempts" */
+export type WitwCoordinateAttempts_Variance_Order_By = {
+  score?: InputMaybe<Order_By>;
+};
+
+/** columns and relationships of "witw.coordinates" */
+export type WitwCoordinates = {
+  __typename?: 'witwCoordinates';
+  /** An array relationship */
+  attempts: Array<WitwCoordinateAttempts>;
+  /** An aggregate relationship */
+  attempts_aggregate: WitwCoordinateAttempts_Aggregate;
+  id: Scalars['uuid'];
+  latlng: Scalars['String'];
+};
+
+
+/** columns and relationships of "witw.coordinates" */
+export type WitwCoordinatesAttemptsArgs = {
+  distinct_on?: InputMaybe<Array<WitwCoordinateAttempts_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<WitwCoordinateAttempts_Order_By>>;
+  where?: InputMaybe<WitwCoordinateAttempts_Bool_Exp>;
+};
+
+
+/** columns and relationships of "witw.coordinates" */
+export type WitwCoordinatesAttempts_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<WitwCoordinateAttempts_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<WitwCoordinateAttempts_Order_By>>;
+  where?: InputMaybe<WitwCoordinateAttempts_Bool_Exp>;
+};
+
+/** aggregated selection of "witw.coordinates" */
+export type WitwCoordinates_Aggregate = {
+  __typename?: 'witwCoordinates_aggregate';
+  aggregate?: Maybe<WitwCoordinates_Aggregate_Fields>;
+  nodes: Array<WitwCoordinates>;
+};
+
+/** aggregate fields of "witw.coordinates" */
+export type WitwCoordinates_Aggregate_Fields = {
+  __typename?: 'witwCoordinates_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<WitwCoordinates_Max_Fields>;
+  min?: Maybe<WitwCoordinates_Min_Fields>;
+};
+
+
+/** aggregate fields of "witw.coordinates" */
+export type WitwCoordinates_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<WitwCoordinates_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "witw.coordinates". All fields are combined with a logical 'AND'. */
+export type WitwCoordinates_Bool_Exp = {
+  _and?: InputMaybe<Array<WitwCoordinates_Bool_Exp>>;
+  _not?: InputMaybe<WitwCoordinates_Bool_Exp>;
+  _or?: InputMaybe<Array<WitwCoordinates_Bool_Exp>>;
+  attempts?: InputMaybe<WitwCoordinateAttempts_Bool_Exp>;
+  attempts_aggregate?: InputMaybe<WitwCoordinateAttempts_Aggregate_Bool_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  latlng?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "witw.coordinates" */
+export enum WitwCoordinates_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  CoordinatesPkey = 'coordinates_pkey'
+}
+
+/** input type for inserting data into table "witw.coordinates" */
+export type WitwCoordinates_Insert_Input = {
+  attempts?: InputMaybe<WitwCoordinateAttempts_Arr_Rel_Insert_Input>;
+  id?: InputMaybe<Scalars['uuid']>;
+  latlng?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type WitwCoordinates_Max_Fields = {
+  __typename?: 'witwCoordinates_max_fields';
+  id?: Maybe<Scalars['uuid']>;
+  latlng?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type WitwCoordinates_Min_Fields = {
+  __typename?: 'witwCoordinates_min_fields';
+  id?: Maybe<Scalars['uuid']>;
+  latlng?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "witw.coordinates" */
+export type WitwCoordinates_Mutation_Response = {
+  __typename?: 'witwCoordinates_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<WitwCoordinates>;
+};
+
+/** on_conflict condition type for table "witw.coordinates" */
+export type WitwCoordinates_On_Conflict = {
+  constraint: WitwCoordinates_Constraint;
+  update_columns?: Array<WitwCoordinates_Update_Column>;
+  where?: InputMaybe<WitwCoordinates_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "witw.coordinates". */
+export type WitwCoordinates_Order_By = {
+  attempts_aggregate?: InputMaybe<WitwCoordinateAttempts_Aggregate_Order_By>;
+  id?: InputMaybe<Order_By>;
+  latlng?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: witw.coordinates */
+export type WitwCoordinates_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "witw.coordinates" */
+export enum WitwCoordinates_Select_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Latlng = 'latlng'
+}
+
+/** input type for updating data in table "witw.coordinates" */
+export type WitwCoordinates_Set_Input = {
+  id?: InputMaybe<Scalars['uuid']>;
+  latlng?: InputMaybe<Scalars['String']>;
+};
+
+/** Streaming cursor of the table "witwCoordinates" */
+export type WitwCoordinates_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: WitwCoordinates_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type WitwCoordinates_Stream_Cursor_Value_Input = {
+  id?: InputMaybe<Scalars['uuid']>;
+  latlng?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "witw.coordinates" */
+export enum WitwCoordinates_Update_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Latlng = 'latlng'
+}
+
+export type WitwCoordinates_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<WitwCoordinates_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: WitwCoordinates_Bool_Exp;
 };
 
 export type InsertProviderRequestMutationVariables = Exact<{
