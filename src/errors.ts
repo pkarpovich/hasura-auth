@@ -184,7 +184,7 @@ export const ERRORS = asErrors({
   },
   'no-slots': {
     status: StatusCodes.INTERNAL_SERVER_ERROR,
-    message: 'The game has reached the 8 player maximum.',
+    message: 'The game has reached the limit of max players.',
   },
   'name-already-in-use': {
     status: StatusCodes.INTERNAL_SERVER_ERROR,
