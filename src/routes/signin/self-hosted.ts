@@ -83,7 +83,7 @@ export const signInSelfHostedHandler: RequestHandler<
       (player) => player.name.toLowerCase().trim() === name.toLowerCase().trim()
     )
   ) {
-    return sendError(res, 'name-already-in-use');
+    return teamId ? res.send(event) : sendError(res, 'name-already-in-use');
   }
 
   const { id: playerId } = await InsertTeamPlayer({
