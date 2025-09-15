@@ -71,7 +71,10 @@ export const signInSelfHostedHandler: RequestHandler<
 
   const slotsLimit =
     event.eventType === 'SELF_HOSTED'
-      ? SH_MAX_PLAYERS_NUMBER
+      ? event.gameInformationSketchWars &&
+        !event.gameInformationSketchWars.isLeadPlayerPlay
+        ? SH_MAX_PLAYERS_NUMBER + 1
+        : SH_MAX_PLAYERS_NUMBER
       : STQ_MAX_PLAYERS_NUMBER;
 
   if (selectedTeam?.players?.length >= slotsLimit) {

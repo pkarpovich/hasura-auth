@@ -37,6 +37,7 @@ export const GetEventByIdRequestDocument = (
       }
       gameInformationSketchWars {
         isStarted
+        isLeadPlayerPlay
       }
     }
   }
@@ -69,7 +70,7 @@ export interface Event {
   gameType: string;
   eventType: string;
   date: string;
-  codes: Code[];
+  codes: Array<Code>;
   status: string;
   teams: Array<SelfHostedTeamInterface>;
   hosts: Array<{
@@ -78,6 +79,7 @@ export interface Event {
   }>;
   gameInformationSketchWars: {
     isStarted: boolean;
+    isLeadPlayerPlay: boolean;
   } | null;
 }
 
