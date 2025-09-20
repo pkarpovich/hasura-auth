@@ -61,7 +61,7 @@ export const signInSelfHostedHandler: RequestHandler<
   const selectedTeam =
     event.teams?.find((team) => team.id === teamId) || event.teams?.[0];
 
-  if (expectedRole === 'leadPlayer' && selectedTeam?.players?.length) {
+  if (expectedRole === 'leadPlayer' && selectedTeam?.players.length) {
     return sendError(res, 'lead-player-already-logged-in');
   }
 
@@ -77,12 +77,12 @@ export const signInSelfHostedHandler: RequestHandler<
         : SH_MAX_PLAYERS_NUMBER
       : STQ_MAX_PLAYERS_NUMBER;
 
-  if (selectedTeam?.players?.length >= slotsLimit) {
+  if (selectedTeam?.players.length >= slotsLimit) {
     return sendError(res, 'no-slots');
   }
 
   if (
-    selectedTeam?.players?.find(
+    selectedTeam?.players.find(
       (player) => player.name.toLowerCase().trim() === name.toLowerCase().trim()
     )
   ) {
