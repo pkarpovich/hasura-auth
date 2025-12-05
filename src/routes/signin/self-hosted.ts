@@ -6,8 +6,8 @@ import { Joi } from '@/validation';
 import { getEventById, SelfHostedGameTypes } from '@/utils/event';
 import { InsertTeamPlayer } from '@/utils/event/setters';
 
-const SH_MAX_PLAYERS_NUMBER = 8;
 const KRINCH_MAX_PLAYERS_NUMBER = 10;
+const SH_MAX_PLAYERS_NUMBER = 8;
 const STQ_MAX_PLAYERS_NUMBER = 10000;
 
 export const signInSelfHostedSchema = Joi.object({
