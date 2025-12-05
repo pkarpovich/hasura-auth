@@ -39,6 +39,9 @@ export const GetEventByIdRequestDocument = (
         isStarted
         isLeadPlayerPlay
       }
+      gameInformationSelfHosted {
+        gameType
+      }
     }
   }
 `;
@@ -65,6 +68,14 @@ export interface SelfHostedTeamInterface {
   players: Array<PlayerInterface>;
 }
 
+export enum SelfHostedGameTypes {
+  CRYPTOGRAPHERS = 'CRYPTOGRAPHERS',
+  WHERE_IN_THE_WORLD = 'WHERE_IN_THE_WORLD',
+  KRINCH = 'KRINCH',
+  SKETCH_WARS = 'sketchWars',
+  NAME_THAT = 'NAME_THAT',
+}
+
 export interface Event {
   id: string;
   gameType: string;
@@ -80,6 +91,9 @@ export interface Event {
   gameInformationSketchWars: {
     isStarted: boolean;
     isLeadPlayerPlay: boolean;
+  } | null;
+  gameInformationSelfHosted: {
+    gameType: SelfHostedGameTypes;
   } | null;
 }
 

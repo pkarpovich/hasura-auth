@@ -3,10 +3,11 @@ import { logger } from '@/logger';
 import { getSignInResponse, insertUser } from '@/utils';
 import { sendError } from '@/errors';
 import { Joi } from '@/validation';
-import { getEventById } from '@/utils/event';
+import { getEventById, SelfHostedGameTypes } from '@/utils/event';
 import { InsertTeamPlayer } from '@/utils/event/setters';
 
 const SH_MAX_PLAYERS_NUMBER = 8;
+const KRINCH_MAX_PLAYERS_NUMBER = 10;
 const STQ_MAX_PLAYERS_NUMBER = 10000;
 
 export const signInSelfHostedSchema = Joi.object({
@@ -71,8 +72,10 @@ export const signInSelfHostedHandler: RequestHandler<
 
   const slotsLimit =
     event.eventType === 'SELF_HOSTED'
-      ? event.gameInformationSketchWars &&
-        !event.gameInformationSketchWars.isLeadPlayerPlay
+      ? event.gameInformationSelfHosted?.gameType === SelfHostedGameTypes.KRINCH
+        ? KRINCH_MAX_PLAYERS_NUMBER
+        : event.gameInformationSketchWars &&
+          !event.gameInformationSketchWars.isLeadPlayerPlay
         ? SH_MAX_PLAYERS_NUMBER + 1
         : SH_MAX_PLAYERS_NUMBER
       : STQ_MAX_PLAYERS_NUMBER;
