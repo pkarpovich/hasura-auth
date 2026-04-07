@@ -111,7 +111,7 @@ const loggerOptions: LoggerOptions = {
  * Logger for non 5xx, non suspicious requests e.g. 200, 204, 400...
  * - Requests are logged as info, expect for /healthz et and /change-env which are logged as debug
  * - No additional meta is logged
- * */
+ **/
 export const httpLogger = expressWinston.logger(loggerOptions);
 
 export const uncaughtErrorLogger = expressWinston.errorLogger(loggerOptions);
