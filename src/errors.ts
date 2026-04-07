@@ -192,7 +192,8 @@ export const ERRORS = asErrors({
   },
   'invalid-code': {
     status: StatusCodes.INTERNAL_SERVER_ERROR,
-    message: 'Invalid code or role',
+    message:
+      'Game Code or Role is not valid. Please check to ensure you have copy/pasted the link correctly.',
   },
   'invalid-game-permission': {
     status: StatusCodes.INTERNAL_SERVER_ERROR,
