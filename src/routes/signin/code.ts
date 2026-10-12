@@ -25,7 +25,7 @@ export const signInCodeHandler: RequestHandler<
   }
 > = async (req, res) => {
   const { email, eventId, code, expectedRole, redirectUrl } = req.body;
-  logger.debug(`Sign in with code: ${email} ${eventId} ${expectedRole}`);
+  logger.debug(`Sign in with code: ${email}, ${eventId}, ${expectedRole}`);
 
   const user = await getUserByEmail(email);
 
