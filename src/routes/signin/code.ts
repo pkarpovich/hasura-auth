@@ -66,9 +66,15 @@ export const signInCodeHandler: RequestHandler<
         return sendError(res, 'event-is-not-started');
       break;
     case 'completed':
-      return sendError(res, 'event-is-already-finished');
+      if (expectedRole !== 'GTC') {
+        return sendError(res, 'event-is-already-finished');
+      }
+      break;
     case 'expired':
-      return sendError(res, 'event-is-expired');
+      if (expectedRole !== 'GTC') {
+        return sendError(res, 'event-is-expired');
+      }
+      break;
     default:
       break;
   }
